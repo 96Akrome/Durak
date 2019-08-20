@@ -1,0 +1,13 @@
+SELECT Nota FROM Notas;
+SELECT * FROM Estudiantes;
+SELECT Nombre , Nota FROM Notas INNER JOIN weas;
+SELECT Nombre, Rol, Nota FROM Estudiantes INNER JOIN Notas;
+SELECT Nombre, Rol, Nota FROM Estudiantes INNER JOIN Notas WHERE Edad = 20;
+SELECT Nombre, Rol, Nota FROM Estudiantes INNER JOIN Notas WHERE Estudiantes.Edad = 20 OR Notas.Nota = 100;
+SELECT Nombre, Rol, Nota FROM Estudiantes WHERE Edad = 20 OR Nota = 100;
+SELECT Nombre, Rol, Nota FROM Estudiantes INNER JOIN Notas WHERE Edad = 20 OR Nota = 100 ORDER BY Nota ASC;
+SELECT Nombre FROM Estudiantes INNER JOIN Notas WHERE Nombres.Rol = Notas.Rol; 
+
+
+
+SELECT (.+) FROM (\w*)( INNER JOIN (\w*))?( WHERE (\w* = \d*) (AND|OR) (\w* = (\d*|\w*))*)?( ORDER BY (\w*) ASC|DESC)?;
