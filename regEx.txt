@@ -12,4 +12,4 @@ SELECT Columna FROM tabla WHERE Columna1 = Columna;
 SELECT Nota FROM Notas WHERE Rol = ´201873623-6´;
 
 
-SELECT (.+) FROM (\w*)( INNER JOIN (\w*))?( WHERE (\w* = \d*)( (AND|OR) (\w* = \d*))*)?( ORDER BY (\w*) ASC|DESC)?;
+SELECT (.+) FROM (\w+)( INNER JOIN (\w*))?( WHERE ((.*?) =(.*?))( (AND|OR) ((.*?) = (.*?)))*)?( ORDER BY (\w*) ASC|DESC)?;
