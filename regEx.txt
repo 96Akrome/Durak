@@ -14,4 +14,4 @@ SELECT Nota FROM Notas WHERE Rol = ´201873623-6´;
 
 SELECT (.+) FROM (\w+)( INNER JOIN (\w*))?( WHERE ((.*?) =(.*?))( (AND|OR) ((.*?) = (.*?)))*)?( ORDER BY (\w*) ASC|DESC)?;
 INSERT INTO (.+) \((.+) \) \n
-VALUES \( *' *([^']*) ' ?\);
+VALUES \((?: *' *)([^']*)(?: ')( *, *' *[^']*.+)*?\);
