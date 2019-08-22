@@ -8,10 +8,11 @@ def displaymatch(match):
     return '<Match: %r, groups=%r>' % (match.group(), match.groups())
 
 
-select_STTM = r"(?: )*SELECT ((?: )*\w+(((?: )*,(?: )*\w+)*)?|\*)(?: )* FROM (\w+)"
-inner_join_STTM = r"( INNER JOIN (?: )*\w+)?"
+select_STTM = r" *SELECT  *(( *(\w+)( *, *(\w+))*)|(\*))  *FROM  *(.*)( *INNER JOIN  *(\w+))? *( ORDER BY  *(\w+)  *((ASC|DESC)))? *;"
 where_STTM = r"blah"
 valid = re.compile(select_STTM + inner_join_STTM)
+
+insert_Regex = r" *INSERT  *INTO  *(\w+) *\( *(\w+) *( *, *(\w+))* *\) *VALUES *\( *(\w+) *( *, *(\w+) *)* *\) *;"
 
 
 print ("ingrese query: \n")
