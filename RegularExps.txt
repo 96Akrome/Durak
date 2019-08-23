@@ -1,4 +1,6 @@
- *SELECT(.+)FROM(.+(?=WHERE)|.+(?=ORDER BY)|.+)(?:WHERE(.+(?=ORDER BY)|.+))?(?:ORDER BY(.+))?;
+SELECT(.+)FROM(.+(?=WHERE)|.+(?=ORDER BY)|.+)(?:WHERE(.+(?=ORDER BY)|.+))?(?:ORDER BY(.+))?;
 
- *INSERT +INTO(.+)\((.+)\) *VALUES *\((.+)\) *;
+INSERT +INTO(.+)\((.+)\) *VALUES *\((.+)\) *;
+
+UPDATE(.+)SET(.+)WHERE(.+);
 
