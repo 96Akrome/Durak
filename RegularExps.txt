@@ -1,2 +1,4 @@
-SELECT(.+)FROM(.+(?=WHERE)|.+(?=ORDER BY)|.+)(?:WHERE(.+))?(?:ORDER BY(.+))?;
+ *SELECT(.+)FROM(.+(?=WHERE)|.+(?=ORDER BY)|.+)(?:WHERE(.+(?=ORDER BY)|.+))?(?:ORDER BY(.+))?;
+
+ *INSERT +INTO(.+)\((.+)\) *VALUES *\((.+)\) *;
 
