@@ -3,4 +3,13 @@ SELECT(.+)FROM(.+(?=WHERE)|.+(?=ORDER BY)|.+)(?:WHERE(.+(?=ORDER BY)|.+))?(?:ORD
 INSERT +INTO(.+)\((.+)\) *VALUES *\((.+)\) *;
 
 UPDATE(.+)SET(.+)WHERE(.+);
+UPDATE Notas SET Nota =’80’, Rol = zhalito WHERE Rol = ’201673557 -4 ’OR Rol = ’201873561-2’ AND Nombre = ’ore ore’ ;
 
+
+
+en el pdf aparecen estos caracteres ’
+pero mi teclado hace estos '
+la vida es rara.
+
+los roles y ruts pueden llevar espacios entre medio, para evitar esa trolleada usar:
+rol = rol.replace(" ", ""), lo que elimina toooooodos los espacios dentro del rol (o rut) ya que no debiesen existir.

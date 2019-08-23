@@ -20,9 +20,9 @@ Descripción de la función:  Itera con los valores de la lista ingresada limpia
 def cleanValues(group_list):
     i = 0
     while (i < len(group_list)):
-        group_list[i] = group_list[i].strip().strip("'").strip()
+        group_list[i] = group_list[i].strip(" ’")
         i = i + 1
-    return group_list
+    return group_list 
 
 def getDict(lista1, lista2):
     i = 0
@@ -32,18 +32,39 @@ def getDict(lista1, lista2):
         i = i+1
     return dicti
 
+def splitLists(lista, string):
+    i = 0
+    while (i < len(lista)):
+        lista[i] = cleanValues(lista[i].split(string))
+        i = i + 1
+    return lista
+
 update_Regex = r"UPDATE(.+)SET(.+)WHERE(.+);"
 
 valid = re.compile(update_Regex)
-
-
 
 print ("ingrese UPDATE: ")
 statement = input()
 
 Tabla = valid.match(statement).groups()[0].strip().strip("'").strip()
-Set = cleanValues(re.split(r',', valid.match(statement).groups()[1]))
-Where = cleanValues(re.split(r',', valid.match(statement).groups()[2]))
+Set = splitLists(cleanValues(re.split(r',', valid.match(statement).groups()[1])), "=")
+Where = splitLists(cleanValues(re.split(r'OR', valid.match(statement).groups()[2])),"AND")
+
+# asegura que los cosos unidos con AND queden en una lista propia mientras q los cosos unidos con OR
+# quedan en una lista aparte
+
+i = 0
+while (i < len(Where)):
+    Where[i] = splitLists(Where[i], "=")
+    i = i + 1
+
+print(Tabla)
+print(Set)
+print(Where)
 
 
 
+file = open(Tabla + ".csv", "r+")
+
+
+file.close()
