@@ -1,0 +1,2 @@
+SELECT(.+)FROM(.+(?=WHERE)|.+(?=ORDER BY)|.+)(?:WHERE(.+))?(?:ORDER BY(.+))?;
+
