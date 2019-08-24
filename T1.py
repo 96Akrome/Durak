@@ -31,7 +31,7 @@ while(True):
     #isinstance verifica que la llave no es null para no generar error de
     #noneType error.
     if isinstance(result_tuple,type(None)):
-        #si la llave o match son None,no habia match. Es decir, fallo el sintaxis.
+        #si la llave o match son None,no habia match. Es decir, fallo la sintaxis.
         print('Error de sintaxis: No se reconoce el comando. Intente de nuevo.')
         continue
     else:
