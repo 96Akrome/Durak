@@ -114,4 +114,6 @@ else:
                         print("Se ha actualizado 1 fila")
                             
                     fila = fila + 1
-            cont = cont + 1   
+            cont = cont + 1  
+        print("No se ha encontrado la fila que desea actualizar")
+         
