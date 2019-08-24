@@ -65,5 +65,5 @@ else:
         
         # Agrega el output al archivo csv separando cada valor con una coma.
         file.write(",".join(output)+"\n")
-        # Se ha insertado 1 fila.
+        print("Se ha insertado 1 fila.")
         file.close()

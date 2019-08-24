@@ -15,41 +15,103 @@ if(valid.match(statement) == None):
 else:
     # Descomprime los grupos ingresados, eliminano caracteres molestos al inicio y al final de cada valor.
     Tabla = valid.match(statement).groups()[0].strip(" ' ’ ")
-    Set = [name.strip(" ' ’ ").split("=") for name in re.split(r',', valid.match(statement).groups()[1])]
+    Set = [name2.strip(" ' ’ ") for name in re.split(r',', valid.match(statement).groups()[1]) for name2 in name.split("=")]
     Where = [name.strip(" ' ’ ").split("AND") for name in re.split(r'OR', valid.match(statement).groups()[2])]
 
-    #Tabla = valid.match(statement).groups()[0].strip().strip("'").strip()
-    #Set = splitLists(cleanValues(re.split(r',', valid.match(statement).groups()[1])), "=")
-    #Where = splitLists(cleanValues(re.split(r'OR', valid.match(statement).groups()[2])),"AND")
-    
-    # Elimina espacios y caracteres adicionales de los valores en Set y Where.
-    i = 0
-    j = 0
-    while (i < len(Set)):
-        while(j < len(Set[i])):
-            Set[i][j] = Set[i][j].strip(" ' ’ ")
-            j = j + 1
-        i = i + 1
-        j = 0
+    # Diccionario para guardar los valores en Set, cada key es un valor a modificar en el archivo csv
+    largo = 0
+    Set_dict = dict()
+    while (largo < len(Set) and largo + 1 < len(Set)):
+        # Si es Nombre o Ramo puede tener espacios en blanco entre palabras, lo que hace la línea 28
+        # es encargarse de que el espacio que exista entre palabras sea solo uno.
+        if(Set[largo] == "Nombre" or Set[largo] == "Ramo"):
+            Set_dict[Set[largo]] = re.sub(r"\s+"," ", Set[largo + 1], flags = re.I)
 
-    i = 0
-    j = 0
-    k = 0
-    while(i < len(Where)):
-        while(j < len(Where[i])):
-            Where[i][j] = Where[i][j].split("=")
-            while(k < len(Where[i][j])):
-                Where[i][j][k] = Where[i][j][k].strip(" ' ’ ")
-                k = k + 1
-            j = j + 1
-            k = 0
-        i = i + 1
-        j = 0
-        k = 0
+        # Si no es Nombre o Ramo, significa que es Sigla o algún número, por lo que no necesita
+        # tener espacios en blanco entre caracteres.
+        else:
+            Set_dict[Set[largo]] = re.sub(r"\s+","", Set[largo + 1], flags = re.I)
+        #Set_dict[Set[largo]] = Set[largo + 1]
+        largo = largo + 2
+        # TODO: Preguntar por los espacios entre medio, ya que modifica la estructura de lo ingresado
 
+    # Diccionario para guardar los valores en Where, cada key se una condición, las keys estan separadas
+    # por un OR, es decir, debe ocurrir lo guardado en key 0 o lo guardado en key 1 o .... hasta llegar 
+    # a un caso valido. Las keys que poseen mas de una condición se deben a los AND que las unian inicialmente
+    largo = 0
+    Where_dict = dict()
+    while(largo < len(Where)):
+        Where_dict[largo] = []
+        for elem in Where[largo]:
+            col, value = elem.split("=")
+            # Si es Nombre o Ramo puede tener espacios en blanco entre palabras, lo que hace la línea 28
+            # es encargarse de que el espacio que exista entre palabras sea solo uno.
+            if(col == "Nombre" or col == "Ramo"):
+                value = re.sub(r"\s+"," ", value, flags = re.I)
 
-    print("Tabla: ", Tabla)
-    print("Set: ", Set)
-    print("Where: ", Where)
+            # Si no es Nombre o Ramo, significa que es Sigla o algún número, por lo que no necesita
+            # tener espacios en blanco entre caracteres.
+            else:
+                value = re.sub(r"\s+","", value, flags = re.I)
 
-    
+            Where_dict[largo].append((col.strip(" ' ’ "), value.strip(" ' ’ ")))
+
+        largo = largo + 1
+
+    # Almacena el archivo csv entregado por el usuario en una lista bidimensional, las listas internas almacenan
+    # su respectiva linea en el archivo, es decir, la primera lista interna almacena la primera linea del archivo
+    file = open(Tabla + ".csv", "r")
+    lineas = file.readlines()
+    cont = 0
+    while(cont < len(lineas)):
+        lineas[cont] = lineas[cont].strip().split(",")
+        cont = cont + 1
+    file.close()
+
+    indiceOutput =0
+    # Verifica si existe al menos una columna de las que se desea modificar.
+    for key in Set_dict.keys():
+        if (key in lineas[0]):
+            indiceOutput = indiceOutput + 1
+    if(indiceOutput == 0):
+        print("No existe la columna que desea modificar.")
+    else:
+        # Empieza la magia.
+        cont = 0
+        while(cont < len(Where_dict)):
+            indiceColumnas = 0
+            # Verifica si existen todas las columnas que desea comparar.
+            for condiciones in Where_dict[cont]:
+                if (condiciones[0] in lineas[0]):
+                    indiceColumnas = indiceColumnas + 1
+            # Verifica si la cantidad de columnas a comparar coincide con la cantidad encontrada.
+            if (indiceColumnas > 0 and indiceColumnas == len(Where_dict[cont])):
+                # Ahora debe encontrar la fila que contiene dichos datos.
+                # Para evitar que modifique el nombre de la columna, cambiar fila por fila + 1.
+                fila = 0
+                flag = 0
+                while (fila < len(lineas) and flag == 0):
+                    # Comprueba que lo almacenado en la columna de la respectiva fila 
+                    # coincida con el valor ingresado.
+                    for col, val in Where_dict[cont]:
+                        indice = lineas[0].index(col)
+                        if (val == lineas[fila][indice]):
+                            flag = 1
+                        else:
+                            flag = 0
+                    # Si todos los datos ingresados en where coinciden con los almacenados en la fila
+                    # empieza la modificación.
+                    if (flag == 1):
+                        cont = len(Where_dict) # No necesita seguir iterando el primer while
+                        for key, value in Set_dict.items():
+                            if key in lineas[0]:
+                                indiceColumna = lineas[0].index(key)
+                                lineas[fila][indiceColumna] = value
+                        file = open(Tabla + ".csv", "w")
+                        for linea in lineas:
+                            file.write(",".join(linea)+"\n")
+                        file.close()
+                        print("Se ha actualizado 1 fila")
+                            
+                    fila = fila + 1
+            cont = cont + 1   
