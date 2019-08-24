@@ -2,7 +2,7 @@ import re
 import collections
 
 #parseador de statement,revisa si existe un match completo con regex o no.
-def line_parser(line):
+def line_parser(statement):
     for key,rx in SQL_REGEX.items():
         match = rx.search(statement)
         if match:
