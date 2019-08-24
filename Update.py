@@ -1,70 +1,55 @@
 import re
-import collections
 
-'''
-Nombre de la función: cleanValues
-——————–
-Entradas:
-(lista group_list) Lista que contiene los valores obtenidos por el match entre el query y la expresión regular
-——————–
-Salida:
-(lista group_list) Misma lista ingresada, pero sin espacios blancos ni apóstrofes al inicio y final de cada valor
-——————–
-Descripción de la función:  Itera con los valores de la lista ingresada limpiando los espacios blancos y
-                            apóstrofes al inicio y al final de cada valor usando la concatenación
-                            del comando value.strip().strip("'").strip()
-'''
-#Problema con esta función: si alguien decide trollear y decir que el nombre de algo es, por ejemplo
-# columna = "col'", al usar strip("'") estaria modificando el nombre real y realizando una comparación
-# erronea, TODO in the future.
-def cleanValues(group_list):
-    i = 0
-    while (i < len(group_list)):
-        group_list[i] = group_list[i].strip(" ’")
-        i = i + 1
-    return group_list 
-
-def getDict(lista1, lista2):
-    i = 0
-    dicti = dict()
-    while(i < len(lista1)):
-        dicti[lista1[i]] = lista2[i]
-        i = i+1
-    return dicti
-
-def splitLists(lista, string):
-    i = 0
-    while (i < len(lista)):
-        lista[i] = cleanValues(lista[i].split(string))
-        i = i + 1
-    return lista
-
-update_Regex = r"UPDATE(.+)SET(.+)WHERE(.+);"
+update_Regex = r"UPDATE (.+) SET (.+) WHERE (.+);"
 
 valid = re.compile(update_Regex)
 
-print ("ingrese UPDATE: ")
+# Recepción de input
+print ("Ingrese UPDATE: ")
 statement = input()
 
-Tabla = valid.match(statement).groups()[0].strip().strip("'").strip()
-Set = splitLists(cleanValues(re.split(r',', valid.match(statement).groups()[1])), "=")
-Where = splitLists(cleanValues(re.split(r'OR', valid.match(statement).groups()[2])),"AND")
+# Validación de syntax en el input
+if(valid.match(statement) == None):
+    print("invalid syntax")
 
-# asegura que los cosos unidos con AND queden en una lista propia mientras q los cosos unidos con OR
-# quedan en una lista aparte
+else:
+    # Descomprime los grupos ingresados, eliminano caracteres molestos al inicio y al final de cada valor.
+    Tabla = valid.match(statement).groups()[0].strip(" ' ’ ")
+    Set = [name.strip(" ' ’ ").split("=") for name in re.split(r',', valid.match(statement).groups()[1])]
+    Where = [name.strip(" ' ’ ").split("AND") for name in re.split(r'OR', valid.match(statement).groups()[2])]
 
-i = 0
-while (i < len(Where)):
-    Where[i] = splitLists(Where[i], "=")
-    i = i + 1
+    #Tabla = valid.match(statement).groups()[0].strip().strip("'").strip()
+    #Set = splitLists(cleanValues(re.split(r',', valid.match(statement).groups()[1])), "=")
+    #Where = splitLists(cleanValues(re.split(r'OR', valid.match(statement).groups()[2])),"AND")
+    
+    # Elimina espacios y caracteres adicionales de los valores en Set y Where.
+    i = 0
+    j = 0
+    while (i < len(Set)):
+        while(j < len(Set[i])):
+            Set[i][j] = Set[i][j].strip(" ' ’ ")
+            j = j + 1
+        i = i + 1
+        j = 0
 
-print(Tabla)
-print(Set)
-print(Where)
+    i = 0
+    j = 0
+    k = 0
+    while(i < len(Where)):
+        while(j < len(Where[i])):
+            Where[i][j] = Where[i][j].split("=")
+            while(k < len(Where[i][j])):
+                Where[i][j][k] = Where[i][j][k].strip(" ' ’ ")
+                k = k + 1
+            j = j + 1
+            k = 0
+        i = i + 1
+        j = 0
+        k = 0
 
 
+    print("Tabla: ", Tabla)
+    print("Set: ", Set)
+    print("Where: ", Where)
 
-file = open(Tabla + ".csv", "r+")
-
-
-file.close()
+    
