@@ -44,6 +44,8 @@ else:
         Where_dict[largo] = []
         for elem in Where[largo]:
             col, value = elem.split("=")
+            col = col.strip(" ' ’ ")
+            value = value.strip(" ' ’ ")
             # Si es Nombre o Ramo puede tener espacios en blanco entre palabras, lo que hace la línea 28
             # es encargarse de que el espacio que exista entre palabras sea solo uno.
             if(col == "Nombre" or col == "Ramo"):
@@ -79,6 +81,7 @@ else:
         # Empieza la magia.
         cont = 0
         while(cont < len(Where_dict)):
+            print(cont)
             indiceColumnas = 0
             # Verifica si existen todas las columnas que desea comparar.
             for condiciones in Where_dict[cont]:
@@ -89,19 +92,21 @@ else:
                 # Ahora debe encontrar la fila que contiene dichos datos.
                 # Para evitar que modifique el nombre de la columna, cambiar fila por fila + 1.
                 fila = 0
-                flag = 0
-                while (fila < len(lineas) and flag == 0):
+                while (fila < len(lineas)):
+                    flag = []
                     # Comprueba que lo almacenado en la columna de la respectiva fila 
                     # coincida con el valor ingresado.
                     for col, val in Where_dict[cont]:
                         indice = lineas[0].index(col)
+                        #print(val, " == ", lineas[fila][indice])
                         if (val == lineas[fila][indice]):
-                            flag = 1
+                            flag.append(1)
                         else:
-                            flag = 0
+                            flag.append(0)
+                    print(flag)
                     # Si todos los datos ingresados en where coinciden con los almacenados en la fila
                     # empieza la modificación.
-                    if (flag == 1):
+                    if (0 not in flag):
                         cont = len(Where_dict) # No necesita seguir iterando el primer while
                         for key, value in Set_dict.items():
                             if key in lineas[0]:
@@ -112,6 +117,8 @@ else:
                             file.write(",".join(linea)+"\n")
                         file.close()
                         print("Se ha actualizado 1 fila")
+                        fila = len(lineas)
+                        cont = len(Where_dict)
                             
                     fila = fila + 1
             cont = cont + 1  
