@@ -1,45 +1,47 @@
 import re
 import collections
 
+#parseador de statement,revisa si existe un match completo con regex o no.
+def line_parser(line):
+    for key,rx in SQL_REGEX.items():
+        match = rx.search(statement)
+        if match:
+            return key,match
+        else:
+            #sin ningun match
+            None,None
 
-def displaymatch(match):
-    if match is None:
-        return None
-    return '<Match: %r, groups=%r>' % (match.group(), match.groups())
-
-
-select_STTM = r" *SELECT  *(( *(\w+)( *, *(\w+))*)|(\*))  *FROM  *(.*)( *INNER JOIN  *(\w+))? *( ORDER BY  *(\w+)  *((ASC|DESC)))? *;"
-where_STTM = r"blah"
-valid = re.compile(select_STTM)
-
-insert_Regex = r" *INSERT  *INTO  *(\w+) *\( *(\w+) *( *, *(\w+))* *\) *VALUES *\( *(\w+) *( *, *(\w+) *)* *\) *;"
-
-
-print ("ingrese query: \n")
-statement = input()
-
-columnas = valid.match(statement).groups()[0]
-tabla = valid.match(statement).groups()[3]
-
-if (len(columnas) > 1):
-    columnas = re.split(r'\W+', columnas)
-    print ("columnas:")
-    print (columnas)
-    # DO some magic here
-
-    for col in columnas:
-        print (col)
-        # search col in the file's first line, get the index and print each line[index]
-
-else : # (columnas = "*")
-    print ("\ncolumnas:")
-    print (columnas)
-
-print("\ntabla:")
-print(tabla)
-
-#file test
-file = open("csv1.csv", "r")
-for linea in file:
-    print (linea)
-file.close()
+#corre infinitamente,anotar en readme que se puede salir, ingresando EXIT.
+while(True):
+    #recepcion de input
+    print ("Ingrese su query: ")
+    statement = input()
+    #condicion de salida de loop infinito
+    if(statement == 'EXIT'):
+        print('Se recibio comando de salida.Terminando la ejecucion.')
+        break;
+    #un diccionario con posibles llaves de expresiones completas
+    SQL_REGEX = {
+    'UPDATE_Key' : re.compile(r'UPDATE( +.+)SET( +.+)WHERE( +.+);'),
+    'SELECT_Key' : re.compile(r'SELECT(.+)FROM(.+(?=WHERE)|.+(?=ORDER BY)|.+)(?:WHERE(.+(?=ORDER BY)|.+))?(?:ORDER BY(.+))?;'),
+    'INSERT_Key' : re.compile(r'INSERT +INTO(.+)\((.+)\) *VALUES *\((.+)\) *;'),
+    }
+    #tupla key-match
+    result_tuple = line_parser(statement)
+    #isinstance verifica que la llave no es null para no generar error de
+    #noneType error.
+    if isinstance(result_tuple,type(None)):
+        #si la llave o match son None,no habia match. Es decir, fallo el sintaxis.
+        print('Error de sintaxis: No se reconoce el comando. Intente de nuevo.')
+        continue
+    else:
+        key = result_tuple[0];
+        if key == 'UPDATE_Key':
+            print('La exp corresponde al update')
+            #llamar a la funcion de update
+        elif key == 'SELECT_Key':
+            print('La exp corresponde al select')
+            #llamar a la funcion de select
+        elif key == 'INSERT_Key':
+            print('La exp corresponde al insert')
+            #llamar a la funcion de insert
