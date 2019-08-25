@@ -78,7 +78,7 @@ while(True):
     SQL_REGEX = {
     'UPDATE_Key' : re.compile(r'UPDATE( +.+)SET( +.+)WHERE( +.+);'),
     'SELECT_Key' : re.compile(r'SELECT(.+)FROM(.+(?=WHERE)|.+(?=ORDER BY)|.+)(?:WHERE(.+(?=ORDER BY)|.+))?(?:ORDER BY(.+))?;'),
-    'INSERT_Key' : re.compile(r'INSERT +INTO(.+)\((.+)\) *VALUES *\((.+)\) *;'),
+    'INSERT_Key' : re.compile(r'INSERT +INTO(.+)\((.+)\) +VALUES +\((.+)\) *;'),
     }
     #tupla key-match
     result_tuple = line_parser()
