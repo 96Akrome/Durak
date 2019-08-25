@@ -113,10 +113,10 @@ while(True):
         key = result_tuple[0];
         if key == 'UPDATE_Key':
             print('La exp corresponde al update')
-            #llamar a la funcion de update
+            #update(SQL_REGEX['UPDATE_Key'])
         elif key == 'SELECT_Key':
             print('La exp corresponde al select')
-            #llamar a la funcion de select
+            #select(SQL_REGEX['SELECT_Key'])
         elif key == 'INSERT_Key':
             print('La exp corresponde al insert')
             insert(SQL_REGEX['INSERT_Key'])
