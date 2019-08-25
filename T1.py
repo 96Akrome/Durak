@@ -40,7 +40,8 @@ def insert(valid):
     print(inputs)
     print("Nombre de tabla es: "+Tabla[0])
     # Abre el archivo de la Tabla correspondiente en modo r+ (lectura + append).
-    file = open(Tabla[0] + ".csv", "r+")
+
+    file = open(Tabla[0] + ".csv", "r+", encoding='utf-8')
 
     # Lee la primera línea del archivo, elimina el salto de línea al final y separa el string
     # según las comas para obtener una lista con las Columnas del archivo.
@@ -57,13 +58,12 @@ def insert(valid):
 
     # Agrega los valores según su indice en la lista de salida.
     for ind in indices:
-        output[ind] = inputs[Columnas[ind]]
+        output[ind] = inputs[columnasFile[ind]]
 
     # Agrega el output al archivo csv separando cada valor con una coma.
     file.write(",".join(output)+"\n")
     print("Se ha insertado 1 fila.")
     file.close()
-
 
 #corre infinitamente,anotar en readme que se puede salir, ingresando EXIT.
 while(True):
