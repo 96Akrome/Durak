@@ -62,7 +62,7 @@ else:
 
     # Almacena el archivo csv entregado por el usuario en una lista bidimensional, las listas internas almacenan
     # su respectiva linea en el archivo, es decir, la primera lista interna almacena la primera linea del archivo
-    file = open(Tabla + ".csv", "r")
+    file = open(Tabla + ".csv", "r", encoding='utf-8')
     lineas = file.readlines()
     cont = 0
     while(cont < len(lineas)):
@@ -103,7 +103,6 @@ else:
                             flag.append(1)
                         else:
                             flag.append(0)
-                    print(flag)
                     # Si todos los datos ingresados en where coinciden con los almacenados en la fila
                     # empieza la modificación.
                     if (0 not in flag):
@@ -112,7 +111,7 @@ else:
                             if key in lineas[0]:
                                 indiceColumna = lineas[0].index(key)
                                 lineas[fila][indiceColumna] = value
-                        file = open(Tabla + ".csv", "w")
+                        file = open(Tabla + ".csv", "w", encoding='utf-8')
                         for linea in lineas:
                             file.write(",".join(linea)+"\n")
                         file.close()
