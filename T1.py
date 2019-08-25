@@ -15,6 +15,16 @@ def line_parser():
 def insert(valid):
     # Descomprime los grupos ingresados, eliminano caracteres molestos al inicio y al final de cada valor.
     Tabla = [name.strip(" ' ’ ") for name in re.split(r',', valid.match(statement).groups()[0])]
+
+    print("Nombre de tabla es: "+Tabla[0])
+    
+    # Abre el archivo de la Tabla correspondiente en modo r+ (lectura + append).
+    try:
+        file = open(Tabla[0] + ".csv", "r+", encoding='utf-8')
+    except FileNotFoundError:
+        print('Tabla indicada no existe. Intente de nuevo.')
+        return
+
     Columnas = [name.strip(" ' ’ ") for name in re.split(r',', valid.match(statement).groups()[1])]
     Values = [name.strip(" ' ’ ") for name in re.split(r',', valid.match(statement).groups()[2])]
 
@@ -38,15 +48,10 @@ def insert(valid):
 
     print("\nDiccionario:")
     print(inputs)
-    print("Nombre de tabla es: "+Tabla[0])
-    # Abre el archivo de la Tabla correspondiente en modo r+ (lectura + append).
-
-    file = open(Tabla[0] + ".csv", "r+", encoding='utf-8')
 
     # Lee la primera línea del archivo, elimina el salto de línea al final y separa el string
     # según las comas para obtener una lista con las Columnas del archivo.
     columnasFile = file.readline().strip().split(",")
-
 
     # Prepara la lista que se añadirá al final del archivo csv usando join.
     output = []
