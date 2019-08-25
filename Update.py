@@ -22,18 +22,8 @@ else:
     largo = 0
     Set_dict = dict()
     while (largo < len(Set) and largo + 1 < len(Set)):
-        # Si es Nombre o Ramo puede tener espacios en blanco entre palabras, lo que hace la línea 28
-        # es encargarse de que el espacio que exista entre palabras sea solo uno.
-        if(Set[largo] == "Nombre" or Set[largo] == "Ramo"):
-            Set_dict[Set[largo]] = re.sub(r"\s+"," ", Set[largo + 1], flags = re.I)
-
-        # Si no es Nombre o Ramo, significa que es Sigla o algún número, por lo que no necesita
-        # tener espacios en blanco entre caracteres.
-        else:
-            Set_dict[Set[largo]] = re.sub(r"\s+","", Set[largo + 1], flags = re.I)
-        #Set_dict[Set[largo]] = Set[largo + 1]
+        Set_dict[Set[largo]] = Set[largo + 1]
         largo = largo + 2
-        # TODO: Preguntar por los espacios entre medio, ya que modifica la estructura de lo ingresado
 
     # Diccionario para guardar los valores en Where, cada key se una condición, las keys estan separadas
     # por un OR, es decir, debe ocurrir lo guardado en key 0 o lo guardado en key 1 o .... hasta llegar 

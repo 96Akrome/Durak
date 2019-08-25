@@ -28,14 +28,7 @@ else:
         inputs = dict()
         i = 0
         while (i < len(Columnas)):
-            # Si es Nombre o Ramo puede tener espacios en blanco entre palabras, lo que hace la línea 34
-            # es encargarse de que el espacio que exista entre palabras sea solo uno.
-            if(Columnas[i] == "Nombre" or Columnas[i] == "Ramo"):
-                inputs[Columnas[i]] = re.sub(r"\s+"," ", Values[i], flags = re.I)
-            # Si no es Nombre o Ramo, significa que es Sigla o algún número, por lo que no necesita
-            # tener espacios en blanco entre caracteres.
-            else:
-                inputs[Columnas[i]] = re.sub(r"\s+","", Values[i], flags = re.I)
+            inputs[Columnas[i]] = Values[i]
             i = i + 1
 
         # Abre el archivo de la Tabla correspondiente en modo r+ (lectura + append).
