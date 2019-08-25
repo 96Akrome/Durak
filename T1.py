@@ -54,6 +54,7 @@ def insert(valid):
     inputs = dict()
     i = 0;
     while (i < len(Columnas)):
+        #Revisa que ninguna columna ni valor coincidan con palabras reservadas.
         if (reviseReservedWords(Columnas[i]) & reviseReservedWords(Values[i])):
             inputs[Columnas[i]] =  Values[i]
             i = i + 1
