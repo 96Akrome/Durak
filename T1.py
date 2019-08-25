@@ -11,13 +11,24 @@ def line_parser():
             #sin ningun match
             None,None
 
+def reviseReservedWords(string):
+    reservedWords = {'INSERT','INTO','VALUES','SELECT','FROM','WHERE','ORDER BY','UPDATE','SET'}
+    if string in reservedWords:
+        return 0
+    return 1
+
 
 def insert(valid):
     # Descomprime los grupos ingresados, eliminano caracteres molestos al inicio y al final de cada valor.
     Tabla = [name.strip(" ' ’ ") for name in re.split(r',', valid.match(statement).groups()[0])]
 
+    #Ningun grupo capturado puede coincidir con palabras reservadas
+    if reviseReservedWords(Tabla[0])== 0:
+        print('Syntax error!')
+        return
+
     print("Nombre de tabla es: "+Tabla[0])
-    
+
     # Abre el archivo de la Tabla correspondiente en modo r+ (lectura + append).
     try:
         file = open(Tabla[0] + ".csv", "r+", encoding='utf-8')
@@ -43,8 +54,12 @@ def insert(valid):
     inputs = dict()
     i = 0;
     while (i < len(Columnas)):
-        inputs[Columnas[i]] =  Values[i]
-        i = i + 1
+        if (reviseReservedWords(Columnas[i]) & reviseReservedWords(Values[i])):
+            inputs[Columnas[i]] =  Values[i]
+            i = i + 1
+        else:
+            print('Syntax error! Parametros no pueden coincidir con palabras reservadas.')
+            return
 
     print("\nDiccionario:")
     print(inputs)
