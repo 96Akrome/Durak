@@ -1,7 +1,4 @@
-Como si importa que haya a lo menos un espacio antes y despues del keyword habrá que incluir INNER JOIN en 
-regex de Select, asi como esta funciona, pero toma valido columnaINNER JOINcolumna2
-
-SELECT (.+) FROM (.+(?=WHERE)|.+(?=ORDER BY)|.+) (?:WHERE (.+(?=ORDER BY)|.+))? (?:ORDER BY (.+))?;
+ *SELECT +(.+) +FROM +(.+(?= +INNER JOIN)|.+(?= +WHERE)|.+(?= +ORDER BY)|.+)(?: +INNER JOIN +(.+(?= +WHERE)|.+(?= +ORDER BY)|.+))?(?: +WHERE +(.+(?= +ORDER BY)|.+))?(?: +ORDER BY +(.+))?;
 
 si el keyword es especifico, insert debiese ser solo valido de la forma INSERT INTO, sin multiples espacios dentro
 creo...
@@ -10,8 +7,11 @@ INSERT INTO (.+)\((.+)\) +VALUES +\((.+)\) *;
 INSERT INTO Estudiantes ( Nombre , Rut , Rol , Telefono , Edad )  VALUES  ( ’ Sebastian Godinez ' , '19991933 -8 ','201673501 -1 ' ,988881234 ,21  );
 
 UPDATE (.+) SET (.+) WHERE (.+);
-UPDATE Notas SET Nota =’80’, Rol = zhalito WHERE Rol = ’201673557 -4 ’OR Rol = ’201873561-2’ AND Nombre = ’ore ore’ ;
+UPDATE Notas SET    Nota =’   54’, Rol = '201873561-2',Nombre= 'ore ore', Ramo = 'vida 101' WHERE Rol = ’201673557-4 ’ OR Rol = ’rol' AND Nombre = ’nom’ AND Nota = reprobado ;
 
+UPDATE Notas SET    Nota =’   54’, Rol = '201873561-2',Nombre= 'ore ore' WHERE Rol = ’201673557-4 ’ OR Rol = ’rol' AND Nombre = ’n' OR Nombre = 'Gabriel   Carmona' AND Rol = '2017735 09-0' AND Sigla ='INF -239';
 
+UPDATE Notas SET Nota = '999' WHERE Rol = '201873561-2' AND Nombre = 'ore ore' AND Ramo = 'vida 101';
 
+Gabriel Carmona,201773509-0,Sistemas Operativos,INF-246,70
 TODO: preguntarle al pantufla si las columnas o lo que sea es sensitivo a los tildes.
