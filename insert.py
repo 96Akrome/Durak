@@ -1,6 +1,6 @@
 import re
 
-insert_Regex = r"INSERT INTO (.+)\((.+)\) +VALUES +\((.+)\) *;"
+insert_Regex = r"INSERT INTO (.+?)\((.+?)\) +VALUES +\((.+?)\) *;"
 
 valid = re.compile(insert_Regex)
 

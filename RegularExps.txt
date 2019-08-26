@@ -1,13 +1,17 @@
- *SELECT +(.+) +FROM +(.+(?= +INNER JOIN)|.+(?= +WHERE)|.+(?= +ORDER BY)|.+)(?: +INNER JOIN +(.+(?= +WHERE)|.+(?= +ORDER BY)|.+))?(?: +WHERE +(.+(?= +ORDER BY)|.+))?(?: +ORDER BY +(.+))?;
+ *SELECT +(.+?) +FROM +(.+?(?= +INNER JOIN)|.+?(?= +WHERE)|.+?(?= +ORDER BY)|.+?)(?: +INNER JOIN +(.+?(?= +WHERE)|.+?(?= +ORDER BY)|.+?))?(?: +WHERE +(.+?(?= +ORDER BY)|.+?))?(?: +ORDER BY +(.+?))?;
 
 si el keyword es especifico, insert debiese ser solo valido de la forma INSERT INTO, sin multiples espacios dentro
 creo...
-INSERT INTO (.+)\((.+)\) +VALUES +\((.+)\) *;
+INSERT INTO (.+?)\((.+?)\) +VALUES +\((.+?)\) *;
 
 INSERT INTO Estudiantes ( Nombre , Rut , Rol , Telefono , Edad )  VALUES  ( ’ Sebastian Godinez ' , '19991933 -8 ','201673501 -1 ' ,988881234 ,21  );
 
-UPDATE (.+) SET (.+) WHERE (.+);
+INSERT INTO Estudiantes ( Nombre , Rut , Rol , Telefono , Edad )  VALUES  ( ’ Sebastian Godinez ' , '19991933 -8 ','201673501 -1 ' ,988881234 ,21  );INSERT INTO trooll ( Nombre , Rut , Rol , Telefono , Edad )  VALUES  ( ’ Sebastian Godinez ' , '19991933 -8 ','201673501 -1 ' ,988881234 ,21  );
+
+UPDATE (.+?) SET (.+?) WHERE (.+?);
 UPDATE Notas SET    Nota =’   54’, Rol = '201873561-2',Nombre= 'ore ore', Ramo = 'vida 101' WHERE Rol = ’201673557-4 ’ OR Rol = ’rol' AND Nombre = ’nom’ AND Nota = reprobado ;
+
+UPDATE Notas SET    Nota =’   54’, Rol = '201873561-2',Nombre= 'ore ore', Ramo = 'vida 101' WHERE Rol = ’201673557-4 ’ OR Rol = ’rol' AND Nombre = ’nom’ AND Nota = reprobado ;UPDATE troll SET    Nota =’   54’, Rol = '201873561-2',Nombre= 'ore ore', Ramo = 'vida 101' WHERE Rol = ’201673557-4 ’ OR Rol = ’rol' AND Nombre = ’nom’ AND Nota = reprobado ;
 
 UPDATE Notas SET    Nota =’   54’, Rol = '201873561-2',Nombre= 'ore ore' WHERE Rol = ’201673557-4 ’ OR Rol = ’rol' AND Nombre = ’n' OR Nombre = 'Gabriel   Carmona' AND Rol = '2017735 09-0' AND Sigla ='INF -239';
 

@@ -1,6 +1,6 @@
 import re
 
-update_Regex = r"UPDATE (.+) SET (.+) WHERE (.+);"
+update_Regex = r"UPDATE (.+?) SET (.+?) WHERE (.+?);"
 
 valid = re.compile(update_Regex)
 
