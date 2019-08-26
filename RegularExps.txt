@@ -1,5 +1,8 @@
  *SELECT +(.+?) +FROM +(.+?(?= +INNER JOIN)|.+?(?= +WHERE)|.+?(?= +ORDER BY)|.+?)(?: +INNER JOIN +(.+?(?= +WHERE)|.+?(?= +ORDER BY)|.+?))?(?: +WHERE +(.+?(?= +ORDER BY)|.+?))?(?: +ORDER BY +(.+?))?;
 
+ *SELECT +(.+?) +FROM +(.+?)(?: +INNER JOIN +(.+?))?(?: +WHERE +(.+?))?(?: +ORDER BY +(.+?))?;
+Lo mismo, pero mas lindo
+
 si el keyword es especifico, insert debiese ser solo valido de la forma INSERT INTO, sin multiples espacios dentro
 creo...
 INSERT INTO (.+?)\((.+?)\) +VALUES +\((.+?)\) *;
