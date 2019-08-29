@@ -1,6 +1,5 @@
 import re
 
-
 #parseador de statement,revisa si existe un match completo con regex o no.
 def line_parser():
     for key,rx in SQL_REGEX.items():
@@ -20,24 +19,24 @@ def reviseReservedWords(string):
 
 def insert(valid):
     # Descomprime los grupos ingresados, eliminano caracteres molestos al inicio y al final de cada valor.
-    Tabla = [name.strip(" ' ’ ") for name in re.split(r',', valid.match(statement).groups()[0])]
+    Tabla = valid.match(statement).groups()[0]
 
     #Ningun grupo capturado puede coincidir con palabras reservadas
-    if reviseReservedWords(Tabla[0])== 0:
+    if reviseReservedWords(Tabla)== 0:
         print('Syntax error!')
         return
 
-    print("Nombre de tabla es: "+Tabla[0])
+    print("Nombre de tabla es: "+Tabla)
 
     # Abre el archivo de la Tabla correspondiente en modo r+ (lectura + append).
     try:
-        file = open(Tabla[0] + ".csv", "r+", encoding='utf-8')
+        file = open(Tabla + ".csv", "r+", encoding='utf-8')
     except FileNotFoundError:
         print('Tabla indicada no existe. Intente de nuevo.')
         return
 
-    Columnas = [name.strip(" ' ’ ") for name in re.split(r',', valid.match(statement).groups()[1])]
-    Values = [name.strip(" ' ’ ") for name in re.split(r',', valid.match(statement).groups()[2])]
+    Columnas = [name.strip(" ' ") for name in re.split(r',', valid.match(statement).groups()[1])]
+    Values = [name.strip(" ' ") for name in re.split(r',', valid.match(statement).groups()[2])]
 
     print("\nTabla: ")
     print(Tabla)
@@ -48,7 +47,7 @@ def insert(valid):
 
     #unico caso de sintax invalida
     if (len(Columnas) != len(Values)):
-        print("Error de syntax! La cantidad de valores no coincide con la cantidad de columnas")
+        print("Syntax error! La cantidad de valores no coincide con la cantidad de columnas.\n")
         return
 
     inputs = dict()
@@ -86,6 +85,10 @@ def insert(valid):
     print("Se ha insertado 1 fila.")
     file.close()
 
+#def update(valid):
+
+
+
 #corre infinitamente,anotar en readme que se puede salir, ingresando EXIT.
 while(True):
     #recepcion de input
@@ -98,8 +101,8 @@ while(True):
     #un diccionario con posibles llaves de expresiones completas
     SQL_REGEX = {
     'UPDATE_Key' : re.compile(r'UPDATE( +.+)SET( +.+)WHERE( +.+);'),
-    'SELECT_Key' : re.compile(r'SELECT(.+)FROM(.+(?=WHERE)|.+(?=ORDER BY)|.+)(?:WHERE(.+(?=ORDER BY)|.+))?(?:ORDER BY(.+))?;'),
-    'INSERT_Key' : re.compile(r'INSERT +INTO(.+)\((.+)\) +VALUES +\((.+)\) *;'),
+    'SELECT_Key' : re.compile(r'select'),
+    'INSERT_Key':re.compile(r'(?:^)INSERT\s+INTO\s+([^\s]+)\s+\(\s*((?:\s*[^\s,]+)(?:(?:\s*,\s*[^\s,]+\s*)*))\)\s+VALUES\s+\(((?:\s*\'[^\']+\s*\'\s*)(?:(?:,\s*\'\s*[^\']+\s*\'\s*|\s*,\s*-?\d+|(?:\.\d+)\s*)*)\));$'),
     }
     #tupla key-match
     result_tuple = line_parser()
@@ -107,7 +110,7 @@ while(True):
     #noneType error.
     if isinstance(result_tuple,type(None)):
         #si la llave o match son None,no habia match. Es decir, fallo la sintaxis.
-        print('Error de sintaxis: No se reconoce el comando. Intente de nuevo.')
+        print('Syntax error! Intente de nuevo.')
         continue
     else:
         key = result_tuple[0];
