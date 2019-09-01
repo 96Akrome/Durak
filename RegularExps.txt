@@ -1,36 +1,25 @@
- *SELECT +(.+?) +FROM +(.+?(?= +INNER JOIN)|.+?(?= +WHERE)|.+?(?= +ORDER BY)|.+?)(?: +INNER JOIN +(.+?(?= +WHERE)|.+?(?= +ORDER BY)|.+?))?(?: +WHERE +(.+?(?= +ORDER BY)|.+?))?(?: +ORDER BY +(.+?))?;
-
- *SELECT +(.+?) +FROM +(.+?)(?: +INNER JOIN +(.+?))?(?: +WHERE +(.+?))?(?: +ORDER BY +(.+?))?;
-Lo mismo, pero mas lindo
 
 
 Select anastasia simplificado v1:
 ^SELECT\s+((?:\s*[^\s,]+)(?:(?:\s*,\s*[^\s,*]+)*))\s+FROM\s+([^\s,]+\s*)(?:\s+INNER\sJOIN\s+([^\s]+))?(?:(?:\s+WHERE\s+((?:[^\s\'=]+\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s\'=]+))(?:(?:\s+(?:AND|OR)\s+[^\s\'=]+\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s\'=]+)))*)?))))?(?:\s+ORDER\sBY\s+([^*\s]+)\s+(ASC|DESC))?;$
+cambios v1:
+- Regex en WHERE fue factorizado lo más posible
+- Se agrego un \s+ antes de (ASC|ESC) para que reciba espacios
+- Se elimino un grupo de captura, ahora son 6 grupos los que funcionan:
+-- Grupo 1: columnas
+-- Grupo 2: Tabla
+-- grupo 3: Tabla2 (INNER JOIN)
+-- grupo 4: todas las condiciones del where
+-- grupo 5: columna de ORDER BY
+-- grupo 6: ASC | DESC
 
+Select anastasia simplificado v2:
+^SELECT\s+((?:\s*[^\s,]+)(?:(?:\s*,\s*[^\s,*]+)*))\s+FROM\s+([^\s,]+\s*)(?:(?:\s+INNER\sJOIN\s+([^\s]+))?(?:(?:\s+WHERE\s+((?:[^\s\'=]+\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s\'=]+))(?:(?:\s+(?:AND|OR)\s+[^\s\'=]+\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s\'=]+)))*)?)))))?(?:\s+ORDER\sBY\s+([^*\s]+)\s+(ASC|DESC))?;$
+cambios v2:
+- Ahora es obligatorio ingresar WHERE si se usa un INNER JOIN
 
+Errores detectados (no se me ocurre aun como solucionarlo :c):
+- cuando ingreso columna = columna, estas pueden recibir punto dado que asi lo fuerza el inner join (tabla.columna),
+sin embargo, tanto en la version original del regex como en las versiones v1 y v2, el regex permite statements 
+de la forma " Tabla.=Blah ", de todas maneras hare que el codigo de python resuelva eso y arroje error de sintaxis
 
-
-v1
-INSERT INTO (.+?)\((.+?)\) +VALUES +\((.+?)\) *;
-v2
- *INSERT INTO +(.+?) *\( *(.+?) *\) +VALUES +\( *([A-Za-z '0-9.áéíóúÁÉÍÓÚ,-]+?) *\) *;
-v3
- *INSERT INTO +(.+?) *\( *(.+?) *\) +VALUES +\( *([A-Za-z '0-9.áéíóúÁÉÍÓÚ-]+?(?:(?: *, *[A-Za-z '0-9.áéíóúÁÉÍÓÚ-]+?)*)?) *\) *;
-
-v3 magicamente entrega lo mismo que v2 y v2 es una version restringida de v1
-
-INSERT INTO Estudiantes ( Nombre , Rut , Rol , Telefono , Edad )  VALUES  ( ’ Sebastian Godinez ' , '19991933 -8 ','201673501 -1 ' ,988881234 ,21  );
-
-INSERT INTO Estudiantes ( Nombre , Rut , Rol , Telefono , Edad )  VALUES  ( ’ Sebastian Godinez ' , '19991933 -8 ','201673501 -1 ' ,988881234 ,21  );INSERT INTO trooll ( Nombre , Rut , Rol , Telefono , Edad )  VALUES  ( ’ Sebastian Godinez ' , '19991933 -8 ','201673501 -1 ' ,988881234 ,21  );
-
-UPDATE (.+?) SET (.+?) WHERE (.+?);
-UPDATE Notas SET    Nota =’   54’, Rol = '201873561-2',Nombre= 'ore ore', Ramo = 'vida 101' WHERE Rol = ’201673557-4 ’ OR Rol = ’rol' AND Nombre = ’nom’ AND Nota = reprobado ;
-
-UPDATE Notas SET    Nota =’   54’, Rol = '201873561-2',Nombre= 'ore ore', Ramo = 'vida 101' WHERE Rol = ’201673557-4 ’ OR Rol = ’rol' AND Nombre = ’nom’ AND Nota = reprobado ;UPDATE troll SET    Nota =’   54’, Rol = '201873561-2',Nombre= 'ore ore', Ramo = 'vida 101' WHERE Rol = ’201673557-4 ’ OR Rol = ’rol' AND Nombre = ’nom’ AND Nota = reprobado ;
-
-UPDATE Notas SET    Nota =’   54’, Rol = '201873561-2',Nombre= 'ore ore' WHERE Rol = ’201673557-4 ’ OR Rol = ’rol' AND Nombre = ’n' OR Nombre = 'Gabriel   Carmona' AND Rol = '2017735 09-0' AND Sigla ='INF -239';
-
-UPDATE Notas SET Nota = '999' WHERE Rol = '201873561-2' AND Nombre = 'ore ore' AND Ramo = 'vida 101';
-
-Gabriel Carmona,201773509-0,Sistemas Operativos,INF-246,70
-TODO: preguntarle al pantufla si las columnas o lo que sea es sensitivo a los tildes.
