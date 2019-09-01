@@ -1,7 +1,7 @@
 select anastasia v3
-^SELECT\s+((?:\s*[^\s,]+)(?:(?:\s*,\s*[^\s,*]+)*))\s+FROM\s+([^\s,]+\s*)(?:(?:\s+INNER\sJOIN\s+([^\s]+))?(?:(?:\s+WHERE\s+((?:[^\s.\'=]+(?:.[^\s.\'=]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=]+(?:.[^\s.\'=]+)?))(?:(?:\s+(?:AND|OR)\s+[^\s.\'=]+(?:.[^\s.\'=]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=]+(?:.[^\s.\'=]+)?)))*)?)))))?(?:\s+ORDER\sBY\s+([^*\s]+)\s+(ASC|DESC))?;$
+^SELECT\s+((?:\s*[^\s,]+)(?:(?:\s*,\s*[^\s,*]+)*))\s+FROM\s+([^\s,]+\s*)(?:(?:\s+INNER\sJOIN\s+([^\s]+))?(?:(?:\s+WHERE\s+((?:[^\s.\'=]+(?:.[^\s.\'=]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=]+(?:.[^\s.\'=]+)?))(?:(?:\s+(?:AND|OR)\s+[^\s.\'=]+(?:.[^\s.\'=]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=]+(?:.[^\s.\'=]+)?)))*)?)))))?(?:\s+ORDER\sBY\s+([^*\s]+)\s+(ASC|DESC))?\s*;$
 Cambios v3:
-- ahora lanza error cuando se ingresa una columna de la forma Tabla. = algo.si (ver v2 para mas detalles)
+- ahora no lanza error cuando se ingresa una columna de la forma Tabla. = algo.si (ver v2 para mas detalles)
 
 
 Select anastasia simplificado v2:
