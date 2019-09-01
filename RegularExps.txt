@@ -1,3 +1,19 @@
+select anastasia v3
+^SELECT\s+((?:\s*[^\s,]+)(?:(?:\s*,\s*[^\s,*]+)*))\s+FROM\s+([^\s,]+\s*)(?:(?:\s+INNER\sJOIN\s+([^\s]+))?(?:(?:\s+WHERE\s+((?:[^\s.\'=]+(?:.[^\s.\'=]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=]+(?:.[^\s.\'=]+)?))(?:(?:\s+(?:AND|OR)\s+[^\s.\'=]+(?:.[^\s.\'=]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=]+(?:.[^\s.\'=]+)?)))*)?)))))?(?:\s+ORDER\sBY\s+([^*\s]+)\s+(ASC|DESC))?;$
+Cambios v3:
+- ahora lanza error cuando se ingresa una columna de la forma Tabla. = algo.si (ver v2 para mas detalles)
+
+
+Select anastasia simplificado v2:
+^SELECT\s+((?:\s*[^\s,]+)(?:(?:\s*,\s*[^\s,*]+)*))\s+FROM\s+([^\s,]+\s*)(?:(?:\s+INNER\sJOIN\s+([^\s]+))?(?:(?:\s+WHERE\s+((?:[^\s\'=]+\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s\'=]+))(?:(?:\s+(?:AND|OR)\s+[^\s\'=]+\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s\'=]+)))*)?)))))?(?:\s+ORDER\sBY\s+([^*\s]+)\s+(ASC|DESC))?;$
+cambios v2:
+- Ahora es obligatorio ingresar WHERE si se usa un INNER JOIN
+
+Errores detectados (no se me ocurre aun como solucionarlo :c):
+- cuando ingreso columna = columna, estas pueden recibir punto dado que asi lo fuerza el inner join (tabla.columna),
+sin embargo, tanto en la version original del regex como en las versiones v1 y v2, el regex permite statements 
+de la forma " Tabla.=Blah ", de todas maneras hare que el codigo de python resuelva eso y arroje error de sintaxis
+
 
 
 Select anastasia simplificado v1:
@@ -12,14 +28,3 @@ cambios v1:
 -- grupo 4: todas las condiciones del where
 -- grupo 5: columna de ORDER BY
 -- grupo 6: ASC | DESC
-
-Select anastasia simplificado v2:
-^SELECT\s+((?:\s*[^\s,]+)(?:(?:\s*,\s*[^\s,*]+)*))\s+FROM\s+([^\s,]+\s*)(?:(?:\s+INNER\sJOIN\s+([^\s]+))?(?:(?:\s+WHERE\s+((?:[^\s\'=]+\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s\'=]+))(?:(?:\s+(?:AND|OR)\s+[^\s\'=]+\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s\'=]+)))*)?)))))?(?:\s+ORDER\sBY\s+([^*\s]+)\s+(ASC|DESC))?;$
-cambios v2:
-- Ahora es obligatorio ingresar WHERE si se usa un INNER JOIN
-
-Errores detectados (no se me ocurre aun como solucionarlo :c):
-- cuando ingreso columna = columna, estas pueden recibir punto dado que asi lo fuerza el inner join (tabla.columna),
-sin embargo, tanto en la version original del regex como en las versiones v1 y v2, el regex permite statements 
-de la forma " Tabla.=Blah ", de todas maneras hare que el codigo de python resuelva eso y arroje error de sintaxis
-
