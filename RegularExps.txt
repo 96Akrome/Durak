@@ -3,9 +3,21 @@
  *SELECT +(.+?) +FROM +(.+?)(?: +INNER JOIN +(.+?))?(?: +WHERE +(.+?))?(?: +ORDER BY +(.+?))?;
 Lo mismo, pero mas lindo
 
-si el keyword es especifico, insert debiese ser solo valido de la forma INSERT INTO, sin multiples espacios dentro
-creo...
+
+Select anastasia simplificado v1:
+^SELECT\s+((?:\s*[^\s,]+)(?:(?:\s*,\s*[^\s,*]+)*))\s+FROM\s+([^\s,]+\s*)(?:\s+INNER\sJOIN\s+([^\s]+))?(?:(?:\s+WHERE\s+((?:[^\s\'=]+\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s\'=]+))(?:(?:\s+(?:AND|OR)\s+[^\s\'=]+\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s\'=]+)))*)?))))?(?:\s+ORDER\sBY\s+([^*\s]+)\s+(ASC|DESC))?;$
+
+
+
+
+v1
 INSERT INTO (.+?)\((.+?)\) +VALUES +\((.+?)\) *;
+v2
+ *INSERT INTO +(.+?) *\( *(.+?) *\) +VALUES +\( *([A-Za-z '0-9.áéíóúÁÉÍÓÚ,-]+?) *\) *;
+v3
+ *INSERT INTO +(.+?) *\( *(.+?) *\) +VALUES +\( *([A-Za-z '0-9.áéíóúÁÉÍÓÚ-]+?(?:(?: *, *[A-Za-z '0-9.áéíóúÁÉÍÓÚ-]+?)*)?) *\) *;
+
+v3 magicamente entrega lo mismo que v2 y v2 es una version restringida de v1
 
 INSERT INTO Estudiantes ( Nombre , Rut , Rol , Telefono , Edad )  VALUES  ( ’ Sebastian Godinez ' , '19991933 -8 ','201673501 -1 ' ,988881234 ,21  );
 
