@@ -1,12 +1,12 @@
 import re
 
-select_Regex = r"^SELECT\s+((?:\s*[^\s,]+)(?:(?:\s*,\s*[^\s,*]+)*))\s+FROM\s+([^\s,]+\s*)(?:(?:\s+INNER\sJOIN\s+([^\s]+))?(?:(?:\s+WHERE\s+((?:[^\s.\'=]+(?:.[^\s.\'=]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=]+(?:.[^\s.\'=]+)?))(?:(?:\s+(?:AND|OR)\s+[^\s.\'=]+(?:.[^\s.\'=]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=]+(?:.[^\s.\'=]+)?)))*)?)))))?(?:\s+ORDER\sBY\s+([^*\s]+)\s+(ASC|DESC))?;$"
+select_Regex = r"^SELECT\s+((?:\s*[^\s,]+)(?:(?:\s*,\s*[^\s,*]+)*))\s+FROM\s+([^\s,]+\s*)(?:(?:\s+INNER\sJOIN\s+([^\s]+))?(?:(?:\s+WHERE\s+((?:[^\s.\'=]+(?:.[^\s.\'=]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=]+(?:.[^\s.\'=]+)?))(?:(?:\s+(?:AND|OR)\s+[^\s.\'=]+(?:.[^\s.\'=]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=]+(?:.[^\s.\'=]+)?)))*)?)))))?(?:\s+ORDER\sBY\s+([^*\s]+)\s+(ASC|DESC))?\s*;$"
 
 valid = re.compile(select_Regex)
 
 # Recepción de input
 print ("Ingrese SELECT: ")
-statement = "SELECT Teléfono FROM Estudiantes WHERE Nombre = 'Clemente Aguilar';"
+statement = input()
 
 # Validación de syntax en el input
 if(valid.match(statement) == None):
@@ -329,10 +329,11 @@ else:
                           
                         
                         cont2 = cont2 + 1
+                        """
                         if(len(OutputMatch) > 0):
                             cont2 = len(Where[cont])
                         else:
-                            OutputMatch = []
+                            OutputMatch = [] """
                     if(len(OutputMatch) > 0):
                         cont = len(Where)
                     cont = cont + 1    
@@ -366,7 +367,7 @@ else:
                             # permite aplicar sort usando un indice en particular como pivote.
                             if (By.strip() == "DESC"): # Si pide desceniente basta con invertir la lista.
                                 OutputMatch.reverse()
-                            print(OutputMatch)
+                            
 
                     
                         
@@ -385,8 +386,14 @@ else:
                         for indice in listaIndices:
                             listaAux2.append(fila[indice])
                         OutputMatch.append(listaAux2)
-                    for datos in OutputMatch:
-                        print("     \t   ".join(datos))
+                    
+                    lens = []
+                    for col in zip(*OutputMatch):
+                        lens.append(max([len(v) for v in col]))
+                    format = "     ".join(["{:<" + str(l) + "}" for l in lens])
+                    for row in OutputMatch:
+                        print(format.format(*row))
+                    
                 
                 else: # Se usó inner join
                     # blend = [coluna1, columna2...], donde las columnas son las columnas que deben fusionarse en ambas tablas
@@ -419,10 +426,11 @@ else:
                         listaAux = []
                         for indices in listaIndices:
                             if (indices not in indiceBlend): # Si indices no esta en indice blend, no hay nada que diga que hay que mezclar
-                                # las columnas, por lo que basta con agregarlas de manera contigua
+                                # las columnas, por lo que basta con agregarlas de manera contigua TODO en caso contrario, 
+                                # basta cambiar el segundo if por eli
                                 if (indices[0][0] != -1):
                                     listaAux.append(fila[0][indices[0][0]])
-                                if (indices[1][0] != -1):
+                                elif (indices[1][0] != -1):
                                     listaAux.append(fila[1][indices[1][0]])
                             else: # indices in indiceBlend
                                 # Si esta en indiceBlend hay que agregar una sola, ya que es la columna que mezcla las tablas
@@ -431,8 +439,15 @@ else:
                                 elif (indices[1][0] != -1):
                                     listaAux.append(fila[0][indices[1][0]])
                         BlendedOutput.append(listaAux)
-                    for datos in BlendedOutput:
-                        print("     \t   ".join(datos))
+
+                    lens = []
+                    for col in zip(*BlendedOutput):
+                        lens.append(max([len(v) for v in col]))
+                    format = "     ".join(["{:<" + str(l) + "}" for l in lens])
+                    for row in BlendedOutput:
+                        print(format.format(*row))
+                        
+                    
 
                     #Cerrar por aca?
             else:
