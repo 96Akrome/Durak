@@ -1,6 +1,0 @@
- *SELECT  *(( *(\w+)( *, *(\w+))*)|(\*))  *FROM  *(.*)( *INNER JOIN  *(\w+))? *( ORDER BY  *(\w+)  *((ASC|DESC)))? *;
-
-**** No incluye where equis de ***
-
-SELECT(\*|.+)FROM(.+(?= *WHERE)|.+)(?:WHERE *(.+))?;
-
