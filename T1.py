@@ -343,6 +343,7 @@ def select(valid):
 
         if (len(columnasNoEncontradas) > 0): # Si hay columnas que no pertenecen a ningun archivo, se imprimen por pantalla.
             print ("La/s columna/s "+ ", ".join(columnasNoEncontradas) + " no pertenece/n a la tabla " + " ni a la tabla ".join(Tablas) + ".")
+            return
 
         if(indiceOutput == 0 or len(columnasRepetidas) > 0 or (len(Order) != 0 and Order not in Select)): # Casos de error.
             if (indiceOutput == 0): # Verifica si no existe ninguna columna de las que se desea mostrar.
