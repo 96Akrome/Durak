@@ -342,16 +342,24 @@ def select(valid):
                 columnasNoEncontradas.append(columna)
 
         if (len(columnasNoEncontradas) > 0): # Si hay columnas que no pertenecen a ningun archivo, se imprimen por pantalla.
+            print()
             print ("La/s columna/s "+ ", ".join(columnasNoEncontradas) + " no pertenece/n a la tabla " + " ni a la tabla ".join(Tablas) + ".")
+            print()
             return
 
         if(indiceOutput == 0 or len(columnasRepetidas) > 0 or (len(Order) != 0 and Order not in Select)): # Casos de error.
             if (indiceOutput == 0): # Verifica si no existe ninguna columna de las que se desea mostrar.
+                print()
                 print("No existen las columnas solicitadas en la tabla " + " ni en la tabla ".join(Tablas) + ".")
+                print()
             elif (len(Order) != 0 and Order not in Select): # Se intenta hacer Sort by con una columna que no fue ingresada.
+                print()
                 print("La columna en la que desea utilizar la expresión SORT BY no existe dentro de las columnas ingresadas en SELECT.")
+                print()
             else: # Se ingresaron columnas repetidas y explota.
+                print()
                 print("Error de Sintaxis !, las siguientes columnas estan repetidas en el input: " + ", ".join(list(set(columnasRepetidas))) + ".")
+                print()
 
         else:
 
@@ -464,7 +472,9 @@ def select(valid):
                                 tabla1 = tabCol[0].strip()
                                 columna1 = tabCol[1].strip()
                                 if (len(columna) == 0):
+                                    print()
                                     print("Error de Sintaxis !")
+                                    print()
                                 else:
                                     if(columna1 in archivos[tabla1][0]): # Verifica si la columna ingresada existe en el archivo ingresado.
                                         indice1 = archivos[tabla1][0].index(columna1) # Posición de la columna ingresada en la tabla ingresada
@@ -671,7 +681,9 @@ def select(valid):
 
                     #Cerrar por aca?
             else:
+                print()
                 print("La información solicitada no existe")
+                print()
 
 
 while(True):
