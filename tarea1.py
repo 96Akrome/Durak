@@ -4,11 +4,10 @@ import re
 line_parser
 ——————–
 Entradas:
-Sin entradas.Se ocupa variables globales.
-...
+Sin entradas. Se ocupa variables globales.
 ——————–
 Salida:
-(Tuple) Output: tupla de 2 valores, primero corresponde a la llave de diccionario
+(tuple) Output: tupla de 2 valores, primero corresponde a la llave de diccionario
 de las expresiones regulares y el segundo a valor de rx.search
 ——————–
 La función revisa si existe un match completo con el alguna expresión regular del
@@ -26,10 +25,10 @@ def line_parser():
 reviseReservedWords
 ——————–
 Entradas:
-(lista) Una lista con strings que puede tener nombres de tablas, de columnas, etc.
+(list) Una lista con strings que puede tener nombres de tablas, de columnas, etc.
 ——————–
 Salida:
-(Int) Output: Se retorna un 0 o un 1 dependiendo del caso.
+(int) Output: Se retorna un 0 o un 1 dependiendo del caso.
 ——————–
 La función contiene un conjunto local reservedWords con las palabras reservadas.
 Una vez recibida la lista compara los elementos de esta con los valores en el conjunto para ver
@@ -51,7 +50,7 @@ Entradas:
 (list) listaColumnasArchivo: lista con las columnas que posee la tabla ingresada por el usuario en el query.
 ——————–
 Salida:
-(Tuple) Output: Retorna una tupla con dos listas (listaPositiveMatch, listaNegativeMatch).
+(tuple) Output: Retorna una tupla con dos listas (listaPositiveMatch, listaNegativeMatch).
     (list) listaPositiveMatch: lista con las columnas ingresadas por el usuario que existen en la tabla.
     (list) listaNegativeMatch: lista con las columnas ingresadas por el usuario que no existen en la tabla.
 ——————–
@@ -68,7 +67,7 @@ def checkColumns(listaColumnasInput, listaColumnasArchivo):
 insert
 ——————–
 Entradas:
-(lista) valid: lista con los grupos capturados por el match 
+(list) valid: lista con los grupos capturados por el match 
 ——————–
 Salida: 
 (void) No retorna
@@ -92,7 +91,7 @@ def insert(valid):
 
         # Si la cantidad de columnas es distinta a la cantidad de valores 
         # o si alguno de estos incluye palabras reservadas será error de sintaxis.
-        if ((len(Columnas) != len(Values)) or (reviseReservedWords(Columnas) == 0 or reviseReservedWords(Values) == 0)):
+        if ((len(Columnas) != len(Values)) or (reviseReservedWords(Columnas) == 0)):
             print(); print("Error de Sintaxis !"); print()
             file.close()
             return
@@ -128,6 +127,124 @@ def insert(valid):
         print(); print('Tabla indicada no existe. Intente de nuevo.'); print()
         return
 
+"""
+update
+——————–
+Entradas:
+(list) valid: lista con los grupos capturados por el match 
+——————–
+Salida: 
+(void) No retorna
+——————–
+La función verifica que los valores ingresados cumplan las condiciones para poder así, finalmente, 
+actualizar la tabla señalada por el usuario en el query con los valores ingresados.
+"""
+def update(valid):
+    # Descomprime el nombre de la tabla ingresada.
+    Tabla = valid[0].strip()
+    
+    #Ningun grupo capturado puede coincidir con palabras reservadas
+    if (reviseReservedWords([Tabla]) == 0):
+        print(); print('Error de Sintaxis 136!'); print()
+        return 
+
+    try:# Abre el archivo de la Tabla correspondiente en modo r+ (lectura + append).
+        fileTable = open(Tabla + ".csv", "r+", encoding='utf-8')
+        
+        # Descomprime los cambios ingresados en SET, separándolos en una lista por comas (",") y después en otra por igual ("=").
+        Set = [name.strip().split("=") for name in re.split(r',', valid[1])] 
+        
+        # Guarda las lineas del archivo en una lista de lista, donde cada lista interna es una fila.
+        lineas = fileTable.readlines()
+        cont = 0
+        while(cont < len(lineas)):
+            lineas[cont] = lineas[cont].strip().split(",")
+            cont += 1
+        fileTable.close()
+            
+        columnasFile = lineas[0] # Guarda las columnas que tiene la tabla.
+        ColumnasSet = [Set[i][0].strip() for i in range(len(Set))] # Guarda las columnas que ingresó el usuario en SET.
+        # Asigna una lista con las columnas que ingresó el usuario en SET que existen en la tabla
+        # y una lista con las columnas que ingresó el usuario que no existen en la tabla.
+        ColumnasSet , colNotFound = checkColumns(ColumnasSet ,columnasFile)
+        
+        # Si se ingresan columnas que no existen en la tabla o si las columnas en set incluyen 
+        # palabras reservadas se imprimirá error de sintaxis y saldrá de la función
+        if ((len(colNotFound) != 0) or (reviseReservedWords(ColumnasSet) == 0)):
+            print(); print("Error de Sintaxis ! 163"); print()
+            return
+        
+        # Descomprime las condiciones ingresadas en WHERE, separándolas por OR y luego por AND, manteniendo así la precedencia del segundo.
+        Where = [name.strip().split("AND") for name in re.split(r'OR', valid[2])]
+
+        # Separa las listas internas de WHERE haciendo split con el signo igual ("=") y revisa que la columna se encuentre en la tabla.
+        # De no estar la columna en la tabla se imprimirá "Error de Sintaxis !" por consola.
+        # Where quedará como se muestra en la siguiente línea:
+        # Where = [[[columna1, cosa1]], [[columna2, cosa2], [columna3, cosa3]]], siendo los elementos en Where[i] las listas de condiciones
+        # separadas por un OR, los elementos en Where[i][j] las condiciones separadas por un AND y los elementos en Where[i][j][k] 
+        # las columnas con el valor que se desea buscar.
+        i = 0
+        while(i < len(Where)):
+            j = 0
+
+            while (j < len(Where[i])):
+                col, value = Where[i][j].split("=")
+                col = col.strip() # col puede ser de la forma Columna o de la forma Tabla.Columna
+                value = value.strip().strip("'")
+                Where[i][j] = [col, value]
+                j = j + 1
+            ColumnasWhere = [condicion[0] for condicion in Where[i]]
+            # Asigna una lista con las columnas que ingresó el usuario en WHERE que existen en la tabla
+            # y una lista con las columnas que ingresó el usuario que no existen en la tabla.
+            ColumnasWhere , colNotFound = checkColumns(ColumnasWhere ,columnasFile)
+            if((reviseReservedWords(ColumnasWhere) == 0) or (len(colNotFound) != 0)):
+                print('Error de Sintaxis! (columnas de where)')
+                return
+            i = i + 1
+
+        # # Diccionario donde valor = columnas de la tabla y llave = indice de la columna en la tabla
+        # indices = { Columna : columnasFile.index(Columna) for Columna in columnasFile}
+        # print(indices)
+
+        # Ya no quedan más casos de error, ahora hay que verificar si se cumple alguna condición para modificar los datos de la tabla.
+        indicesOutput = set() # Almacena los indices de las filas a modificar.
+        for condiciones in Where:
+            matchCondiciones = set() # Conjunto para realizar intersección entre condiciones unidas por AND
+            for i in range(len(condiciones)):
+                j = 1
+                filas = set()
+                cont = 0
+                while (j < len(lineas)):
+                    if (condiciones[i][1] == lineas[j][columnasFile.index(condiciones[i][0])]): # Si valor en set = valor en tabla
+                        filas.add(j) # Agrega el indice de la fila que cumple la condición ingresada
+                    j = j + 1
+                if (i == 0):
+                    matchCondiciones = matchCondiciones.union(filas) # Si es la primera iteración se le asigna el mismo valor para que no se anule
+                matchCondiciones = matchCondiciones.intersection(filas) # Intersección entre conjunto filas y matchCondiciones
+            indicesOutput = indicesOutput.union(matchCondiciones) # Unión entre conjuntos separados por OR 
+        if (len(indicesOutput) == 0):
+            print ("No se pudo actualizar la información con la información entregada.")
+            return
+
+        # Modificación de las filas de la tabla:
+        for indice in indicesOutput:
+            for col, val in Set:
+                lineas[indice][columnasFile.index(col.strip())] = val.strip().strip("'")
+        
+        # Actualización de la tabla en el archivo css
+        file = open(Tabla + ".csv", "w", encoding='utf-8')
+        for linea in lineas:
+            file.write(",".join(linea)+"\n")
+        file.close()
+        print("Se ha actualizado " + str(len(indicesOutput)) + " fila")
+        
+        # UPDATE Notas SET Nota = -10 WHERE Nombre = 'ore ' OR Nombre = 'ore sama' OR Nombre = 'Clemente Aguilar'  AND Rol = '201773580-3' OR Rol = '201673557-4';
+
+        return
+    except FileNotFoundError:
+        print(); print('Tabla indicada no existe. Intente de nuevo.'); print()
+        return
+
 
 # Main loop
 while(True):
@@ -154,14 +271,13 @@ while(True):
     if isinstance(result_tuple,type(None)):
         #si la llave o match son None,no había match. Es decir, fallo la sintaxis.
         print()
-        print('Error de Sintaxis!')
+        print('Error de Sintaxis! 260')
         print()
         
     else:
         key = result_tuple[0]
         if key == 'UPDATE_Key':
-            print("bl")
-            #update(SQL_REGEX['UPDATE_Key'].match(statement).groups())
+            update(SQL_REGEX['UPDATE_Key'].match(statement).groups())
         elif key == 'SELECT_Key':
             print("lo")
             #select(SQL_REGEX['SELECT_Key'].match(statement).groups())
