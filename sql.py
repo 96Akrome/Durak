@@ -197,7 +197,7 @@ def update(valid):
             # y una lista con las columnas que ingresó el usuario que no existen en la tabla.
             ColumnasWhere , colNotFound = checkColumns(ColumnasWhere, columnasFile)
             if((reviseReservedWords(ColumnasWhere) == 0) or (len(colNotFound) != 0)):
-                print(); print('Error de Sintaxis! (columnas de where)'); print();
+                print(); print('Error de Sintaxis! (columnas de where)'); print()
                 return
             i = i + 1
 
@@ -222,7 +222,7 @@ def update(valid):
                 matchCondiciones = matchCondiciones.intersection(filas) # Intersección entre conjunto filas y matchCondiciones
             indicesOutput = indicesOutput.union(matchCondiciones) # Unión entre conjuntos separados por OR
         if (len(indicesOutput) == 0):
-            print(); print ("No se pudo actualizar la información con la información entregada."); print();
+            print(); print ("No se pudo actualizar la información con la información entregada."); print()
             return
 
         # Modificación de las filas de la tabla:
@@ -235,7 +235,7 @@ def update(valid):
         for linea in lineas:
             file.write(",".join(linea)+"\n")
         file.close()
-        print(); print("Se ha actualizado " + str(len(indicesOutput)) + " fila"); print();
+        print(); print("Se ha actualizado " + str(len(indicesOutput)) + " fila"); print()
 
         # UPDATE Notas SET Nota = -10 WHERE Nombre = 'ore ' OR Nombre = 'ore sama' OR Nombre = 'Clemente Aguilar'  AND Rol = '201773580-3' OR Rol = '201673557-4';
 
@@ -253,9 +253,7 @@ while(True):
     statement = input()
     #condicion de salida de loop infinito
     if(statement == 'EXIT'):
-        print()
-        print('Se recibió comando de salida.Terminando la ejecución.')
-        print()
+        print(); print('Se recibió comando de salida.Terminando la ejecución.'); print()
         break
     #un diccionario con posibles llaves de expresiones completas
     SQL_REGEX = {
@@ -269,9 +267,7 @@ while(True):
     #noneType error.
     if isinstance(result_tuple,type(None)):
         #si la llave o match son None,no había match. Es decir, fallo la sintaxis.
-        print()
-        print('Error de Sintaxis! 260')
-        print()
+        print(); print('Error de Sintaxis! 260'); print()
 
     else:
         key = result_tuple[0]
