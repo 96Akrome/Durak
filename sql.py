@@ -16,10 +16,10 @@ y el valor de rx.search. En caso de que no se encuentra correspondencia entre el
 y alguna de las posibles expresiones regulares, se retorna una tupla (None,None).
 """
 def line_parser():
-    for key,rx in SQL_REGEX.items():
+    for key, rx in SQL_REGEX.items():
         match = rx.search(statement)
         if match:
-            return key,match
+            return key, match
 
 """
 reviseReservedWords
@@ -36,7 +36,7 @@ si la lista posee palabras reservadas como elementos.
 Si es asi, retorna un 0 (Caso de Error de Sintaxis). Si no, retorna 1.
 """
 def reviseReservedWords(lista):
-    reservedWords = {'INSERT','ASC','DESC','INTO','VALUES','SELECT','FROM','WHERE','ORDER BY','UPDATE','SET'}
+    reservedWords = {'INSERT', 'ASC', 'DESC', 'INTO', 'VALUES', 'SELECT', 'FROM', 'WHERE', 'ORDER BY', 'UPDATE', 'SET', 'AND', 'OR', 'INNER JOIN', 'INNER', 'JOIN', 'BY'}
     for string in lista:
         if string in reservedWords:
             return 0
@@ -61,7 +61,6 @@ def checkColumns(listaColumnasInput, listaColumnasArchivo):
     listaPositiveMatch = [columna.strip() for columna in listaColumnasInput if columna in listaColumnasArchivo]
     listaNegativeMatch = [columna.strip() for columna in listaColumnasInput if columna not in listaColumnasArchivo]
     return (listaPositiveMatch, listaNegativeMatch)
-
 
 """
 insert
@@ -196,9 +195,9 @@ def update(valid):
             ColumnasWhere = [condicion[0] for condicion in Where[i]]
             # Asigna una lista con las columnas que ingresó el usuario en WHERE que existen en la tabla
             # y una lista con las columnas que ingresó el usuario que no existen en la tabla.
-            ColumnasWhere , colNotFound = checkColumns(ColumnasWhere ,columnasFile)
+            ColumnasWhere , colNotFound = checkColumns(ColumnasWhere, columnasFile)
             if((reviseReservedWords(ColumnasWhere) == 0) or (len(colNotFound) != 0)):
-                print('Error de Sintaxis! (columnas de where)')
+                print(); print('Error de Sintaxis! (columnas de where)'); print();
                 return
             i = i + 1
 
@@ -223,7 +222,7 @@ def update(valid):
                 matchCondiciones = matchCondiciones.intersection(filas) # Intersección entre conjunto filas y matchCondiciones
             indicesOutput = indicesOutput.union(matchCondiciones) # Unión entre conjuntos separados por OR
         if (len(indicesOutput) == 0):
-            print ("No se pudo actualizar la información con la información entregada.")
+            print(); print ("No se pudo actualizar la información con la información entregada."); print();
             return
 
         # Modificación de las filas de la tabla:
@@ -236,7 +235,7 @@ def update(valid):
         for linea in lineas:
             file.write(",".join(linea)+"\n")
         file.close()
-        print("Se ha actualizado " + str(len(indicesOutput)) + " fila")
+        print(); print("Se ha actualizado " + str(len(indicesOutput)) + " fila"); print();
 
         # UPDATE Notas SET Nota = -10 WHERE Nombre = 'ore ' OR Nombre = 'ore sama' OR Nombre = 'Clemente Aguilar'  AND Rol = '201773580-3' OR Rol = '201673557-4';
 
@@ -279,7 +278,7 @@ while(True):
         if key == 'UPDATE_Key':
             update(SQL_REGEX['UPDATE_Key'].match(statement).groups())
         elif key == 'SELECT_Key':
-            print("lo")
+            print("select")
             #select(SQL_REGEX['SELECT_Key'].match(statement).groups())
         elif key == 'INSERT_Key':
             insert(SQL_REGEX['INSERT_Key'].match(statement).groups())
