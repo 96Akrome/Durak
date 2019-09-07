@@ -105,7 +105,7 @@ def insert(valid):
 
         # Si se ingresan columnas que no existen en la tabla será error de sintaxis.
         if (len(colNotFound) != 0):
-            print(); print("Error de Sintaxis !, las columnas "+ ", ".join(colNotFound) + " no pertenecen a la tabla."); print()
+            print(); print("Error de Sintaxis! Las columnas "+ ", ".join(colNotFound) + " no pertenecen a la tabla."); print()
             return
 
         # Diccionario donde valor = columnas de la tabla y llave = indice de la columna en la tabla
