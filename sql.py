@@ -43,9 +43,9 @@ def reviseReservedWords(lista):
             badStrings.append(string)
     if (len(badStrings) > 0):
         if(len(badStrings) == 1):
-            print('\nError de Sintaxis ! La columna o tabla '+ ", ".join(reservedWords)+' contiene una palabra reservada. linea 46 \n')
+            print('\nError de Sintaxis! La columna o tabla '+ ", ".join(reservedWords)+' contiene una palabra reservada. linea 46 \n')
         else:
-            print('\nError de Sintaxis ! Las columnas o tablas '+", ".join(reservedWords)+' contienen una o más palabras reservadas. linea 48 \n')
+            print('\nError de Sintaxis! Las columnas o tablas '+", ".join(reservedWords)+' contienen una o más palabras reservadas. linea 48 \n')
         return True
     else:
         return False
@@ -67,10 +67,10 @@ coincidan junto a un mensaje de error para luego retornar True. Si estan todos l
 def checkCol(listaInputs, listaFile, Tabla):
     colNotFound = [columna.strip() for columna in listaInputs if columna not in listaFile]
     if (len(colNotFound) != 0):
-        if (len(colNotFound) != 1):
-            print("\nError de Sintaxis !, la columna "+", ".join(colNotFound)+" no pertenece a la tabla "+Tabla+". linea 71\n")
+        if (len(colNotFound) == 1):
+            print("\nError de Sintaxis! La columna " + ", ".join(colNotFound) + " no pertenece a la tabla " + Tabla + ". linea 71\n")
         else:
-            print("\nError de Sintaxis !, las columnas "+", ".join(colNotFound)+" no pertenecen a la tabla "+Tabla+".linea 73\n")
+            print("\nError de Sintaxis! Las columnas " + ", ".join(colNotFound) + " no pertenecen a la tabla " + Tabla + ".linea 73\n")
         return True
     return False
 
@@ -310,7 +310,7 @@ def select(valid):
         # Casos de error, palabra reservada o columna not in tablas
         if (reviseReservedWords(Select)):
             return
-        if (checkCol(Select, colTablas, "")):
+        if (checkCol(Select, colTablas, " ni ".join([tabla for tabla in Tablas]))):
             return
 
         Output = [] # Lista que almacena las OutputFila que cumplan las condiciones solicitadas
