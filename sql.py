@@ -43,9 +43,9 @@ def reviseReservedWords(lista):
             badStrings.append(string)
     if (len(badStrings) > 0):
         if(len(badStrings) == 1):
-            print('\nError de Sintaxis! La columna o tabla '+ ", ".join(reservedWords)+' contiene una palabra reservada. linea 46 \n')
+            print('\nError de Sintaxis! La columna o tabla '+ ", ".join(badStrings)+' contiene una palabra reservada. linea 46 \n')
         else:
-            print('\nError de Sintaxis! Las columnas o tablas '+", ".join(reservedWords)+' contienen una o más palabras reservadas. linea 48 \n')
+            print('\nError de Sintaxis! Las columnas o tablas '+", ".join(badStrings)+' contienen una o más palabras reservadas. linea 48 \n')
         return True
     else:
         return False
@@ -330,7 +330,7 @@ def select(valid):
                     # Si el usuario ingresa INNER JOIN
                     if(len(Tablas) == 2):
                         if(len(Where[cont][cont2][0]) == 1): # Si la parte izquierda de la igualdad de alguna condición no es de la forma tabla.columna -> error sintaxis
-                            print("\nError de Sintaxis linea 333!\n")
+                            print("\nError de Sintaxis! Use notacion Tabla.Columna al usar INNER JOIN.\n")
                             return
                         tabla1 = Where[cont][cont2][0][0].strip()
                         col1 = Where[cont][cont2][0][1].strip()
@@ -356,10 +356,10 @@ def select(valid):
                             if (reviseReservedWords([tabla2]+[col2])):
                                 return
                             if (tabla2 not in Tablas):
-                                print('\nError de Sintaxis ! La tabla ' + tabla2+ ' es distinta de las tablas ingresadas. linea 359\n')
+                                print('\nError de Sintaxis ! La tabla ' + tabla2 + ' es distinta de las tablas ingresadas. linea 359\n')
                                 return
                             if (col2 not in archivos[tabla2][0]):
-                                print('\nError de Sintaxis ! La columna '+col2+' no pertenece a la tabla '+ tabla2+'. linea 362\n')
+                                print('\nError de Sintaxis ! La columna ' + col2 + ' no pertenece a la tabla ' + tabla2 + '. linea 362\n')
                                 return
 
                             indice2 = archivos[tabla2][0].index(col2) # Indice de la columna ingresada en la parte derecha en su respectiva tabla
@@ -413,7 +413,7 @@ def select(valid):
                     else: # Sin INNER JOIN
                         blend.append(1)
                         if(len(Where[cont][cont2][1]) > 1 or len(Where[cont][cont2][0]) > 1): # Si el lado izquierdo o el derecho incluye punto (.)
-                            print("\nError de Sintaxis ! linea 416\n") # Al no haber inner join debe ser de la forma Columna = valor, sin puntos
+                            print("\nError de Sintaxis! No se permite el uso de notacion Tabla.Columna sin INNER JOIN.\n") # Al no haber inner join debe ser de la forma Columna = valor, sin puntos
                             return
                         col1 = Where[cont][cont2][0][0].strip()
                         val = Where[cont][cont2][1][0].strip()
@@ -480,7 +480,7 @@ def select(valid):
                 else:
                     Order = Order[0].split(".") # -> [tabla, columna]
                     if(len(Order) == 1): # Si Order no es de la forma tabla.columna -> error
-                        print("\nError de Sintaxis ! linea 483")
+                        print("\nError de Sintaxis! Use notacion Tabla.Columna al usar INNER JOIN.\n")
                         return
                     if(Order[0] not in Tablas):
                         # Casos de error: Tabla inexistente, palabras reservadas, columna inexistente
