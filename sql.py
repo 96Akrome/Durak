@@ -120,11 +120,11 @@ def insert(valid):
 
         # Agrega el output al archivo csv separando cada valor con una coma.
         file.write(",".join(output)+"\n")
-        print(); print("Se ha insertado 1 fila."); print()
+        print("\nSe ha insertado 1 fila.\n");
         file.close()
 
     except FileNotFoundError:
-        print(); print('Tabla indicada no existe. Intente de nuevo.'); print()
+        print('\nTabla indicada no existe. Intente de nuevo.\n')
         return
 
 """
