@@ -251,7 +251,7 @@ def select(valid):
     Tablas.append(valid[1].strip()) # Tablas = [tabla 1], agrega la primera tabla a Tablas
        # Ingresos opcionales:
     if(valid[2] != None): # Pregunta si se incluye el comando INNER JOIN
-        Tablas.append(valid[2].strip().strip("'")) # Tablas = [tabla 1, tabla 2], agrega tabla 2 a Tablas
+        Tablas.append(valid[2].strip()) # Tablas = [tabla 1, tabla 2], agrega tabla 2 a Tablas
     # Ninguna tabla capturada puede coincidir con palabras reservadas
     if (reviseReservedWords(Tablas) == 0):
         print(); print('Error de Sintaxis 257!'); print()
@@ -275,9 +275,8 @@ def select(valid):
 
         Select = [name.strip() for name in re.split(r',', valid[0])] # Desempaqueta las columnas ingresadas en el query [[Columna1] , [columna2]]
 
-        if (Select == "*"): # Si se ingresó * en select, este tomará todas las columnas de las tablas ingresadas.
+        if (Select == ['*']): # Si se ingresó * en select, este tomará todas las columnas de las tablas ingresadas.
             Select = colTablas.copy()
-
         # Check de WHERE
         if(valid[3] != None ): # Revisa si el usuario ingreso WHERE en su input para desempaquetar sus datos
             Where = [name.split("AND") for name in re.split(r'OR', valid[3])] # [[cond11 = value11 , cond12 = value12], [cond21 = val21]] [[And, And] OR [And]], OR = ","
@@ -286,30 +285,30 @@ def select(valid):
         
         # Check de ORDER BY
         if(valid[4] != None ): # Revisa si el usuario ingreso ORDER BY en su input para esempaquetar sus datos
-            Order = valid[4].strip() # Columna que se quiere usar para ordenar los datos mostrados en pantalla
+            Order = [valid[4].strip()] # Columna que se quiere usar para ordenar los datos mostrados en pantalla
             By = valid[5].strip() # ASC | DESC
         else:
             Order = [] # Se deja como lista vacia dado que no fue ingresado
             By = "" # Se deja como string vacio dado que no fue ingresado
         
         columnasSelectOrder = Select + Order # Lista que almacenará todas las columnas ingresadas en SELECT y ORDER BY para ver si existen en las tablas
-        if (reviseReservedWords(columnasSelectOrder) == 0):
-            print('\nError de Sintaxis ! linea 303\n')
-            return
         
+        if (reviseReservedWords(columnasSelectOrder) == 0):
+            print('\nError de Sintaxis ! linea 297\n')
+            return
         columnasSelectOrder, colNotFound = checkColumns(columnasSelectOrder, colTablas)
+        
         if (len(colNotFound) != 0):
-            print('\nError de Sintaxis ! linea 308\n')
+            print('\nError de Sintaxis ! linea 302\n')
             return
         
         Output = [] # Lista que almacena las OutputFila que cumplan las condiciones solicitadas
-        
+        blend = [] # Guarda la o las columnas que se deben unir para juntar tablas
         if (len(Where) != 0): # Si se ingresa WHERE           
             # Separa las condiciones del WHERE haciendo split en el signo =
             for cont in range(len(Where)): # Condiciones separadas por OR
                         
                 OutputMatch = [] # Almacena las filas que cumplen las condiciones señaladas
-                blend = [] # Guarda la o las columnas que se deben unir para juntar tablas
                 for cont2 in range(len(Where[cont])): # Condiciones separadas por AND
                     matchRow = [] # Lista que almacena la fila con los elementos solicitados
                     Where[cont][cont2] = Where[cont][cont2].split("=")
@@ -322,18 +321,18 @@ def select(valid):
                         if(len(Where[cont][cont2][0]) == 1): # Si la parte izquierda de la igualdad de alguna condición no es de la forma tabla.columna -> error sintaxis
                             print("\nError de Sintaxis ! linea 323\n")
                             return
-                        tabla1 = Where[cont][cont2][0][0]
-                        col1 = Where[cont][cont2][0][1]
+                        tabla1 = Where[cont][cont2][0][0].strip()
+                        col1 = Where[cont][cont2][0][1].strip()
                         if (reviseReservedWords([tabla1]+[col1]) == 0 or tabla1 not in Tablas or col1 not in colTablas):
                             print('\nError de Sintaxis ! linea 328\n')
                             return
                         indice1 = archivos[tabla1][0].index(col1)
                         
                         if(len(Where[cont][cont2][1]) == 2): # Si la parte derecha de la igualdad es de la forma tabla.columna
-                            tabla2 = Where[cont][cont2][1][0] # tabla ingresada en la parte derecha de la igualdad
-                            col2 = Where[cont][cont2][1][1] # columna ingresada en la parte derecha de la igualdad
+                            tabla2 = Where[cont][cont2][1][0].strip() # tabla ingresada en la parte derecha de la igualdad
+                            col2 = Where[cont][cont2][1][1].strip() # columna ingresada en la parte derecha de la igualdad
                             if(tabla1 != tabla2 and col1 == col2): # si tabla1.Columna = tabla2.Columna, columnas iguales
-                                blend.append(col1) # agrega la columna a la lista blend TODO es posible que remueva esa lista completamente
+                                blend.append(col1) # agrega la columna a la lista blend 
 
                             if (reviseReservedWords([tabla2]+[col2]) == 0 or tabla2 not in Tablas or col2 not in colTablas):
                                 print('\nError de Sintaxis ! linea 339\n')
@@ -344,109 +343,150 @@ def select(valid):
                             for fila1 in range(1, len(archivos[tabla1])): # Empieza a buscar las filas que cumplan la condición ingresada
                                 for fila2 in range(1, len(archivos[tabla2])):
                                     if (archivos[tabla1][fila1][indice1] == archivos[tabla2][fila2][indice2]):
-                                        matchRow.append((archivos[tabla1][fila1], archivos[tabla2][fila2]))
-
+                                        for tabla in Tablas:
+                                            if tabla != tabla1:
+                                                ind1 = Tablas.index(tabla1)
+                                                ind2 = Tablas.index(tabla) # Al fijar los indices se asegura de que no se alteren los ordenes al ingresar tabla.columna
+                                        matchRowList = ["",""]
+                                        matchRowList[ind1] = archivos[tabla1][fila1]
+                                        matchRowList[ind2] = archivos[tabla2][fila2]
+                                        matchRow.append(matchRowList.copy())
+                                        #matchRow.append((archivos[tabla1][fila1], archivos[tabla2][fila2]))
+                                        
                         else: # Si la parte derecha tiene largo = 1 y es de la forma value
                             # Código para tabla.columna = valor
-                            val = Where[cont][cont2][1][0]
+                            val = Where[cont][cont2][1][0].strip()
                             # Si val no es un número ni un 'string' ni un número negativo -> error
                             if(val.isnumeric() or (val[0] == "'" and val[-1] == "'" and len(val) > 2) or (val[0] == "-" and val.count("-") == 1 and val.strip("-").isnumeric())):
-                                for fila in range(1, len(archivos[tabla1])): # Itera por cada fila de la tabla 1
+                                val = val.strip("'")
+                                try:
+                                    if ('.' in val):
+                                        val = float(val)
+                                    else:
+                                        val = int(val)
+                                except ValueError:
+                                    val = val
+                                for fila in range(1, len(archivos[tabla1])): # Itera por cada fila de la tabla 1                                    
                                     if(archivos[tabla1][fila][indice1] == val): # Encuentra una fila-columna que tiene el mismo valor que value
                                         item1 = archivos[tabla1][fila] # Guarda la fila completa en una variable
                                         for key in archivos.keys():
                                             if (key != tabla1): # Empieza a hacer matching con cada uno de los elementos de la otra tabla
                                                 for fila2 in range(1, len(archivos[key])): # Al no tener restricción en la segunda tabla, toma todas sus filas
                                                     item2 = archivos[key][fila2]
-                                                    matchRow.append((item1, item2))
+                                                    for tabla in Tablas:
+                                                        if tabla != tabla1:
+                                                            ind1 = Tablas.index(tabla1)
+                                                            ind2 = Tablas.index(tabla) # Al fijar los indices se asegura de que no se alteren los ordenes al ingresar tabla.columna
+                                                    matchRowList = ["",""]
+                                                    matchRowList[ind1] = item1
+                                                    matchRowList[ind2] = item2
+                                                    matchRow.append(matchRowList.copy())
+                                                    
                             else:
-                                print('\nError de Sintaxis ! linea 363\n')
+                                print('\nError de Sintaxis ! linea 372\n')
                                 return
 
                     else: # Sin INNER JOIN
+                        blend.append(1)
                         if(len(Where[cont][cont2][1]) > 1 or len(Where[cont][cont2][0]) > 1): # Si el lado izquierdo o el derecho incluye punto (.)
                             print("\nError de Sintaxis !\n") # Al no haber inner join debe ser de la forma Columna = valor, sin puntos
                             return
                     
-                        col1 = Where[cont][cont2][0][0]
-                        val = Where[cont][cont2][1][0]
+                        col1 = Where[cont][cont2][0][0].strip()
+                        val = Where[cont][cont2][1][0].strip()
 
                         if (reviseReservedWords([col1]) == 0 or col1 not in colTablas):
-                            print('\nError de Sintaxis ! linea 332\n')
+                            print('\nError de Sintaxis ! linea 385\n')
                             return
-                        indice1 = archivos[tabla1][0].index(col1)
+                        indice1 = archivos[Tablas[0]][0].index(col1)
                         # Columna = Valor
                         if(val.isnumeric() or (val[0] == "'" and val[-1] == "'" and len(val) > 2) or (val[0] == "-" and val.count("-") == 1 and val.strip("-").isnumeric())):
+                            val = val.strip("'")
+                            try:
+                                if ('.' in val):
+                                    val = float(val)
+                                else:
+                                    val = int(val)
+                            except ValueError:
+                                val = val
                             for fila in range(1,len(archivos[Tablas[0]])): # Revisa todas las filas de la tabla ingresada
                                 if(archivos[Tablas[0]][fila][indice1] == val): # Si la columna de la fila = valor ingresado, lo guarda en la lista
-                                    matchRow.append(archivos[Tablas[0]][fila])
-
+                                    matchRow.append([archivos[Tablas[0]][fila], archivos[Tablas[0]][fila]])
                         else: # Columna = Columna   
                             if (reviseReservedWords([val]) == 0 or val not in colTablas):
-                                print('\nError de Sintaxis ! linea 332\n')
+                                print('\nError de Sintaxis ! linea 404\n')
                                 return
                             indice2 = archivos[tabla1][0].index(val)
                             for fila in range(1,len(archivos[Tablas[0]])): # Revisa todas las filas de la tabla ingresada
                                 if(archivos[Tablas[0]][fila][indice1] == archivos[Tablas[0]][fila][indice2]): # Si valor de columna1 = valor columna 2, guarda la fila en la lista
-                                    matchRow.append(archivos[Tablas[0]][fila])
-
+                                    matchRow.append([archivos[Tablas[0]][fila], archivos[Tablas[0]][fila]])
                     if(cont2 == 0):
                         OutputMatch = matchRow.copy() # Si es la primera iteración, OutputMatch toma el mismo valor que matchRow
                     else: 
                         OutputMatch = [value for value in matchRow if value in OutputMatch] # Intersecta las condiciones separadas por un AND  
+                    
                 # Une las condiciones separadas por un OR
                 for filas in OutputMatch:
                     if filas not in Output:
                         Output.append(filas)
             
         else: # Si no se ingresa WHERE
-            for fila in range(1, len(archivos[Tablas[0]]))
-            while(fila < len(tabla)): # Si no hay WHERE, guarda todas las filas de la tabla ingresada
-                Output.append(archivos[Tablas[0]][fila])
+            blend.append(1)
+            for fila in range(1, len(archivos[Tablas[0]])): # Si no hay WHERE, guarda todas las filas de la tabla ingresada
+                for i in range(len(archivos[Tablas[0]][fila])):
+                    try:
+                        if ('.' in archivos[Tablas[0]][fila][i]):
+                            archivos[Tablas[0]][fila][i] = float(archivos[Tablas[0]][fila][i])
+                        else:
+                            archivos[Tablas[0]][fila][i] = int(archivos[Tablas[0]][fila][i])
+                    except ValueError:
+                        archivos[Tablas[0]][fila][i] = archivos[Tablas[0]][fila][i]
+                Output.append([archivos[Tablas[0]][fila],archivos[Tablas[0]][fila]])
 
-        if(len(Output) >0): # Si hay al menos una fila que cumpla las condiciones ingresadas
+        if(len(Output) >0 and len(blend) != 0): # Si hay al menos una fila que cumpla las condiciones ingresadas y una condicion de la forma tabla.columna = tabla2.columna
             # Código para ORDER BY 
             if(len(Order) > 0): # Si se ingresa ORDER BY
-                if (reviseReservedWords([Order]) == 0 or Order not in colTablas):
-                    print('\nError de Sintaxis ! linea 411\n')
+                if (reviseReservedWords(Order) == 0 or Order[0] not in colTablas):
+                    print('\nError de Sintaxis ! linea 436\n')
                     return
-                if(len(Tablas) == 1): # Sin INNER JOIN
-                    # TODO Revisar de aqui para abajo
-                    indice = Select_dict[Order][Tablas[0]]
-                    if(indice != -1):
-                        OutputMatch.sort(key=lambda x: x[indice])# Función Lambda,
-                        # permite aplicar sort usando un indice en particular como pivote.
-                        if (By.strip() == "DESC"): # Si pide desceniente basta con invertir la lista.
-                            OutputMatch.reverse()
-                    else:
-                        print("La columna que ingresó después del comando ORDER BY no existe en la tabla.")
-                else: # Considerando inner join
-                    indice = -1
-                    i = 0
-                    while (i < len(Tablas)):
-                        if (Order in archivos[Tablas[i]][0]):
-                            indice = archivos[Tablas[i]][0].index(Order)
-                            tabla = i
-                        i = i + 1
-                    if (indice == -1):
-                        print("La columna que ingresó después del comando ORDER BY no existe en las tablas.")
-                    else:
-                        OutputMatch.sort(key=lambda x: x[tabla][indice])# Función Lambda,
-                        # permite aplicar sort usando un indice en particular como pivote.
-                        if (By.strip() == "DESC"): # Si pide desceniente basta con invertir la lista.
-                            OutputMatch.reverse()
-                    
-                    
+                for tabla in range(len(Tablas)):
+                    if Order[0] in Order[0] in archivos[Tablas[tabla]][0]:
+                        indiceSort = archivos[Tablas[tabla]][0].index(Order[0])
+                        Output.sort(key=lambda x: x[tabla][indiceSort])# Función Lambda, permite aplicar sort usando un indice en particular como pivote.
+                        break
+                            
+                if (By.strip() == "DESC"): # Si pide descendiente basta con invertir la lista.
+                    Output.reverse()
+                
+            # Código para imprimir por pantalla las listas seleccionadas:
+            # colTablas tiene las columnas de ambas tablas en orden y sin repetir.
+            listaIndices = [] # guarda los indices de las columnas solicitadas (indice tabla, indice elemento en Tablas[indice])
+            OutputPrint = [] # Lista final con todas las filas ordenadas
+            for elemento in Select:
+                for indice in range(len(Tablas)-1,-1,-1):
+                    if elemento in archivos[Tablas[indice]][0]:
+                        listaIndices.append((indice, archivos[Tablas[indice]][0].index(elemento)))
+                        break
 
-
-                        # Nueva forma de Where: [[[cond11,value11], [cond12, value12]], [[cond21, val21]]]
+            for fila in range(len(Output)):
+                OutputMatch = [] # Guarda la fila ordenada
+                for tabla, columna in listaIndices:
+                    OutputMatch.append(Output[fila][tabla][columna])
+                OutputPrint.append(OutputMatch)
+            
+            lens = []
+            for col in zip(*OutputPrint):
+                lens.append(max([len(str(v)) for v in col]))
+            format = "     ".join(["{:<" + str(l) + "}" for l in lens])
+            for row in OutputPrint:
+                print(format.format(*row))
 
         else:
             print("La información solicitada no existe")
 
 
     except FileNotFoundError:
-        print(" ERROR DE SINTAXIS EXCEPT Linea 368")
+        print(" ERROR DE SINTAXIS EXCEPT Linea 489")
         return
 
 
@@ -475,7 +515,7 @@ while(True):
     if isinstance(result_tuple,type(None)):
         #si la llave o match son None,no había match. Es decir, fallo la sintaxis.
         print()
-        print('Error de Sintaxis! 396')
+        print('Error de Sintaxis! 518')
         print()
         
     else:
