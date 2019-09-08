@@ -25,43 +25,54 @@ def line_parser():
 reviseReservedWords
 ——————–
 Entradas:
-(list) Una lista con strings que puede tener nombres de tablas, de columnas, etc.
+(list) lista: Una lista con strings que puede tener nombres de tablas, de columnas, etc.
 ——————–
 Salida:
-(int) Output: Se retorna un 0 o un 1 dependiendo del caso.
+(bool) Output: Retorna True si la lista ingresada contiene palabras reservadas, False si no.
 ——————–
 La función contiene un conjunto local reservedWords con las palabras reservadas.
 Una vez recibida la lista compara los elementos de esta con los valores en el conjunto para ver
 si la lista posee palabras reservadas como elementos.
-Si es asi, retorna un 0 (Caso de Error de Sintaxis). Si no, retorna 1.
+Si es asi, imprime un mensaje de error por pantalla y retorna True, de lo contrario, retorna False.
 """
 def reviseReservedWords(lista):
     reservedWords = {'INSERT','ASC','DESC','INTO','VALUES','SELECT','FROM','WHERE','ORDER BY','UPDATE','SET','BY'}
+    badStrings = []
     for string in lista:
         if string in reservedWords:
-            return 0
-    return 1
+            badStrings.append(string)
+    if (len(badStrings) > 0):
+        if(len(badStrings) == 1):
+            print('\nError de Sintaxis ! La columna o tabla '+ ", ".join(reservedWords)+' contiene una palabra reservada. linea 46 \n')
+        else:
+            print('\nError de Sintaxis ! Las columnas o tablas '+", ".join(reservedWords)+' contienen una o más palabras reservadas. linea 48 \n')
+        return True
+    else:
+        return False
 
 """
-checkColumns
+checkCol
 ——————–
 Entradas:
-(list) listaColumnasInput: lista con las columnas que ingreso el usuario en el query.
-(list) listaColumnasArchivo: lista con las columnas que posee la tabla ingresada por el usuario en el query.
+(list) listaInputs: Una lista con strings que puede tener nombres de tablas, de columnas, etc.
+(list) listaFile: Una lista con los strings que se usaran como referencia para comparar la priera tabla.
+(string) Tabla: Tabla que contiene los elementos de listaFile.
 ——————–
 Salida:
-(tuple) Output: Retorna una tupla con dos listas (listaPositiveMatch, listaNegativeMatch).
-    (list) listaPositiveMatch: lista con las columnas ingresadas por el usuario que existen en la tabla.
-    (list) listaNegativeMatch: lista con las columnas ingresadas por el usuario que no existen en la tabla.
+(bool) Output: Retorna True si la lista ingresada no contiene algun string de la lista a comparar, False de lo contrario
 ——————–
-La función guarda en una lista la intersección entre las columnas ingresadas por el usuario y las columnas existentes en la tabla.
-Luego guarda en otra lista todas las columnas ingresadas que no pertenecen a la tabla.
+La función revisa que esten todos los valores de la primera lista ingresada en la segunda, de no ser así, imprime los valores que no
+coincidan junto a un mensaje de error para luego retornar True. Si estan todos los valores de la primera lista en la segunda, retorna False.
 """
-def checkColumns(listaColumnasInput, listaColumnasArchivo):
-    listaPositiveMatch = [columna.strip() for columna in listaColumnasInput if columna in listaColumnasArchivo]
-    listaNegativeMatch = [columna.strip() for columna in listaColumnasInput if columna not in listaColumnasArchivo]
-    return (listaPositiveMatch, listaNegativeMatch)
-
+def checkCol(listaInputs, listaFile, Tabla):
+    colNotFound = [columna.strip() for columna in listaInputs if columna not in listaFile]
+    if (len(colNotFound) != 0):
+        if (len(colNotFound) != 1):
+            print("\nError de Sintaxis !, la columna "+", ".join(colNotFound)+" no pertenece a la tabla "+Tabla+". linea 71\n")
+        else:
+            print("\nError de Sintaxis !, las columnas "+", ".join(colNotFound)+" no pertenecen a la tabla "+Tabla+".linea 73\n")
+        return True
+    return False
 
 """
 insert
@@ -72,16 +83,17 @@ Entradas:
 Salida:
 (void) No retorna
 ——————–
-La función verifica que los valores ingresados cumplan las condiciones para poder así, finalmente,
-insertarlos en la tabla señalada por el usuario en el query.
+La función verifica que los valores ingresados cumplan las condiciones (las columnas deben existir en la tabla, no deben tener como nombre
+palabras reservadas, que la tabla ingresada exista, es decir, que cuente con su respectivo archivo .csv y que la cantidad de
+columnas ingresadas coincida con la cantidad de valores) para poder así, finalmente, insertarlos en la última fila de
+la tabla señalada por el usuario en el query.
 """
 def insert(valid):
     # Descomprime los grupos ingresados, eliminano caracteres molestos al inicio y al final de cada valor.
     Tabla = valid[0].strip()
 
     # Ninguna Tabla o Columna capturada puede coincidir con palabras reservadas
-    if (reviseReservedWords([Tabla]) == 0):
-        print('\nError de Sintaxis!\n');
+    if (reviseReservedWords([Tabla])):
         return
     # Abre el archivo de la Tabla correspondiente en modo r+ (lectura + append).
     try:
@@ -91,8 +103,11 @@ def insert(valid):
 
         # Si la cantidad de columnas es distinta a la cantidad de valores
         # o si alguno de estos incluye palabras reservadas será error de sintaxis.
-        if ((len(Columnas) != len(Values)) or (reviseReservedWords(Columnas) == 0)):
-            print("\nError de Sintaxis!\n");
+        if (len(Columnas) != len(Values)):
+            print("\nError de Sintaxis !, la cantidad de columnas ingresadas no coincide con la cantidad de valores ingresados. linea 107\n")
+            file.close()
+            return
+        if (reviseReservedWords(Columnas)):
             file.close()
             return
 
@@ -100,13 +115,9 @@ def insert(valid):
         # según las comas para obtener una lista con las Columnas del archivo.
         columnasFile = file.readline().strip().split(",")
 
-        # Se reasigna la lista de columnas para que guarde solo las columnas ingresadas que existen en el archivo.
-        # Adicionalmente se hace una variable que almacene las columnas ingresadas que no existen en el archivo.
-        Columnas, colNotFound = checkColumns(Columnas, columnasFile)
-
         # Si se ingresan columnas que no existen en la tabla será error de sintaxis.
-        if (len(colNotFound) != 0):
-            print("\nError de Sintaxis! Las columnas "+ ", ".join(colNotFound) + " no pertenecen a la tabla.\n");
+        if(checkCol(Columnas, columnasFile, Tabla)):
+            file.close()
             return
 
         # Diccionario donde valor = columnas de la tabla y llave = indice de la columna en la tabla
@@ -120,11 +131,11 @@ def insert(valid):
 
         # Agrega el output al archivo csv separando cada valor con una coma.
         file.write(",".join(output)+"\n")
-        print("\nSe ha insertado 1 fila.\n");
+        print("\nSe ha insertado 1 fila.\n")
         file.close()
 
     except FileNotFoundError:
-        print('\nTabla indicada no existe. Intente de nuevo.\n')
+        print('\nLa tabla '+Tabla+' no existe, intente nuevamente.\n')
         return
 
 """
@@ -136,15 +147,16 @@ Entradas:
 Salida:
 (void) No retorna
 ——————–
-La función verifica que los valores ingresados cumplan las condiciones para poder así, finalmente,
-actualizar la tabla señalada por el usuario en el query con los valores ingresados.
+La función verifica que los valores ingresados cumplan las condiciones (las columnas deben existir en la tabla, no deben tener como nombre
+palabras reservadas, que la tabla ingresada exista, es decir, que cuente con su respectivo archivo .csv y que se cumpla al menos una
+de las restricciones ingresadas en WHERE por el usuario) para poder así, finalmente, actualizar la tabla señalada por
+el usuario en el query con los valores ingresados, imprimiendo por pantalla la cantidad de filas que fueron modificadas.
 """
 def update(valid):
     # Descomprime el nombre de la tabla ingresada.
     Tabla = valid[0].strip()
     # Ninguna Fila o Columna capturada puede coincidir con palabras reservadas
-    if (reviseReservedWords([Tabla]) == 0):
-        print('\nError de Sintaxis!\n');
+    if (reviseReservedWords([Tabla])):
         return
 
     try:# Abre el archivo de la Tabla correspondiente en modo r (lectura).
@@ -165,12 +177,11 @@ def update(valid):
         ColumnasSet = [Set[i][0].strip() for i in range(len(Set))] # Guarda las columnas que ingresó el usuario en SET.
         # Asigna una lista con las columnas que ingresó el usuario en SET que existen en la tabla
         # y una lista con las columnas que ingresó el usuario que no existen en la tabla.
-        ColumnasSet , colNotFound = checkColumns(ColumnasSet ,columnasFile)
-
         # Si se ingresan columnas que no existen en la tabla o si las columnas en set incluyen
         # palabras reservadas se imprimirá error de sintaxis y saldrá de la función
-        if ((len(colNotFound) != 0) or (reviseReservedWords(ColumnasSet) == 0)):
-            print("\nError de Sintaxis!\n");
+        if (checkCol(ColumnasSet, columnasFile, Tabla)):
+            return
+        if (reviseReservedWords(ColumnasSet)):
             return
 
         # Descomprime las condiciones ingresadas en WHERE, separándolas por OR y luego por AND, manteniendo así la precedencia del segundo.
@@ -182,28 +193,19 @@ def update(valid):
         # Where = [[[columna1, cosa1]], [[columna2, cosa2], [columna3, cosa3]]], siendo los elementos en Where[i] las listas de condiciones
         # separadas por un OR, los elementos en Where[i][j] las condiciones separadas por un AND y los elementos en Where[i][j][k]
         # las columnas con el valor que se desea buscar.
-        i = 0
-        while(i < len(Where)):
-            j = 0
-
-            while (j < len(Where[i])):
+        for i in range(len(Where)):
+            for j in range(len(Where[i])):
                 col, value = Where[i][j].split("=")
                 col = col.strip() # col puede ser de la forma Columna o de la forma Tabla.Columna
                 value = value.strip().strip("'")
                 Where[i][j] = [col, value]
-                j = j + 1
             ColumnasWhere = [condicion[0] for condicion in Where[i]]
             # Asigna una lista con las columnas que ingresó el usuario en WHERE que existen en la tabla
             # y una lista con las columnas que ingresó el usuario que no existen en la tabla.
-            ColumnasWhere , colNotFound = checkColumns(ColumnasWhere ,columnasFile)
-            if((reviseReservedWords(ColumnasWhere) == 0) or (len(colNotFound) != 0)):
-                print('\nError de Sintaxis!\n')
+            if (checkCol(ColumnasWhere, columnasFile, Tabla)):
                 return
-            i = i + 1
-
-        # # Diccionario donde valor = columnas de la tabla y llave = indice de la columna en la tabla
-        # indices = { Columna : columnasFile.index(Columna) for Columna in columnasFile}
-        # print(indices)
+            if (reviseReservedWords(ColumnasWhere)):
+                return
 
         # Ya no quedan más casos de error, ahora hay que verificar si se cumple alguna condición para modificar los datos de la tabla.
         indicesOutput = set() # Almacena los indices de las filas a modificar.
@@ -222,7 +224,7 @@ def update(valid):
                 matchCondiciones = matchCondiciones.intersection(filas) # Intersección entre conjunto filas y matchCondiciones
             indicesOutput = indicesOutput.union(matchCondiciones) # Unión entre conjuntos separados por OR
         if (len(indicesOutput) == 0):
-            print ("\nNo se pudo actualizar la información con la información entregada.\n")
+            print ("\nNo se pudo actualizar la tabla con la información entregada.\n")
             return
 
         # Modificación de las filas de la tabla:
@@ -240,13 +242,26 @@ def update(valid):
         else:
             print("\nSe han actualizado " + str(len(indicesOutput)) + " filas\n")
 
-        # UPDATE Notas SET Nota = -10 WHERE Nombre = 'ore ' OR Nombre = 'ore sama' OR Nombre = 'Clemente Aguilar'  AND Rol = '201773580-3' OR Rol = '201673557-4';
-
         return
     except FileNotFoundError:
-        print('\nTabla indicada no existe. Intente de nuevo.\n');
+        print('\nLa tabla indicada no existe, intente nuevamente.\n')
         return
 
+"""
+select
+——————–
+Entradas:
+(list) valid: lista con los grupos capturados por el match
+——————–
+Salida:
+(void) No retorna
+——————–
+La función verifica que los valores ingresados cumplan las condiciones (las columnas deben existir en la tabla, no deben tener como nombre
+palabras reservadas, que las tablas ingresadas existan, es decir, que cuenten con sus respectivos archivos .csv (2 archivos en el caso de
+incluir INNER JOIN), que se cumpla al menos una de las restricciones ingresadas en WHERE por el usuario, en caso de ser ingresado, y que
+la columna ingresada en ORDER BY (en caso de ingresarlo) exista en la tabla) para poder así, finalmente, poder imprimir por
+pantalla las columnas solicitadas de una o dos tablas con su respectivo orden o por el orden señalado por el usuario.
+"""
 def select(valid):
 
     Tablas = [] # [ tabla 1, tabla 2], Tablas puede tener largo 1 o 2, dependiendo si se incluye INNER JOIN
@@ -255,8 +270,7 @@ def select(valid):
     if(valid[2] != None): # Pregunta si se incluye el comando INNER JOIN
         Tablas.append(valid[2].strip()) # Tablas = [tabla 1, tabla 2], agrega tabla 2 a Tablas
     # Ninguna tabla capturada puede coincidir con palabras reservadas
-    if (reviseReservedWords(Tablas) == 0):
-        print(); print('Error de Sintaxis 257!'); print()
+    if (reviseReservedWords(Tablas)):
         return
 
     try:
@@ -293,15 +307,10 @@ def select(valid):
             Order = [] # Se deja como lista vacia dado que no fue ingresado
             By = "" # Se deja como string vacio dado que no fue ingresado
 
-        columnasSelectOrder = Select + Order # Lista que almacenará todas las columnas ingresadas en SELECT y ORDER BY para ver si existen en las tablas
-
-        if (reviseReservedWords(columnasSelectOrder) == 0):
-            print('\nError de Sintaxis ! linea 297\n')
+        # Casos de error, palabra reservada o columna not in tablas
+        if (reviseReservedWords(Select)):
             return
-        columnasSelectOrder, colNotFound = checkColumns(columnasSelectOrder, colTablas)
-
-        if (len(colNotFound) != 0):
-            print('\nError de Sintaxis ! linea 302\n')
+        if (checkCol(Select, colTablas, "")):
             return
 
         Output = [] # Lista que almacena las OutputFila que cumplan las condiciones solicitadas
@@ -321,12 +330,19 @@ def select(valid):
                     # Si el usuario ingresa INNER JOIN
                     if(len(Tablas) == 2):
                         if(len(Where[cont][cont2][0]) == 1): # Si la parte izquierda de la igualdad de alguna condición no es de la forma tabla.columna -> error sintaxis
-                            print("\nError de Sintaxis ! linea 323\n")
+                            print("\nError de Sintaxis linea 333!\n")
                             return
                         tabla1 = Where[cont][cont2][0][0].strip()
                         col1 = Where[cont][cont2][0][1].strip()
-                        if (reviseReservedWords([tabla1]+[col1]) == 0 or tabla1 not in Tablas or col1 not in colTablas):
-                            print('\nError de Sintaxis ! linea 328\n')
+
+                        # Casos de error:
+                        if (reviseReservedWords([tabla1]+[col1])):
+                            return
+                        if (tabla1 not in Tablas):
+                            print('\nError de Sintaxis ! La tabla ' + tabla1+ ' es distinta de las tablas ingresadas. linea 342\n')
+                            return
+                        if (col1 not in archivos[tabla1][0]):
+                            print('\nError de Sintaxis ! La columna '+col1+' no pertenece a la tabla '+ tabla1+'. linea 345\n')
                             return
                         indice1 = archivos[tabla1][0].index(col1)
 
@@ -336,8 +352,14 @@ def select(valid):
                             if(tabla1 != tabla2 and col1 == col2): # si tabla1.Columna = tabla2.Columna, columnas iguales
                                 blend.append(col1) # agrega la columna a la lista blend
 
-                            if (reviseReservedWords([tabla2]+[col2]) == 0 or tabla2 not in Tablas or col2 not in colTablas):
-                                print('\nError de Sintaxis ! linea 339\n')
+                            # Casos de error
+                            if (reviseReservedWords([tabla2]+[col2])):
+                                return
+                            if (tabla2 not in Tablas):
+                                print('\nError de Sintaxis ! La tabla ' + tabla2+ ' es distinta de las tablas ingresadas. linea 359\n')
+                                return
+                            if (col2 not in archivos[tabla2][0]):
+                                print('\nError de Sintaxis ! La columna '+col2+' no pertenece a la tabla '+ tabla2+'. linea 362\n')
                                 return
 
                             indice2 = archivos[tabla2][0].index(col2) # Indice de la columna ingresada en la parte derecha en su respectiva tabla
@@ -378,27 +400,27 @@ def select(valid):
                                                     for tabla in Tablas:
                                                         if tabla != tabla1:
                                                             ind1 = Tablas.index(tabla1)
-                                                            ind2 = Tablas.index(tabla) # Al fijar los indices se asegura de que no se alteren los ordenes al ingresar tabla.columna
+                                                            ind2 = Tablas.index(tabla)
+                                                    # Al fijar los indices se asegura de que no se alteren los ordenes al ingresar tabla.columna
                                                     matchRowList = ["",""]
                                                     matchRowList[ind1] = item1
                                                     matchRowList[ind2] = item2
                                                     matchRow.append(matchRowList.copy())
-
                             else:
-                                print('\nError de Sintaxis ! linea 372\n')
+                                print('\nError de Sintaxis ! linea 410\n')
                                 return
 
                     else: # Sin INNER JOIN
                         blend.append(1)
                         if(len(Where[cont][cont2][1]) > 1 or len(Where[cont][cont2][0]) > 1): # Si el lado izquierdo o el derecho incluye punto (.)
-                            print("\nError de Sintaxis !\n") # Al no haber inner join debe ser de la forma Columna = valor, sin puntos
+                            print("\nError de Sintaxis ! linea 416\n") # Al no haber inner join debe ser de la forma Columna = valor, sin puntos
                             return
-
                         col1 = Where[cont][cont2][0][0].strip()
                         val = Where[cont][cont2][1][0].strip()
-
-                        if (reviseReservedWords([col1]) == 0 or col1 not in colTablas):
-                            print('\nError de Sintaxis ! linea 385\n')
+                        # Casos de error, palabra reservada o palabra not in tabla
+                        if (reviseReservedWords([col1])):
+                            return
+                        if (checkCol([col1], colTablas, Tablas[0])):
                             return
                         indice1 = archivos[Tablas[0]][0].index(col1)
                         # Columna = Valor
@@ -415,9 +437,12 @@ def select(valid):
                                 if(archivos[Tablas[0]][fila][indice1] == val): # Si la columna de la fila = valor ingresado, lo guarda en la lista
                                     matchRow.append([archivos[Tablas[0]][fila], archivos[Tablas[0]][fila]])
                         else: # Columna = Columna
-                            if (reviseReservedWords([val]) == 0 or val not in colTablas):
-                                print('\nError de Sintaxis ! linea 404\n')
+                            # Casos de error (palabra reservada o palabra not in tabla)
+                            if (reviseReservedWords([val])):
                                 return
+                            if (checkCol([val], colTablas, Tablas[0])):
+                                return
+
                             indice2 = archivos[tabla1][0].index(val)
                             for fila in range(1,len(archivos[Tablas[0]])): # Revisa todas las filas de la tabla ingresada
                                 if(archivos[Tablas[0]][fila][indice1] == archivos[Tablas[0]][fila][indice2]): # Si valor de columna1 = valor columna 2, guarda la fila en la lista
@@ -448,14 +473,26 @@ def select(valid):
         if(len(Output) >0 and len(blend) != 0): # Si hay al menos una fila que cumpla las condiciones ingresadas y una condicion de la forma tabla.columna = tabla2.columna
             # Código para ORDER BY
             if(len(Order) > 0): # Si se ingresa ORDER BY
-                if (reviseReservedWords(Order) == 0 or Order[0] not in colTablas):
-                    print('\nError de Sintaxis ! linea 436\n')
-                    return
-                for tabla in range(len(Tablas)):
-                    if Order[0] in Order[0] in archivos[Tablas[tabla]][0]:
-                        indiceSort = archivos[Tablas[tabla]][0].index(Order[0])
-                        Output.sort(key=lambda x: x[tabla][indiceSort])# Función Lambda, permite aplicar sort usando un indice en particular como pivote.
-                        break
+                if (len(Tablas) == 1 and len(Order[0].split(".")) == 1):
+                    if(len(Order[0].split(".")) == 1):
+                        Order.append(Tablas[0])
+                        Order.reverse() # -> Order queda de la forma [tabla, columna]
+                else:
+                    Order = Order[0].split(".") # -> [tabla, columna]
+                    if(len(Order) == 1): # Si Order no es de la forma tabla.columna -> error
+                        print("\nError de Sintaxis ! linea 483")
+                        return
+                    if(Order[0] not in Tablas):
+                        # Casos de error: Tabla inexistente, palabras reservadas, columna inexistente
+                        print("\nError de Sintaxis ! La tabla "+Order[0]+" no coincide con las tablas ingresadas. linea 487\n")
+                        return
+                    if(reviseReservedWords(Order[0]) or reviseReservedWords(Order[1])):
+                        return
+                    if(checkCol([Order[1]], archivos[Order[0]][0], Order[0])):
+                        return
+
+                indiceSort = archivos[Order[0]][0].index(Order[1])
+                Output.sort(key=lambda x: x[Tablas.index(Order[0])][indiceSort])# Función Lambda, permite aplicar sort usando un indice en particular como pivote.
 
                 if (By.strip() == "DESC"): # Si pide descendiente basta con invertir la lista.
                     Output.reverse()
@@ -465,8 +502,8 @@ def select(valid):
             listaIndices = [] # guarda los indices de las columnas solicitadas (indice tabla, indice elemento en Tablas[indice])
             OutputPrint = [] # Lista final con todas las filas ordenadas
             for elemento in Select:
-                for indice in range(len(Tablas)-1,-1,-1):
-                    if elemento in archivos[Tablas[indice]][0]:
+                for indice in range(len(Tablas)-1,-1,-1): # Recorre los elementos desde la última posición hasta la primera
+                    if elemento in archivos[Tablas[indice]][0]: # Guarda los indices de las columnas detectadas, (indice tab, indice col)
                         listaIndices.append((indice, archivos[Tablas[indice]][0].index(elemento)))
                         break
 
@@ -475,27 +512,29 @@ def select(valid):
                 for tabla, columna in listaIndices:
                     OutputMatch.append(Output[fila][tabla][columna])
                 OutputPrint.append(OutputMatch)
-
-            lens = []
-            for col in zip(*OutputPrint):
-                lens.append(max([len(str(v)) for v in col]))
-            format = "     ".join(["{:<" + str(l) + "}" for l in lens])
+            print()
+            lens = [] # Código para darle formato a los datos que se imprimirán en pantalla
+            for col in zip(*OutputPrint): # Llena una lista con los largos de cada elemento a imprimir para generar una distancia
+                lens.append(max([len(str(v)) for v in col])) # dinámica entre los elementos y que se vean con la misma separación
+            format = "     ".join(["{:<" + str(l) + "}" for l in lens]) # Alinea los valores hacia la izquierda
             for row in OutputPrint:
                 print(format.format(*row))
+            print()
 
         else:
-            print("La información solicitada no existe")
+            print("La información solicitada no existe.")
 
 
     except FileNotFoundError:
-        print(" ERROR DE SINTAXIS EXCEPT Linea 489")
+        if(len(Tablas) == 1):
+            print("La tabla ingresada no existe.")
+        else:
+            print("Las tablas ingresadas no existen.")
         return
-
 
 # Main loop
 while(True):
-    #recepcion de input
-
+    #Recepción de input
     print ("Ingrese su query:")
     statement = input()
     #condicion de salida de loop infinito
@@ -505,7 +544,7 @@ while(True):
     #un diccionario con posibles llaves de expresiones completas
     SQL_REGEX = {
     'UPDATE_Key' : re.compile(r'^UPDATE\s+([^\s;,]+)\s+SET\s+((?:[^\s\.\'=*,;]+\s*=(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:\.\d+)?)(?:\s*,\s*[^\s\.\'=*,;]+\s*=(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:\.\d+)?))*))\s+WHERE\s+((?:[^\s\.\'=*,;]+\s*=(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:\.\d+)?)(?:\s*(?:AND|OR)\s*[^\s\.\'=*,;]+\s*=(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:\.\d+)?))*));{1}$'),
-    'SELECT_Key' : re.compile(r'^SELECT\s+((?:\s*[^\s,;=\']+)(?:(?:\s*,\s*[^\s,*=;\']+)*))\s+FROM\s+([^\s;,]+)(?:(?:\s+INNER\sJOIN\s+([^\s;]+))?(?:(?:\s+WHERE\s+((?:[^\s.\'=*,;]+(?:.[^\s.\'=*,;]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=*;,]+(?:.[^\s.\'=*,;]+)?))(?:(?:\s+(?:AND|OR)\s+[^\s.\'=,;*]+(?:.[^\s.\'=,*;]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=,;*]+(?:\.[^\s.\'=;,*]+)?)))*)?)))))?(?:\s+ORDER\sBY\s+([^*\s=\';,]+)\s+(ASC|DESC))?;{1}$'),
+    'SELECT_Key' : re.compile(r'^SELECT\s+((?:\s*[^\s,;=\']+)(?:(?:\s*,\s*[^\s,*=;\']+)*))\s+FROM\s+([^\s;,]+)(?:(?:\s+INNER\sJOIN\s+([^\s;]+))?(?:(?:\s+WHERE\s+((?:[^\s.\'=*,;]+(?:\.[^\s.\'=*,;]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=*;,]+(?:\.[^\s.\'=*,;]+)?))(?:(?:\s+(?:AND|OR)\s+[^\s.\'=,;*]+(?:\.[^\s.\'=,*;]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=,;*]+(?:\.[^\s.\'=;,*]+)?)))*)?)))))?(?:\s+ORDER\sBY\s+([^*\s=\';,\.]+(?:\.[^\s\.\'=;,*]+)?)\s+(ASC|DESC))?;{1}$'),
     'INSERT_Key':re.compile(r'^INSERT\sINTO\s+([^\s,]+)\s+\(\s*((?:\s*[^\s,=*\';]+)(?:(?:\s*,\s*[^\s,=*\';]+\s*)*))\)\s+VALUES\s+\(((?:\s*\'[^\']+\s*\'\s*|\s*-?\d+|(?:\.\d+))(?:(?:,\s*\'\s*[^\']+\s*\'\s*|\s*,\s*-?\d+|(?:\.\d+)\s*)*))\);{1}$'),
     }
     #tupla key-match
@@ -514,7 +553,7 @@ while(True):
     #noneType error.
     if isinstance(result_tuple,type(None)):
         #si la llave o match son None,no había match. Es decir, fallo la sintaxis.
-        print('\nError de Sintaxis! 518\n')
+        print('\nError de Sintaxis ! 556\n')
 
     else:
         key = result_tuple[0]
