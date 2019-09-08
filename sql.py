@@ -144,7 +144,7 @@ def update(valid):
     Tabla = valid[0].strip()
     # Ninguna Fila o Columna capturada puede coincidir con palabras reservadas
     if (reviseReservedWords([Tabla]) == 0):
-        print(); print('Error de Sintaxis 136!'); print()
+        print('\nError de Sintaxis!\n');
         return
 
     try:# Abre el archivo de la Tabla correspondiente en modo r (lectura).
@@ -170,7 +170,7 @@ def update(valid):
         # Si se ingresan columnas que no existen en la tabla o si las columnas en set incluyen
         # palabras reservadas se imprimirá error de sintaxis y saldrá de la función
         if ((len(colNotFound) != 0) or (reviseReservedWords(ColumnasSet) == 0)):
-            print(); print("Error de Sintaxis!"); print()
+            print("\nError de Sintaxis!\n");
             return
 
         # Descomprime las condiciones ingresadas en WHERE, separándolas por OR y luego por AND, manteniendo así la precedencia del segundo.
@@ -197,7 +197,7 @@ def update(valid):
             # y una lista con las columnas que ingresó el usuario que no existen en la tabla.
             ColumnasWhere , colNotFound = checkColumns(ColumnasWhere ,columnasFile)
             if((reviseReservedWords(ColumnasWhere) == 0) or (len(colNotFound) != 0)):
-                print('Error de Sintaxis!')
+                print('\nError de Sintaxis!\n')
                 return
             i = i + 1
 
@@ -222,7 +222,7 @@ def update(valid):
                 matchCondiciones = matchCondiciones.intersection(filas) # Intersección entre conjunto filas y matchCondiciones
             indicesOutput = indicesOutput.union(matchCondiciones) # Unión entre conjuntos separados por OR
         if (len(indicesOutput) == 0):
-            print ("No se pudo actualizar la información con la información entregada.")
+            print ("\nNo se pudo actualizar la información con la información entregada.\n")
             return
 
         # Modificación de las filas de la tabla:
@@ -236,15 +236,15 @@ def update(valid):
             file.write(",".join(linea)+"\n")
         file.close()
         if(len(indicesOutput) == 1):
-            print("Se ha actualizado " + str(len(indicesOutput)) + " fila")
+            print("\nSe ha actualizado " + str(len(indicesOutput)) + " fila\n")
         else:
-            print("Se han actualizado " + str(len(indicesOutput)) + " filas")
+            print("\nSe han actualizado " + str(len(indicesOutput)) + " filas\n")
 
         # UPDATE Notas SET Nota = -10 WHERE Nombre = 'ore ' OR Nombre = 'ore sama' OR Nombre = 'Clemente Aguilar'  AND Rol = '201773580-3' OR Rol = '201673557-4';
 
         return
     except FileNotFoundError:
-        print(); print('Tabla indicada no existe. Intente de nuevo.'); print()
+        print('\nTabla indicada no existe. Intente de nuevo.\n');
         return
 
 def select(valid):
