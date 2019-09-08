@@ -170,7 +170,7 @@ def update(valid):
         # Si se ingresan columnas que no existen en la tabla o si las columnas en set incluyen
         # palabras reservadas se imprimirá error de sintaxis y saldrá de la función
         if ((len(colNotFound) != 0) or (reviseReservedWords(ColumnasSet) == 0)):
-            print(); print("Error de Sintaxis ! 163"); print()
+            print(); print("Error de Sintaxis!"); print()
             return
 
         # Descomprime las condiciones ingresadas en WHERE, separándolas por OR y luego por AND, manteniendo así la precedencia del segundo.
@@ -197,7 +197,7 @@ def update(valid):
             # y una lista con las columnas que ingresó el usuario que no existen en la tabla.
             ColumnasWhere , colNotFound = checkColumns(ColumnasWhere ,columnasFile)
             if((reviseReservedWords(ColumnasWhere) == 0) or (len(colNotFound) != 0)):
-                print('Error de Sintaxis! (columnas de where)')
+                print('Error de Sintaxis!')
                 return
             i = i + 1
 
