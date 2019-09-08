@@ -81,7 +81,7 @@ def insert(valid):
 
     # Ninguna Tabla o Columna capturada puede coincidir con palabras reservadas
     if (reviseReservedWords([Tabla]) == 0):
-        print(); print('Error de Sintaxis !'); print()
+        print('\nError de Sintaxis!\n');
         return
     # Abre el archivo de la Tabla correspondiente en modo r+ (lectura + append).
     try:
@@ -92,7 +92,7 @@ def insert(valid):
         # Si la cantidad de columnas es distinta a la cantidad de valores
         # o si alguno de estos incluye palabras reservadas será error de sintaxis.
         if ((len(Columnas) != len(Values)) or (reviseReservedWords(Columnas) == 0)):
-            print(); print("Error de Sintaxis !"); print()
+            print("\nError de Sintaxis!\n");
             file.close()
             return
 
@@ -106,7 +106,7 @@ def insert(valid):
 
         # Si se ingresan columnas que no existen en la tabla será error de sintaxis.
         if (len(colNotFound) != 0):
-            print(); print("Error de Sintaxis !, las columnas "+ ", ".join(colNotFound) + " no pertenecen a la tabla."); print()
+            print("\nError de Sintaxis! Las columnas "+ ", ".join(colNotFound) + " no pertenecen a la tabla.\n");
             return
 
         # Diccionario donde valor = columnas de la tabla y llave = indice de la columna en la tabla
