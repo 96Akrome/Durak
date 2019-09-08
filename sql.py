@@ -36,7 +36,7 @@ si la lista posee palabras reservadas como elementos.
 Si es asi, retorna un 0 (Caso de Error de Sintaxis). Si no, retorna 1.
 """
 def reviseReservedWords(lista):
-    reservedWords = {'INSERT','ASC','DESC','INTO','VALUES','SELECT','FROM','WHERE','ORDER BY','UPDATE','SET'}
+    reservedWords = {'INSERT','ASC','DESC','INTO','VALUES','SELECT','FROM','WHERE','ORDER BY','UPDATE','SET','BY'}
     for string in lista:
         if string in reservedWords:
             return 0
@@ -142,7 +142,6 @@ actualizar la tabla señalada por el usuario en el query con los valores ingresa
 def update(valid):
     # Descomprime el nombre de la tabla ingresada.
     Tabla = valid[0].strip()
-
     # Ninguna Fila o Columna capturada puede coincidir con palabras reservadas
     if (reviseReservedWords([Tabla]) == 0):
         print(); print('Error de Sintaxis 136!'); print()
@@ -236,7 +235,7 @@ def update(valid):
         for linea in lineas:
             file.write(",".join(linea)+"\n")
         file.close()
-        if(len(indicesOutput) = 1):
+        if(len(indicesOutput) == 1):
             print("Se ha actualizado " + str(len(indicesOutput)) + " fila")
         else:
             print("Se han actualizado " + str(len(indicesOutput)) + " filas")
