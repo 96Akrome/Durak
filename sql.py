@@ -310,7 +310,7 @@ def select(valid):
         # Casos de error, palabra reservada o columna not in tablas
         if (reviseReservedWords(Select)):
             return
-        if (checkCol(Select, colTablas, " ni ".join([tabla for tabla in Tablas]))):
+        if (checkCol(Select, colTablas, " ni a la tabla ".join([tabla for tabla in Tablas]))):
             return
 
         Output = [] # Lista que almacena las OutputFila que cumplan las condiciones solicitadas
