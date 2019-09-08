@@ -500,9 +500,7 @@ while(True):
     statement = input()
     #condicion de salida de loop infinito
     if(statement == 'EXIT'):
-        print()
-        print('Se recibió comando de salida.Terminando la ejecución.')
-        print()
+        print('\nSe recibió comando de salida.Terminando la ejecución.\n')
         break
     #un diccionario con posibles llaves de expresiones completas
     SQL_REGEX = {
@@ -516,9 +514,7 @@ while(True):
     #noneType error.
     if isinstance(result_tuple,type(None)):
         #si la llave o match son None,no había match. Es decir, fallo la sintaxis.
-        print()
-        print('Error de Sintaxis! 518')
-        print()
+        print('\nError de Sintaxis! 518\n')
 
     else:
         key = result_tuple[0]
