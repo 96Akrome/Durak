@@ -470,56 +470,60 @@ def select(valid):
                         archivos[Tablas[0]][fila][i] = archivos[Tablas[0]][fila][i]
                 Output.append([archivos[Tablas[0]][fila],archivos[Tablas[0]][fila]])
 
-        if(len(Output) >0 and len(blend) != 0): # Si hay al menos una fila que cumpla las condiciones ingresadas y una condicion de la forma tabla.columna = tabla2.columna
+        if(len(Output) > 0): # Si hay al menos una fila que cumpla las condiciones ingresadas y una condicion de la forma tabla.columna = tabla2.columna
             # Código para ORDER BY
-            if(len(Order) > 0): # Si se ingresa ORDER BY
-                if (len(Tablas) == 1 and len(Order[0].split(".")) == 1):
-                    if(len(Order[0].split(".")) == 1):
-                        Order.append(Tablas[0])
-                        Order.reverse() # -> Order queda de la forma [tabla, columna]
-                else:
-                    Order = Order[0].split(".") # -> [tabla, columna]
-                    if(len(Order) == 1): # Si Order no es de la forma tabla.columna -> error
-                        print("\nError de Sintaxis! Use notacion Tabla.Columna al usar INNER JOIN.\n")
-                        return
-                    if(Order[0] not in Tablas):
-                        # Casos de error: Tabla inexistente, palabras reservadas, columna inexistente
-                        print("\nError de Sintaxis ! La tabla "+Order[0]+" no coincide con las tablas ingresadas. linea 487\n")
-                        return
-                    if(reviseReservedWords(Order[0]) or reviseReservedWords(Order[1])):
-                        return
-                    if(checkCol([Order[1]], archivos[Order[0]][0], Order[0])):
-                        return
+            if(len(blend) == 0):
+                print("\nError de Sintaxis! No se acepta comparacion Tabla1.Columna1 = Tabla1.Columna1.")
+                return
+            else:
+                if(len(Order) > 0): # Si se ingresa ORDER BY
+                    if (len(Tablas) == 1 and len(Order[0].split(".")) == 1):
+                        if(len(Order[0].split(".")) == 1):
+                            Order.append(Tablas[0])
+                            Order.reverse() # -> Order queda de la forma [tabla, columna]
+                    else:
+                        Order = Order[0].split(".") # -> [tabla, columna]
+                        if(len(Order) == 1): # Si Order no es de la forma tabla.columna -> error
+                            print("\nError de Sintaxis! Use notacion Tabla.Columna al usar INNER JOIN.\n")
+                            return
+                        if(Order[0] not in Tablas):
+                            # Casos de error: Tabla inexistente, palabras reservadas, columna inexistente
+                            print("\nError de Sintaxis ! La tabla "+Order[0]+" no coincide con las tablas ingresadas. linea 487\n")
+                            return
+                        if(reviseReservedWords(Order[0]) or reviseReservedWords(Order[1])):
+                            return
+                        if(checkCol([Order[1]], archivos[Order[0]][0], Order[0])):
+                            return
 
-                indiceSort = archivos[Order[0]][0].index(Order[1])
-                Output.sort(key=lambda x: x[Tablas.index(Order[0])][indiceSort])# Función Lambda, permite aplicar sort usando un indice en particular como pivote.
+                    indiceSort = archivos[Order[0]][0].index(Order[1])
+                    Output.sort(key=lambda x: x[Tablas.index(Order[0])][indiceSort])# Función Lambda, permite aplicar sort usando un indice en particular como pivote.
 
-                if (By.strip() == "DESC"): # Si pide descendiente basta con invertir la lista.
-                    Output.reverse()
+                    if (By.strip() == "DESC"): # Si pide descendiente basta con invertir la lista.
+                        Output.reverse()
 
-            # Código para imprimir por pantalla las listas seleccionadas:
-            # colTablas tiene las columnas de ambas tablas en orden y sin repetir.
-            listaIndices = [] # guarda los indices de las columnas solicitadas (indice tabla, indice elemento en Tablas[indice])
-            OutputPrint = [] # Lista final con todas las filas ordenadas
-            for elemento in Select:
-                for indice in range(len(Tablas)-1,-1,-1): # Recorre los elementos desde la última posición hasta la primera
-                    if elemento in archivos[Tablas[indice]][0]: # Guarda los indices de las columnas detectadas, (indice tab, indice col)
-                        listaIndices.append((indice, archivos[Tablas[indice]][0].index(elemento)))
-                        break
+                # Código para imprimir por pantalla las listas seleccionadas:
+                # colTablas tiene las columnas de ambas tablas en orden y sin repetir.
+                listaIndices = [] # guarda los indices de las columnas solicitadas (indice tabla, indice elemento en Tablas[indice])
+                OutputPrint = [] # Lista final con todas las filas ordenadas
+                for elemento in Select:
+                    for indice in range(len(Tablas)-1,-1,-1): # Recorre los elementos desde la última posición hasta la primera
+                        if elemento in archivos[Tablas[indice]][0]: # Guarda los indices de las columnas detectadas, (indice tab, indice col)
+                            listaIndices.append((indice, archivos[Tablas[indice]][0].index(elemento)))
+                            break
 
-            for fila in range(len(Output)):
-                OutputMatch = [] # Guarda la fila ordenada
-                for tabla, columna in listaIndices:
-                    OutputMatch.append(Output[fila][tabla][columna])
-                OutputPrint.append(OutputMatch)
-            print()
-            lens = [] # Código para darle formato a los datos que se imprimirán en pantalla
-            for col in zip(*OutputPrint): # Llena una lista con los largos de cada elemento a imprimir para generar una distancia
-                lens.append(max([len(str(v)) for v in col])) # dinámica entre los elementos y que se vean con la misma separación
-            format = "     ".join(["{:<" + str(l) + "}" for l in lens]) # Alinea los valores hacia la izquierda
-            for row in OutputPrint:
-                print(format.format(*row))
-            print()
+                for fila in range(len(Output)):
+                    OutputMatch = [] # Guarda la fila ordenada
+                    for tabla, columna in listaIndices:
+                        OutputMatch.append(Output[fila][tabla][columna])
+                    OutputPrint.append(OutputMatch)
+                print()
+                lens = [] # Código para darle formato a los datos que se imprimirán en pantalla
+                for col in zip(*OutputPrint): # Llena una lista con los largos de cada elemento a imprimir para generar una distancia
+                    lens.append(max([len(str(v)) for v in col])) # dinámica entre los elementos y que se vean con la misma separación
+                format = "     ".join(["{:<" + str(l) + "}" for l in lens]) # Alinea los valores hacia la izquierda
+                for row in OutputPrint:
+                    print(format.format(*row))
+                print()
 
         else:
             print("La información solicitada no existe.")
