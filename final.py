@@ -43,9 +43,9 @@ def reviseReservedWords(lista):
             badStrings.append(string)
     if (len(badStrings) > 0):
         if(len(badStrings) == 1):
-            print('\nError de Sintaxis! La columna o tabla '+ ", ".join(badStrings)+' contiene una palabra reservada. linea 46 \n')
+            print('\nError de Sintaxis! La columna o tabla '+ ", ".join(badStrings)+' contiene una palabra reservada.\n')
         else:
-            print('\nError de Sintaxis! Las columnas o tablas '+", ".join(badStrings)+' contienen una o más palabras reservadas. linea 48 \n')
+            print('\nError de Sintaxis! Las columnas o tablas '+", ".join(badStrings)+' contienen una o más palabras reservadas.\n')
         return True
     else:
         return False
@@ -68,9 +68,9 @@ def checkCol(listaInputs, listaFile, Tabla):
     colNotFound = [columna.strip() for columna in listaInputs if columna not in listaFile]
     if (len(colNotFound) != 0):
         if (len(colNotFound) == 1):
-            print("\nError de Sintaxis! La columna " + ", ".join(colNotFound) + " no pertenece a la tabla " + Tabla + ". linea 71\n")
+            print("\nError de Sintaxis! La columna " + ", ".join(colNotFound) + " no pertenece a la tabla " + Tabla + ".\n")
         else:
-            print("\nError de Sintaxis! Las columnas " + ", ".join(colNotFound) + " no pertenecen a la tabla " + Tabla + ".linea 73\n")
+            print("\nError de Sintaxis! Las columnas " + ", ".join(colNotFound) + " no pertenecen a la tabla " + Tabla + ".\n")
         return True
     return False
 
@@ -104,7 +104,7 @@ def insert(valid):
         # Si la cantidad de columnas es distinta a la cantidad de valores
         # o si alguno de estos incluye palabras reservadas será error de sintaxis.
         if (len(Columnas) != len(Values)):
-            print("\nError de Sintaxis !, la cantidad de columnas ingresadas no coincide con la cantidad de valores ingresados. linea 107\n")
+            print("\nError de Sintaxis !, la cantidad de columnas ingresadas no coincide con la cantidad de valores ingresados.\n")
             file.close()
             return
         if (reviseReservedWords(Columnas)):
@@ -339,10 +339,10 @@ def select(valid):
                         if (reviseReservedWords([tabla1]+[col1])):
                             return
                         if (tabla1 not in Tablas):
-                            print('\nError de Sintaxis ! La tabla ' + tabla1+ ' es distinta de las tablas ingresadas. linea 342\n')
+                            print('\nError de Sintaxis ! La tabla ' + tabla1+ ' es distinta de las tablas ingresadas.\n')
                             return
                         if (col1 not in archivos[tabla1][0]):
-                            print('\nError de Sintaxis ! La columna '+col1+' no pertenece a la tabla '+ tabla1+'. linea 345\n')
+                            print('\nError de Sintaxis ! La columna '+col1+' no pertenece a la tabla '+ tabla1+'.\n')
                             return
                         indice1 = archivos[tabla1][0].index(col1)
 
@@ -356,10 +356,10 @@ def select(valid):
                             if (reviseReservedWords([tabla2]+[col2])):
                                 return
                             if (tabla2 not in Tablas):
-                                print('\nError de Sintaxis ! La tabla ' + tabla2 + ' es distinta de las tablas ingresadas. linea 359\n')
+                                print('\nError de Sintaxis ! La tabla ' + tabla2 + ' es distinta de las tablas ingresadas.\n')
                                 return
                             if (col2 not in archivos[tabla2][0]):
-                                print('\nError de Sintaxis ! La columna ' + col2 + ' no pertenece a la tabla ' + tabla2 + '. linea 362\n')
+                                print('\nError de Sintaxis ! La columna ' + col2 + ' no pertenece a la tabla ' + tabla2 + '.\n')
                                 return
 
                             indice2 = archivos[tabla2][0].index(col2) # Indice de la columna ingresada en la parte derecha en su respectiva tabla
@@ -409,7 +409,7 @@ def select(valid):
                                 except ValueError:
                                     val = val
                             else:
-                                print('\nError de Sintaxis ! linea 410\n')
+                                print('\nError de Sintaxis !\n')
                                 return
 
                     else: # Sin INNER JOIN
@@ -494,7 +494,7 @@ def select(valid):
                             return
                         if(Order[0] not in Tablas):
                             # Casos de error: Tabla inexistente, palabras reservadas, columna inexistente
-                            print("\nError de Sintaxis ! La tabla "+Order[0]+" no coincide con las tablas ingresadas. linea 487\n")
+                            print("\nError de Sintaxis ! La tabla "+Order[0]+" no coincide con las tablas ingresadas.\n")
                             return
                         if(reviseReservedWords(Order[0]) or reviseReservedWords(Order[1])):
                             return
@@ -563,7 +563,7 @@ while(True):
     #noneType error.
     if isinstance(result_tuple,type(None)):
         #si la llave o match son None,no había match. Es decir, fallo la sintaxis.
-        print('\nError de Sintaxis ! 556\n')
+        print('\nError de Sintaxis !\n')
 
     else:
         key = result_tuple[0]
