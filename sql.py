@@ -383,13 +383,6 @@ def select(valid):
                             # Si val no es un número ni un 'string' ni un número negativo -> error
                             if(val.isnumeric() or (val[0] == "'" and val[-1] == "'" and len(val) > 2) or (val[0] == "-" and val.count("-") == 1 and val.strip("-").isnumeric())):
                                 val = val.strip("'")
-                                try:
-                                    if ('.' in val):
-                                        val = float(val)
-                                    else:
-                                        val = int(val)
-                                except ValueError:
-                                    val = val
                                 for fila in range(1, len(archivos[tabla1])): # Itera por cada fila de la tabla 1
                                     if(archivos[tabla1][fila][indice1] == val): # Encuentra una fila-columna que tiene el mismo valor que value
                                         item1 = archivos[tabla1][fila] # Guarda la fila completa en una variable
@@ -406,6 +399,13 @@ def select(valid):
                                                     matchRowList[ind1] = item1
                                                     matchRowList[ind2] = item2
                                                     matchRow.append(matchRowList.copy())
+                                try:
+                                    if ('.' in val):
+                                        val = float(val)
+                                    else:
+                                        val = int(val)
+                                except ValueError:
+                                    val = val
                             else:
                                 print('\nError de Sintaxis ! linea 410\n')
                                 return
@@ -426,6 +426,9 @@ def select(valid):
                         # Columna = Valor
                         if(val.isnumeric() or (val[0] == "'" and val[-1] == "'" and len(val) > 2) or (val[0] == "-" and val.count("-") == 1 and val.strip("-").isnumeric())):
                             val = val.strip("'")
+                            for fila in range(1,len(archivos[Tablas[0]])): # Revisa todas las filas de la tabla ingresada
+                                if(archivos[Tablas[0]][fila][indice1] == val): # Si la columna de la fila = valor ingresado, lo guarda en la lista
+                                    matchRow.append([archivos[Tablas[0]][fila], archivos[Tablas[0]][fila]])
                             try:
                                 if ('.' in val):
                                     val = float(val)
@@ -433,9 +436,6 @@ def select(valid):
                                     val = int(val)
                             except ValueError:
                                 val = val
-                            for fila in range(1,len(archivos[Tablas[0]])): # Revisa todas las filas de la tabla ingresada
-                                if(archivos[Tablas[0]][fila][indice1] == val): # Si la columna de la fila = valor ingresado, lo guarda en la lista
-                                    matchRow.append([archivos[Tablas[0]][fila], archivos[Tablas[0]][fila]])
                         else: # Columna = Columna
                             # Casos de error (palabra reservada o palabra not in tabla)
                             if (reviseReservedWords([val])):
