@@ -478,8 +478,8 @@ def select(valid):
 
         if(len(Output) > 0): # Si hay al menos una fila que cumpla las condiciones ingresadas y una condicion de la forma tabla.columna = tabla2.columna
             # Código para ORDER BY
-            if(len(blend) == 0):
-                print("\nError de Sintaxis! No se acepta comparacion Tabla1.Columna1 = Tabla1.Columna1.")
+            if(len(blend) == 0): # Reemplazar 0 por -1 para eliminar restriccion Tabla1.columna1 = tabla2.columna1
+                print("\nError de Sintaxis! No se recibió comparación del tipo Tabla1.Columna1 = Tabla2.Columna1.")
                 return
             else:
                 if(len(Order) > 0): # Si se ingresa ORDER BY
