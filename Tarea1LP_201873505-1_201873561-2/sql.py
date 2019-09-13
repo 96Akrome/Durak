@@ -43,9 +43,9 @@ def reviseReservedWords(lista):
             badStrings.append(string)
     if (len(badStrings) > 0):
         if(len(badStrings) == 1):
-            print('\nError de Sintaxis! La columna o tabla '+ ", ".join(badStrings)+' contiene una palabra reservada. linea 46 \n')
+            print('\nError de Sintaxis! La columna o tabla '+ ", ".join(badStrings)+' contiene una palabra reservada.\n')
         else:
-            print('\nError de Sintaxis! Las columnas o tablas '+", ".join(badStrings)+' contienen una o más palabras reservadas. linea 48 \n')
+            print('\nError de Sintaxis! Las columnas o tablas '+", ".join(badStrings)+' contienen una o más palabras reservadas.\n')
         return True
     else:
         return False
@@ -68,9 +68,9 @@ def checkCol(listaInputs, listaFile, Tabla):
     colNotFound = [columna.strip() for columna in listaInputs if columna not in listaFile]
     if (len(colNotFound) != 0):
         if (len(colNotFound) == 1):
-            print("\nError de Sintaxis! La columna " + ", ".join(colNotFound) + " no pertenece a la tabla " + Tabla + ". linea 71\n")
+            print("\nError de Sintaxis! La columna " + ", ".join(colNotFound) + " no pertenece a la tabla " + Tabla + ".\n")
         else:
-            print("\nError de Sintaxis! Las columnas " + ", ".join(colNotFound) + " no pertenecen a la tabla " + Tabla + ".linea 73\n")
+            print("\nError de Sintaxis! Las columnas " + ", ".join(colNotFound) + " no pertenecen a la tabla " + Tabla + ".\n")
         return True
     return False
 
@@ -104,7 +104,7 @@ def insert(valid):
         # Si la cantidad de columnas es distinta a la cantidad de valores
         # o si alguno de estos incluye palabras reservadas será error de sintaxis.
         if (len(Columnas) != len(Values)):
-            print("\nError de Sintaxis !, la cantidad de columnas ingresadas no coincide con la cantidad de valores ingresados. linea 107\n")
+            print("\nError de Sintaxis !, la cantidad de columnas ingresadas no coincide con la cantidad de valores ingresados.\n")
             file.close()
             return
         if (reviseReservedWords(Columnas)):
@@ -339,10 +339,10 @@ def select(valid):
                         if (reviseReservedWords([tabla1]+[col1])):
                             return
                         if (tabla1 not in Tablas):
-                            print('\nError de Sintaxis ! La tabla ' + tabla1+ ' es distinta de las tablas ingresadas. linea 342\n')
+                            print('\nError de Sintaxis ! La tabla ' + tabla1+ ' es distinta de las tablas ingresadas.\n')
                             return
                         if (col1 not in archivos[tabla1][0]):
-                            print('\nError de Sintaxis ! La columna '+col1+' no pertenece a la tabla '+ tabla1+'. linea 345\n')
+                            print('\nError de Sintaxis ! La columna '+col1+' no pertenece a la tabla '+ tabla1+'.\n')
                             return
                         indice1 = archivos[tabla1][0].index(col1)
 
@@ -356,10 +356,10 @@ def select(valid):
                             if (reviseReservedWords([tabla2]+[col2])):
                                 return
                             if (tabla2 not in Tablas):
-                                print('\nError de Sintaxis ! La tabla ' + tabla2 + ' es distinta de las tablas ingresadas. linea 359\n')
+                                print('\nError de Sintaxis ! La tabla ' + tabla2 + ' es distinta de las tablas ingresadas.\n')
                                 return
                             if (col2 not in archivos[tabla2][0]):
-                                print('\nError de Sintaxis ! La columna ' + col2 + ' no pertenece a la tabla ' + tabla2 + '. linea 362\n')
+                                print('\nError de Sintaxis ! La columna ' + col2 + ' no pertenece a la tabla ' + tabla2 + '.\n')
                                 return
 
                             indice2 = archivos[tabla2][0].index(col2) # Indice de la columna ingresada en la parte derecha en su respectiva tabla
@@ -383,6 +383,7 @@ def select(valid):
                             # Si val no es un número ni un 'string' ni un número negativo -> error
                             if(val.isnumeric() or (val[0] == "'" and val[-1] == "'" and len(val) > 2) or (val[0] == "-" and val.count("-") == 1 and val.strip("-").isnumeric())):
                                 val = val.strip("'")
+
                                 for fila in range(1, len(archivos[tabla1])): # Itera por cada fila de la tabla 1
                                     if(archivos[tabla1][fila][indice1] == val): # Encuentra una fila-columna que tiene el mismo valor que value
                                         item1 = archivos[tabla1][fila] # Guarda la fila completa en una variable
@@ -399,6 +400,7 @@ def select(valid):
                                                     matchRowList[ind1] = item1
                                                     matchRowList[ind2] = item2
                                                     matchRow.append(matchRowList.copy())
+                                # Convierte los valores numericos en números para poder ejecutar sort más adelante
                                 try:
                                     if ('.' in val):
                                         val = float(val)
@@ -407,7 +409,7 @@ def select(valid):
                                 except ValueError:
                                     val = val
                             else:
-                                print('\nError de Sintaxis ! linea 410\n')
+                                print('\nError de Sintaxis !\n')
                                 return
 
                     else: # Sin INNER JOIN
@@ -426,9 +428,11 @@ def select(valid):
                         # Columna = Valor
                         if(val.isnumeric() or (val[0] == "'" and val[-1] == "'" and len(val) > 2) or (val[0] == "-" and val.count("-") == 1 and val.strip("-").isnumeric())):
                             val = val.strip("'")
+
                             for fila in range(1,len(archivos[Tablas[0]])): # Revisa todas las filas de la tabla ingresada
                                 if(archivos[Tablas[0]][fila][indice1] == val): # Si la columna de la fila = valor ingresado, lo guarda en la lista
                                     matchRow.append([archivos[Tablas[0]][fila], archivos[Tablas[0]][fila]])
+                            # Convierte los valores numericos en números para poder ejecutar sort más adelante
                             try:
                                 if ('.' in val):
                                     val = float(val)
@@ -436,6 +440,7 @@ def select(valid):
                                     val = int(val)
                             except ValueError:
                                 val = val
+
                         else: # Columna = Columna
                             # Casos de error (palabra reservada o palabra not in tabla)
                             if (reviseReservedWords([val])):
@@ -461,6 +466,7 @@ def select(valid):
             blend.append(1)
             for fila in range(1, len(archivos[Tablas[0]])): # Si no hay WHERE, guarda todas las filas de la tabla ingresada
                 for i in range(len(archivos[Tablas[0]][fila])):
+                    # Convierte los valores numericos en números para poder ejecutar sort más adelante
                     try:
                         if ('.' in archivos[Tablas[0]][fila][i]):
                             archivos[Tablas[0]][fila][i] = float(archivos[Tablas[0]][fila][i])
@@ -472,8 +478,8 @@ def select(valid):
 
         if(len(Output) > 0): # Si hay al menos una fila que cumpla las condiciones ingresadas y una condicion de la forma tabla.columna = tabla2.columna
             # Código para ORDER BY
-            if(len(blend) == 0):
-                print("\nError de Sintaxis! No se acepta comparacion Tabla1.Columna1 = Tabla1.Columna1.")
+            if(len(blend) == 0): # Reemplazar 0 por -1 para eliminar restriccion Tabla1.columna1 = tabla2.columna1
+                print("\nError de Sintaxis! No se recibió comparación del tipo Tabla1.Columna1 = Tabla2.Columna1.\n")
                 return
             else:
                 if(len(Order) > 0): # Si se ingresa ORDER BY
@@ -488,7 +494,7 @@ def select(valid):
                             return
                         if(Order[0] not in Tablas):
                             # Casos de error: Tabla inexistente, palabras reservadas, columna inexistente
-                            print("\nError de Sintaxis ! La tabla "+Order[0]+" no coincide con las tablas ingresadas. linea 487\n")
+                            print("\nError de Sintaxis ! La tabla "+Order[0]+" no coincide con las tablas ingresadas.\n")
                             return
                         if(reviseReservedWords(Order[0]) or reviseReservedWords(Order[1])):
                             return
@@ -548,7 +554,7 @@ while(True):
     #un diccionario con posibles llaves de expresiones completas
     SQL_REGEX = {
     'UPDATE_Key' : re.compile(r'^UPDATE\s+([^\s;,]+)\s+SET\s+((?:[^\s\.\'=*,;]+\s*=(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:\.\d+)?)(?:\s*,\s*[^\s\.\'=*,;]+\s*=(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:\.\d+)?))*))\s+WHERE\s+((?:[^\s\.\'=*,;]+\s*=(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:\.\d+)?)(?:\s*(?:AND|OR)\s*[^\s\.\'=*,;]+\s*=(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:\.\d+)?))*));{1}$'),
-    'SELECT_Key' : re.compile(r'^SELECT\s+((?:\s*[^\s,;=\']+)(?:(?:\s*,\s*[^\s,*=;\']+)*))\s+FROM\s+([^\s;,]+)(?:(?:\s+INNER\sJOIN\s+([^\s;]+))?(?:(?:\s+WHERE\s+((?:[^\s.\'=*,;]+(?:\.[^\s.\'=*,;]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=*;,]+(?:\.[^\s.\'=*,;]+)?))(?:(?:\s+(?:AND|OR)\s+[^\s.\'=,;*]+(?:\.[^\s.\'=,*;]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=,;*]+(?:\.[^\s.\'=;,*]+)?)))*)?)))))?(?:\s+ORDER\sBY\s+([^*\s=\';,\.]+(?:\.[^\s\.\'=;,*]+)?)\s+(ASC|DESC))?;{1}$'),
+    'SELECT_Key' : re.compile(r'^SELECT\s+((?:(?:\s*[^\s.\'=;,*]+)(?:(?:\s*,\s*[^\s.\'=;,*]+)*)|(?:\*)))\s+FROM\s+([^\s.\'=;,*]+)(?:(?:\s+INNER\sJOIN\s+([^\s.\'=;,*]+))?(?:(?:\s+WHERE\s+((?:[^\s.\'=;,*]+(?:\.[^\s.\'=*,;]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=*;,]+(?:\.[^\s.\'=*,;]+)?))(?:(?:\s+(?:AND|OR)\s+[^\s.\'=,;*]+(?:\.[^\s.\'=,*;]+)?\s*=(?:(?:\s*\'\s*[^\']+\s*\'|\s*-?\d+(?:.\d+)|\s*[^\s.\'=;,*]+(?:\.[^\s.\'=;,*]+)?)))*)?)))))?(?:\s+ORDER\sBY\s+([^\s\.\'=;,*]+(?:\.[^\s\.\'=;,*]+)?)\s+(ASC|DESC))?;{1}$'),
     'INSERT_Key':re.compile(r'^INSERT\sINTO\s+([^\s,]+)\s+\(\s*((?:\s*[^\s,=*\';]+)(?:(?:\s*,\s*[^\s,=*\';]+\s*)*))\)\s+VALUES\s+\(((?:\s*\'[^\']+\s*\'\s*|\s*-?\d+|(?:\.\d+))(?:(?:,\s*\'\s*[^\']+\s*\'\s*|\s*,\s*-?\d+|(?:\.\d+)\s*)*))\);{1}$'),
     }
     #tupla key-match
@@ -557,7 +563,7 @@ while(True):
     #noneType error.
     if isinstance(result_tuple,type(None)):
         #si la llave o match son None,no había match. Es decir, fallo la sintaxis.
-        print('\nError de Sintaxis ! 556\n')
+        print('\nError de Sintaxis !\n')
 
     else:
         key = result_tuple[0]
