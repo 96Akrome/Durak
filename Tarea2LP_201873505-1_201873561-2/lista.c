@@ -12,6 +12,7 @@ void init(struct lista *a){
 }
 
 //no soporta listas incrustadas todavia.
+//tiene que ser recursiva para ello.
 void clear(struct lista *a){
   struct nodo *loop_aux_next;
   a->actual = a->head;
@@ -44,6 +45,27 @@ void append(struct lista *a,dato d){
 }
 
 void insert(struct lista *a, int i, dato d){
+  if (i == 0 && a->length == 0){
+    printf("La lista es vacia. Llamando al append.\n");
+    append(a,d);
+    return;
+  }
+  if(i ==  a->length){
+    printf("Se requiere insertar al final de la lista.\n");
+    append(a,d);
+    return;
+  }
+  struct nodo *aux = (struct nodo*)malloc(sizeof(struct nodo));
+  aux->info = d;
+  if(i == 0 && a->length != 0){
+    printf("Se requiere insertar al inicio en lista no vacia.\n");
+    aux->next = a->head;
+    a->head = aux;
+    a->length++;
+  }
+  else{
+    printf("Se requiere insertar en posicion %d de la lista no vacia.\n",i);
+  }
   return;
 }
 

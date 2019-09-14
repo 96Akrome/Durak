@@ -2,19 +2,19 @@
 struct nodo{
   struct dato info;
   struct nodo* next;
-}algo1;
+};
 
 struct lista{
   struct nodo* actual;
   struct nodo* head;
   struct nodo* tail;
   int length;
-}algo2;
+};
 
 struct dato{
   void* contenido;
   char tipo;
-}algo3;
+};
 
 void init(struct lista *a);
 void clear(struct lista *a);
