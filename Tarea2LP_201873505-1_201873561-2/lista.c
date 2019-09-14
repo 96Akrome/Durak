@@ -142,6 +142,7 @@ void printout(struct lista *a){
   aux = a->head;
   printf("{");
   while (aux != NULL){
+    //aqui revisar aux->info->tipo
     printf("%d->",aux->info);
     aux = aux->next;
   }
