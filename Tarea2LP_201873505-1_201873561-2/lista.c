@@ -65,6 +65,15 @@ void insert(struct lista *a, int i, dato d){
   }
   else{
     printf("Se requiere insertar en posicion %d de la lista no vacia.\n",i);
+    int k;
+    struct nodo *loop_aux;
+    loop_aux = a->head;
+    for(k = 0; k < i-1; k++){
+      loop_aux = loop_aux->next;
+    }
+    aux->next = loop_aux->next;
+    loop_aux->next = aux;
+    a->length++;
   }
   return;
 }
