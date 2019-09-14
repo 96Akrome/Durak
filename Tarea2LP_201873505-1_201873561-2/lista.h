@@ -21,5 +21,5 @@ void clear(struct lista *a);
 void insert(struct lista *a,int i,dato d);
 void append(struct lista *a, dato d);
 void remove(struct lista *a,int i);
-int length(strcut lista *a);
+int length(struct lista *a);
 dato* at(struct lista *a,int i);

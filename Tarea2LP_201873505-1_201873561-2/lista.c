@@ -23,4 +23,21 @@ void clear(struct lista *a){
   a->length = 0;
   a->actual = NULL;
   a->tail = NULL;
+  return;
+}
+
+void insert(struct lista *a, int i, dato d){
+  return;
+}
+
+void remove(struct lista *a, int i){
+  return;
+}
+
+int length(struct lista *a){
+  return a->length;
+}
+
+dato* at(struct lista *a, int i){
+  return;
 }
