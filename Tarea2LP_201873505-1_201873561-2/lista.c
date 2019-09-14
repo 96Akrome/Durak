@@ -55,6 +55,10 @@ void insert(struct lista *a, int i, dato d){
     append(a,d);
     return;
   }
+  if (i > a->length || i < 0){
+    printf("No se puede insertar,indice out of bounds.\n")
+    return;
+  }
   struct nodo *aux = (struct nodo*)malloc(sizeof(struct nodo));
   aux->info = d;
   if(i == 0 && a->length != 0){
@@ -79,6 +83,9 @@ void insert(struct lista *a, int i, dato d){
 }
 
 void remove(struct lista *a, int i){
+  if(a->length == 0 | i > a->length || i < 0){
+    printf("La lista es vacio o el indice esta out of bounds.\n")
+  }
   return;
 }
 
