@@ -130,7 +130,7 @@ dato* at(struct lista *a, int i){
   return;
 }
 
-//BORRADOR! para imprimir listas en *at, notar que
+//BORRADOR! para imprimir listas notar que
 // lista al imprimir puede contener otras listas, tiene que ser recursiva!!111 es solo un borrador
 void printout(struct lista *a){
   if (a->length == 0){
