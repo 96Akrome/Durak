@@ -26,6 +26,23 @@ void clear(struct lista *a){
   return;
 }
 
+void append(struct lista *a,dato d){
+ struct nodo *aux = (struct nodo*)malloc(sizeof(struct nodo));
+ aux->info = item;
+ aux->next = NULL;
+
+ if (a->head ==  NULL){
+   a->head =  aux;
+   a->tail = aux;
+   a->actual = aux;
+ }
+ else{
+   a->tail->next = aux;
+   a->tail = aux;
+ }
+ a->length++;
+}
+
 void insert(struct lista *a, int i, dato d){
   return;
 }
