@@ -11,7 +11,7 @@ void init(struct lista *a){
   return;
 }
 
-//no soporta listas encrustradas todavia.
+//no soporta listas incrustadas todavia.
 void clear(struct lista *a){
   struct nodo *loop_aux_next;
   a->actual = a->head;
