@@ -129,3 +129,21 @@ int length(struct lista *a){
 dato* at(struct lista *a, int i){
   return;
 }
+
+//BORRADOR! para imprimir listas en *at, notar que
+// lista al imprimir puede contener otras listas, tiene que ser recursiva!!111 es solo un borrador
+void printout(struct lista *a){
+  if (a->length == 0){
+    printf("{}\n");
+    return;
+  }
+  //notar que aux es un puntero, por ende no exige malloc.
+  struct nodo *aux;
+  aux = a->head;
+  printf("{");
+  while (aux != NULL){
+    printf("%d->",aux->info);
+    aux = aux->next;
+  }
+  printf("NULL}\n");
+}
