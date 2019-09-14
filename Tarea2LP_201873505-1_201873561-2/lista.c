@@ -18,8 +18,13 @@ void clear(struct lista *a){
   a->actual = a->head;
   while(a->head != NULL){
     loop_aux_next = a->head;
-    a->head = a->head->next;
-    free(loop_aux_next);
+    if(loop_aux_next->info->tipo != 'l'){
+      a->head = a->head->next;
+      free(loop_aux_next);
+    }
+    else{
+      //recursion
+    }
   }
   a->length = 0;
   a->actual = NULL;

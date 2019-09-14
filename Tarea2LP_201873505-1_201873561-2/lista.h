@@ -1,6 +1,6 @@
 //structs mal escritos en pdf. preguntar o hacer typedef.
 struct nodo{
-  struct dato info;
+  struct dato* info;
   struct nodo* next;
 };
 
