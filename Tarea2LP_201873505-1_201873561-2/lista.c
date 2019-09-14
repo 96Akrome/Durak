@@ -82,9 +82,42 @@ void insert(struct lista *a, int i, dato d){
   return;
 }
 
+//no soporta recursion para incrustadas, tiene que tener revision de f,i o l
 void remove(struct lista *a, int i){
   if(a->length == 0 | i > a->length || i < 0){
     printf("La lista es vacio o el indice esta out of bounds.\n")
+  }
+  struct nodo *aux;
+  if(i == 0 && a->length != 0){
+    printf("Se requiere borrar el primer elemento de la lista no vacia.\n")
+    aux = a->head;
+    a->head = aux->next;
+    a->length--;
+    free(aux);
+  }
+  struct nodo *loop_aux;
+  loop_aux = a->head;
+  int k;
+  for(k = 0; k < i-1; k++){
+    loop_aux = loop_aux->next;
+    //eliminar al final:
+    if(pos == a->length-1){
+      printf("Se requiere borrar al final de la lista.\n");
+      aux = loop_aux->next;
+      loop_aux->next = NULL;
+      a->tail = loop_aux;
+      a->length--;
+      free(aux);
+      return;
+    }
+    //eliminar dentro pero no el el extremo
+    else{
+      printf("Se requiere borrar en la posicion %d\n",i );
+      aux = loop_aux->next;
+      loop_aux->next = loop_aux->next->next;
+      free(aux);
+    }
+    a->length--;
   }
   return;
 }
