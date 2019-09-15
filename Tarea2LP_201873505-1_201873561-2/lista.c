@@ -32,9 +32,9 @@ void clear(struct lista *a){
   return;
 }
 
-void append(struct lista *a,dato d){
+void append(struct lista *a, struct dato d){
  struct nodo *aux = (struct nodo*)malloc(sizeof(struct nodo));
- aux->info = item;
+ aux->info = d;
  aux->next = NULL;
 
  if (a->head ==  NULL){
@@ -49,7 +49,7 @@ void append(struct lista *a,dato d){
  a->length++;
 }
 
-void insert(struct lista *a, int i, dato d){
+void insert(struct lista *a, int i, struct dato d){
   if (i == 0 && a->length == 0){
     printf("La lista es vacia. Llamando al append.\n");
     append(a,d);
@@ -88,7 +88,8 @@ void insert(struct lista *a, int i, dato d){
 }
 
 //no soporta recursion para incrustadas, tiene que tener revision de f,i o l
-void remove(struct lista *a, int i){
+//tiene que liberar info.contenido
+void remov(struct lista *a, int i){
   if(a->length == 0 | i > a->length || i < 0){
     printf("La lista es vacio o el indice esta out of bounds.\n")
   }
@@ -135,6 +136,8 @@ dato* at(struct lista *a, int i){
   return;
 }
 
+
+/*
 //BORRADOR! para imprimir listas notar que
 // lista al imprimir puede contener otras listas, tiene que ser recursiva!!111 es solo un borrador
 void printout(struct lista *a){
@@ -153,3 +156,4 @@ void printout(struct lista *a){
   }
   printf("NULL}\n");
 }
+*/
