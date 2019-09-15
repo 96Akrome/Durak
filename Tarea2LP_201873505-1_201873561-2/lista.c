@@ -96,7 +96,7 @@ void insert(struct lista *a, int i, struct dato d){
 //no soporta recursion para incrustadas, tiene que tener revision de f,i o l
 //tiene que liberar info.contenido
 void remov(struct lista *a, int i){
-  if(a->length == 0 | i > a->length || i < 0){
+  if((a->length == 0) | (i > a->length) || (i < 0)){
     printf("La lista es vacio o el indice esta out of bounds.\n");
   }
   struct nodo *aux;
@@ -139,7 +139,7 @@ int length(struct lista *a){
 }
 
 struct dato* at(struct lista *a, int i){
-  return;
+  return 0;
 }
 
 
