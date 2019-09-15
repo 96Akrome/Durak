@@ -22,4 +22,4 @@ void insert(struct lista *a,int i,struct dato d);
 void append(struct lista *a, struct dato d);
 void remov(struct lista *a,int i);
 int length(struct lista *a);
-dato* at(struct lista *a,int i);
+struct dato* at(struct lista *a,int i);

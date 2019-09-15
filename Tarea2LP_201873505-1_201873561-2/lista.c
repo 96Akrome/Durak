@@ -18,12 +18,17 @@ void clear(struct lista *a){
   a->actual = a->head;
   while(a->head != NULL){
     loop_aux_next = a->head;
-    if(loop_aux_next->info->tipo != 'l'){
+    if(loop_aux_next->info.tipo != 'l'){
+      //no es un nodo que es a la vez cabeza de una lista
       a->head = a->head->next;
+      //se libera el contenido de datos
+      free(loop_aux_next->info.contenido)
+      //se libera el nodo
       free(loop_aux_next);
     }
     else{
       //recursion
+      clear((struct lista*)loop_aux_next)
     }
   }
   a->length = 0;
@@ -132,7 +137,7 @@ int length(struct lista *a){
   return a->length;
 }
 
-dato* at(struct lista *a, int i){
+struct dato* at(struct lista *a, int i){
   return;
 }
 
