@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "lista.h"
 
 
 void init(struct lista *a){
-  struct lista *a = (struct lista*)malloc(sizeof(struct lista));
+  a = (struct lista*)malloc(sizeof(struct lista));
   a->actual = NULL;
   a->head = NULL;
   a->length = 0;
@@ -22,13 +23,13 @@ void clear(struct lista *a){
       //no es un nodo que es a la vez cabeza de una lista
       a->head = a->head->next;
       //se libera el contenido de datos
-      free(loop_aux_next->info.contenido)
+      free(loop_aux_next->info.contenido);
       //se libera el nodo
       free(loop_aux_next);
     }
     else{
       //recursion
-      clear((struct lista*)loop_aux_next)
+      clear((struct lista*)loop_aux_next);
     }
   }
   a->length = 0;
@@ -66,7 +67,7 @@ void insert(struct lista *a, int i, struct dato d){
     return;
   }
   if (i > a->length || i < 0){
-    printf("No se puede insertar,indice out of bounds.\n")
+    printf("No se puede insertar,indice out of bounds.\n");
     return;
   }
   struct nodo *aux = (struct nodo*)malloc(sizeof(struct nodo));
@@ -96,11 +97,11 @@ void insert(struct lista *a, int i, struct dato d){
 //tiene que liberar info.contenido
 void remov(struct lista *a, int i){
   if(a->length == 0 | i > a->length || i < 0){
-    printf("La lista es vacio o el indice esta out of bounds.\n")
+    printf("La lista es vacio o el indice esta out of bounds.\n");
   }
   struct nodo *aux;
   if(i == 0 && a->length != 0){
-    printf("Se requiere borrar el primer elemento de la lista no vacia.\n")
+    printf("Se requiere borrar el primer elemento de la lista no vacia.\n");
     aux = a->head;
     a->head = aux->next;
     a->length--;
@@ -112,7 +113,7 @@ void remov(struct lista *a, int i){
   for(k = 0; k < i-1; k++){
     loop_aux = loop_aux->next;
     //eliminar al final:
-    if(pos == a->length-1){
+    if(i == a->length-1){
       printf("Se requiere borrar al final de la lista.\n");
       aux = loop_aux->next;
       loop_aux->next = NULL;

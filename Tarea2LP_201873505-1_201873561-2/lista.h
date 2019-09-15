@@ -1,3 +1,7 @@
+struct dato{
+  void* contenido;
+  char tipo;
+};
 
 struct nodo{
   struct dato info;
@@ -9,11 +13,6 @@ struct lista{
   struct nodo* head;
   struct nodo* tail;
   int length;
-};
-
-struct dato{
-  void* contenido;
-  char tipo;
 };
 
 void init(struct lista *a);
