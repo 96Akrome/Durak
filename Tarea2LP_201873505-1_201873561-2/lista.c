@@ -14,22 +14,22 @@ void init(struct lista *a){
 
 //hay que probar para listas incrustadas, deberia funcionar
 //es recursiva siempre y cuando el tipo es 'l'
+//uso a->actual en vez de nodo loop_aux porque igual despues se asigna como NULL
+//en realidad es un nodo inutil en struct sjsjjsjsjs como no hay ni next ni prev
 void clear(struct lista *a){
-  struct nodo *loop_aux_next;
-  a->actual = a->head;
   while(a->head != NULL){
-    loop_aux_next = a->head;
-    if(loop_aux_next->info.tipo != 'l'){
+    a->actual = a->head;
+    if(a->actual->info.tipo != 'l'){
       //no es un nodo que es a la vez cabeza de una lista
       a->head = a->head->next;
       //se libera el contenido de datos
-      free(loop_aux_next->info.contenido);
+      free(a->actual->info.contenido);
       //se libera el nodo
-      free(loop_aux_next);
+      free(a->actual);
     }
     else{
       //recursion
-      clear((struct lista*)loop_aux_next);
+      clear((struct lista*)a->actual);
     }
   }
   a->length = 0;

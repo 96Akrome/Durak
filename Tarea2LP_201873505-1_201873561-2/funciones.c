@@ -13,5 +13,6 @@ return 0;
 float sum = 0
 -if a->leght == 0, return sum (lista vacia -> suma 0)
 
-
+algoritmo:
+  recorrer la lista usando un dummy, por ejemplo "actual"
 */
