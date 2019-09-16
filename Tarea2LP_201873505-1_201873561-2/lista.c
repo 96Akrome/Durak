@@ -100,12 +100,25 @@ void remov(struct lista *a, int i){
     printf("La lista es vacia o el indice esta out of bounds.\n");
   }
   struct nodo *aux;
+  //al inicio de la lista
   if(i == 0){
     printf("Se requiere borrar el primer elemento de la lista no vacia.\n");
+    //reasigno la cabeza, pero guardo el puntero a esta en aux.
     aux = a->head;
     a->head = aux->next;
     a->length--;
-    free(aux);
+    //cualquier tipo no recursivo (entero o flotante)
+    if(a->head->info.tipo != 'l'){
+      //limpio el contenido
+      free(aux->info.contenido)
+      //libero el nodo
+      free(aux);
+    }
+    else{
+      //tipo recursivo, lista incrustada (posiblemente con otras incrustadas)
+      clear((struct lista*)aux)
+      //no tenemos que hacer mas frees, dado que clear lo hara solo.
+    }
   }
   struct nodo *loop_aux;
   loop_aux = a->head;
@@ -177,8 +190,3 @@ void printout(struct lista *a){
   printf("NULL}\n");
 }
 */
-
-//para probar cosas.borrar antes  de entregar
-int main(void){
-
-}
