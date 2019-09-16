@@ -94,11 +94,10 @@ void insert(struct lista *a, int i, struct dato d){
   return;
 }
 
-//no soporta recursion para incrustadas, tiene que tener revision de f,i o l
-//tiene que liberar info.contenido
 void remov(struct lista *a, int i){
   if((a->length == 0) | (i >= a->length) || (i < 0)){
     printf("La lista es vacia o el indice esta out of bounds.\n");
+    return;
   }
   struct nodo *aux;
   //al inicio de la lista
@@ -107,7 +106,6 @@ void remov(struct lista *a, int i){
     //reasigno la cabeza, pero guardo el puntero a esta en aux.
     aux = a->head;
     a->head = aux->next;
-    a->length--;
     //cualquier tipo no recursivo (entero o flotante)
     if(a->head->info.tipo != 'l'){
       //limpio el contenido
@@ -120,8 +118,9 @@ void remov(struct lista *a, int i){
       clear((struct lista*)aux)
       //no tenemos que hacer mas frees, dado que clear lo hara solo.
     }
+    a->length--;
+    return;
   }
-  //parte todavia no recursiva!!
   struct nodo *loop_aux;
   loop_aux = a->head;
   int k;
@@ -135,18 +134,29 @@ void remov(struct lista *a, int i){
     aux = loop_aux->next;
     loop_aux->next = NULL;
     a->tail = loop_aux;
+    if(aux->info.tipo != 'l'){
+      free(aux);
+    }
+    else{
+      clear((struct lista*)aux);
+    }
     a->length--;
-    free(aux);
     return;
   }
-    //eliminar dentro pero no el el extremo
+  //eliminar dentro pero no el el extremo
   else{
     printf("Se requiere borrar en la posicion %d\n",i );
     aux = loop_aux->next;
     loop_aux->next = loop_aux->next->next;
-    free(aux);
+    if(aux->info.tipo != 'l'){
+      free(aux);
+    }
+    else{
+      clear((struct lista*)aux);
+    }
+    a->length--;
+    return;
   }
-  a->length--;
   return;
 }
 
