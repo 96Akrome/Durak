@@ -12,8 +12,8 @@ void init(struct lista *a){
   return;
 }
 
-//no soporta listas incrustadas todavia.
-//tiene que ser recursiva para ello.
+//hay que probar para listas incrustadas, deberia funcionar
+//es recursiva siempre y cuando el tipo es 'l'
 void clear(struct lista *a){
   struct nodo *loop_aux_next;
   a->actual = a->head;
@@ -35,6 +35,7 @@ void clear(struct lista *a){
   a->length = 0;
   a->actual = NULL;
   a->tail = NULL;
+  //a->head queda como NULL en el loop.
   return;
 }
 
