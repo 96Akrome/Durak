@@ -97,7 +97,7 @@ void insert(struct lista *a, int i, struct dato d){
 //no soporta recursion para incrustadas, tiene que tener revision de f,i o l
 //tiene que liberar info.contenido
 void remov(struct lista *a, int i){
-  if((a->length == 0) | (i > a->length) || (i < 0)){
+  if((a->length == 0) | (i >= a->length) || (i < 0)){
     printf("La lista es vacia o el indice esta out of bounds.\n");
   }
   struct nodo *aux;
@@ -125,10 +125,11 @@ void remov(struct lista *a, int i){
   struct nodo *loop_aux;
   loop_aux = a->head;
   int k;
+  //recorre hasta i-1 para poder borrar la cola
   for(k = 0; k < i-1; k++){
     loop_aux = loop_aux->next;
   }
-    //eliminar al final:
+  //eliminar al final (largo es siempre +1 nodo, es cantidad y no total de posiciones.)
   if(i == a->length-1){
     printf("Se requiere borrar al final de la lista.\n");
     aux = loop_aux->next;
@@ -155,7 +156,7 @@ int length(struct lista *a){
 
 //no estoy segura que a->head->info es un puntero o no xd
 struct dato* at(struct lista *a, int i){
-  if((a->length == 0) | (i > a->length) || (i < 0)){
+  if((a->length == 0) | (i >= a->length) || (i < 0)){
     printf("La lista esta vacia o el dato esta fuera de rango.\n");
   }
   //caso 1: nodo en la cabeza, retorna directamente
@@ -165,8 +166,8 @@ struct dato* at(struct lista *a, int i){
   struct nodo *loop_aux;
   loop_aux = a->head;
   int k;
-  //recorre hasta posicion i-1 en la lista, retorna i-esimo nodo.
-  for(k = 0; k < i-1; k++){
+  //recorre hasta posicion i en la lista.
+  for(k = 0; k < i; k++){
     loop_aux = loop_aux->next;
   }
   return loop_aux->info;
