@@ -97,10 +97,10 @@ void insert(struct lista *a, int i, struct dato d){
 //tiene que liberar info.contenido
 void remov(struct lista *a, int i){
   if((a->length == 0) | (i > a->length) || (i < 0)){
-    printf("La lista es vacio o el indice esta out of bounds.\n");
+    printf("La lista es vacia o el indice esta out of bounds.\n");
   }
   struct nodo *aux;
-  if(i == 0 && a->length != 0){
+  if(i == 0){
     printf("Se requiere borrar el primer elemento de la lista no vacia.\n");
     aux = a->head;
     a->head = aux->next;
@@ -139,7 +139,21 @@ int length(struct lista *a){
 }
 
 struct dato* at(struct lista *a, int i){
-  return 0;
+  if((a->length == 0) | (i > a->length) || (i < 0)){
+    printf("La lista esta vacia o el dato esta fuera de rango.\n");
+  }
+  //caso 1: nodo en la cabeza
+  if(i == 0){
+    return a->head->info;
+  }
+  struct nodo *loop_aux;
+  loop_aux = a->head;
+  int k;
+  //recorre hasta posicion i-1 en la lista, retorna i-esimo nodo.
+  for(k = 0; k < i-1; k++){
+    loop_aux = loop_aux->next;
+  }
+  return loop_aux->info;
 }
 
 
@@ -163,3 +177,8 @@ void printout(struct lista *a){
   printf("NULL}\n");
 }
 */
+
+//para probar cosas.borrar antes  de entregar
+int main(void){
+
+}
