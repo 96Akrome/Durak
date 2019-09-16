@@ -121,30 +121,31 @@ void remov(struct lista *a, int i){
       //no tenemos que hacer mas frees, dado que clear lo hara solo.
     }
   }
+  //parte todavia no recursiva!!
   struct nodo *loop_aux;
   loop_aux = a->head;
   int k;
   for(k = 0; k < i-1; k++){
     loop_aux = loop_aux->next;
-    //eliminar al final:
-    if(i == a->length-1){
-      printf("Se requiere borrar al final de la lista.\n");
-      aux = loop_aux->next;
-      loop_aux->next = NULL;
-      a->tail = loop_aux;
-      a->length--;
-      free(aux);
-      return;
-    }
-    //eliminar dentro pero no el el extremo
-    else{
-      printf("Se requiere borrar en la posicion %d\n",i );
-      aux = loop_aux->next;
-      loop_aux->next = loop_aux->next->next;
-      free(aux);
-    }
-    a->length--;
   }
+    //eliminar al final:
+  if(i == a->length-1){
+    printf("Se requiere borrar al final de la lista.\n");
+    aux = loop_aux->next;
+    loop_aux->next = NULL;
+    a->tail = loop_aux;
+    a->length--;
+    free(aux);
+    return;
+  }
+    //eliminar dentro pero no el el extremo
+  else{
+    printf("Se requiere borrar en la posicion %d\n",i );
+    aux = loop_aux->next;
+    loop_aux->next = loop_aux->next->next;
+    free(aux);
+  }
+  a->length--;
   return;
 }
 
@@ -152,11 +153,12 @@ int length(struct lista *a){
   return a->length;
 }
 
+//no estoy segura que a->head->info es un puntero o no xd
 struct dato* at(struct lista *a, int i){
   if((a->length == 0) | (i > a->length) || (i < 0)){
     printf("La lista esta vacia o el dato esta fuera de rango.\n");
   }
-  //caso 1: nodo en la cabeza
+  //caso 1: nodo en la cabeza, retorna directamente
   if(i == 0){
     return a->head->info;
   }
