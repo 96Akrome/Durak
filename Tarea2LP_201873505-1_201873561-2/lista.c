@@ -109,13 +109,13 @@ void remov(struct lista *a, int i){
     //cualquier tipo no recursivo (entero o flotante)
     if(a->head->info.tipo != 'l'){
       //limpio el contenido
-      free(aux->info.contenido)
+      free(aux->info.contenido);
       //libero el nodo
       free(aux);
     }
     else{
       //tipo recursivo, lista incrustada (posiblemente con otras incrustadas)
-      clear((struct lista*)aux)
+      clear((struct lista*)aux);
       //no tenemos que hacer mas frees, dado que clear lo hara solo.
     }
     a->length--;
@@ -164,14 +164,14 @@ int length(struct lista *a){
   return a->length;
 }
 
-//no estoy segura que a->head->info es un puntero o no xd
+
 struct dato* at(struct lista *a, int i){
   if((a->length == 0) | (i >= a->length) || (i < 0)){
     printf("La lista esta vacia o el dato esta fuera de rango.\n");
   }
   //caso 1: nodo en la cabeza, retorna directamente
   if(i == 0){
-    return a->head->info;
+    return &(a->head->info);
   }
   struct nodo *loop_aux;
   loop_aux = a->head;
@@ -180,5 +180,5 @@ struct dato* at(struct lista *a, int i){
   for(k = 0; k < i; k++){
     loop_aux = loop_aux->next;
   }
-  return loop_aux->info;
+  return &(loop_aux->info);
 }
