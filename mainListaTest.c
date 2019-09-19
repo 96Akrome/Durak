@@ -4,9 +4,7 @@
 #include "lista.c"
 #include "funciones2.c"
 
-int main(){
-    struct lista *listirijilla= (struct lista*)malloc(sizeof(struct lista));
-    init(listirijilla);
+void interface(struct lista *listirijilla){
     char tipo[1];
     int conf = 9;
     int pos;
@@ -18,7 +16,7 @@ int main(){
         printf("3: Remover un elemento en una posición específica.\n4: Obtener el dato de una posición en específico de la lista.\n");
         printf("5: - Fuera de servicio -\n6: Obtener la suma de todos los elementos de la lista.\n");
         printf("7: Imprimir por pantalla la lista.\n8: Obtener el promedio de todos los elementos de la lista.\n");
-        printf("9: Vaciar la lista.\n");
+        printf("9: Vaciar la lista.\n10: ingresar a una lista.\n");
         printf("0: Fin del programa.\n");
         scanf("%d", &conf);
         if((conf != 0) && (conf < 3)){
@@ -88,7 +86,21 @@ int main(){
         }
         else if (conf == 8){printf("El promedio de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", average(listirijilla));}
         else if (conf == 9){clear(listirijilla);}
+        else if (conf == 10){
+            printf("Ingrese la posición de la lista a la que desea ingresar: ");
+            scanf("%d", &pos);
+            if(strcmp(getList(listirijilla, pos) -> info.tipo, "l") == 0){interface(getList(listirijilla,pos) -> info.contenido);}
+            else{printf("La posición elegida no contiene una lista.");}
+        }
     }
-    clear(listirijilla);
-    free(listirijilla);
+}
+
+
+int main(){
+    struct lista *list= (struct lista*)malloc(sizeof(struct lista));
+    init(list);
+    interface(list);
+    clear(list);
+    free(list);
+    return 0;
 }

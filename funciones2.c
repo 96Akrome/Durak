@@ -68,3 +68,13 @@ float average(struct lista *a){
     }
     return suma/cantElem;
 }
+
+
+
+// Boorraaaaar.
+struct nodo* getList(struct lista *a, int pos){
+    int k;
+    a->actual = a->head;
+    for(k = 0; k < pos; k++){a->actual = a->actual->next;}
+    return a->actual;
+}

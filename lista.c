@@ -26,17 +26,17 @@ void clear(struct lista *a){
 }
 
 void insert(struct lista *a, int i, struct dato d){
-    if (i == 0 && a->length == 0){
+    if (i == 0 && length(a) == 0){
         printf("La lista es vacia. Llamando al append.\n");
         append(a,d);
         return;
     }
-    if(i ==  a->length){
+    if(i ==  length(a)){
         printf("Se requiere insertar al final de la lista.\n");
         append(a,d);
         return;
     }
-    if (i > a->length || i < 0){
+    if (i > length(a) || i < 0){
         printf("No se puede insertar,indice out of bounds.\n");
         // TODO considerar borrar linea 54 y 55, hay que conocer el struct que ingresaran para saber si limpiar o no esa memoria.
         if(strcmp(d.tipo, "l") == 0){clear((struct lista *)d.contenido);}
@@ -45,7 +45,7 @@ void insert(struct lista *a, int i, struct dato d){
     }
     struct nodo *aux = (struct nodo*)malloc(sizeof(struct nodo));
     aux -> info = d;
-    if(i == 0 && a->length != 0){
+    if(i == 0 && length(a) != 0){
         printf("Se requiere insertar al inicio en lista no vacia.\n");
         aux->next = a->head;
         a->head = aux;
@@ -183,7 +183,7 @@ int length(struct lista *a){
 } 
 
 struct dato* at(struct lista *a, int i){
-    if((a->length == 0) | (i >= a->length) || (i < 0)){
+    if((length(a) == 0) | (i >= length(a)) || (i < 0)){
         printf("La lista esta vacia o el dato esta fuera de rango.\n");
     }
   //caso 1: nodo en la cabeza, retorna directamente
