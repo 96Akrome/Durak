@@ -1,5 +1,6 @@
 #include "lista.h"
 
+
 void init(struct lista *a){
     //a = (struct lista*)malloc(sizeof(struct lista));
     a->actual = NULL;
@@ -17,7 +18,7 @@ void clear(struct lista *a){
     while(a->head != NULL){
         a->actual = a->head;
         a->head = a->head->next;
-        if(strcmp(a->actual->info.tipo, "l") == 0){
+        if(a->actual->info.tipo == 'l'){
           clear((struct lista*)a->actual->info.contenido);
         }
         free(a->actual->info.contenido); // Se libera el contenido de datos
@@ -41,7 +42,9 @@ void insert(struct lista *a, int i, struct dato d){
     if (i > length(a) || i < 0){
         printf("No se puede insertar,indice out of bounds.\n");
         // TODO considerar borrar linea 54 y 55, hay que conocer el struct que ingresaran para saber si limpiar o no esa memoria.
-        if(strcmp(d.tipo, "l") == 0){clear((struct lista *)d.contenido);}
+        if(d.tipo == 'l'){
+          clear((struct lista *)d.contenido);
+        }
         free(d.contenido);
         return;
     }
@@ -137,7 +140,7 @@ void remov(struct lista *a, int i){
         printf("Se requiere borrar en la posicion %d\n",i );
         aux = loop_aux->next;
         loop_aux->next = loop_aux->next->next;
-        if(aux->info.contenido != 'l'){
+        if(aux->info.tipo != 'l'){
             free(aux);
         }
         else{
