@@ -1,62 +1,122 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "lista.h"
 #include "funciones.h"
 
-
-int main(){
-printf("Hello world\n");
-return 0;
+//Se aplica una operacion *f a cada nodo de la lista y se retorna
+//Un puntero a la lista nueva. Problema: init debe ser con **lista
+//Si no, el usuario debe hacer malloc y free de su lista, y eso es estupido
+//En espera de respuesta de pantuflin
+struct lista* map(struct lista *a, struct dato (*f)(struct dato)){
+    struct lista *b = (struct lista*)malloc(sizeof(struct lista));
+    init(b);
+    if(length(a) == 0){
+      return b;
+    }
+    struct dato disp;
+    struct dato aux;
+    int pos;
+    for (pos = 0; pos < length(a); pos++){
+        disp = *at(a, pos);
+        aux.tipo = disp.tipo;
+        if(aux.tipo == 'l'){
+            aux.contenido = (void*)malloc(sizeof(struct lista));
+            *(struct lista*)aux.contenido = *map(disp.contenido, (*f));
+            }
+        if(aux.tipo == 'i'){
+            aux.contenido = (void *)malloc(sizeof(int));
+            *(int*)aux.contenido = *(int*)disp.contenido;
+            }
+        if(aux.tipo == 'f'){
+            aux.contenido = (void *)malloc(sizeof(float));
+            *(float*)aux.contenido = *(float*)disp.contenido;
+            }
+        append(b, (*f)(aux));
+    }
+    return b;
 }
 
-
-/*float sum
-float sum = 0
--if a->leght == 0, return sum (lista vacia -> suma 0)
-
-algoritmo:
-  recorrer la lista usando un dummy (ver remov o dato *at)
-  cada vez que nodo no sea lista, sumar al sum usando coercion de C
-  si es una lista, la funcion debe ser recursiva, llamando a sum() con casteo (ver recursividad de tda)
-*/
-
-/*float average
-- if a-> leght == 0 ; no se que cresta retornar (segun pdf no se considera para el calculo de promedio???)
-- basicamente el mismo algoritmo de sum pero "se calcula promedio de listas internas aparte y el resultado es usado para el calculo de promedio total" (no cache como es, haria sumador y contador comun para todo, pantufla qlo)
-*/
-
-/*
-borrador de printeo recursivo, recordar que contenido es un puntero void
-asi que hay que castearlo, tal cual no funcionara
-
-para lista normal imprimira al funcionar algo como  {1 -> 2.5 -> 0 -> NULL}
-para incrustadas algo como {1->2-> {9->0.9->NULL} -> 9.99 -> NULL}
+//Suma total de elementos de lista. En caso de lista vacia, retorna 0.
+float sum(struct lista *a){
+    float suma = 0;
+    if (length(a) == 0){
+      return suma;
+    }
+    struct dato disp;
+    int pos;
+    for (pos = 0; pos < length(a); pos++){
+      //*at retorna puntero al elemento en posicion.
+        disp = *at(a, pos);
+        if(disp.tipo == 'l'){
+            if(disp.tipo == 'i'){
+              //dereferencia el (int*)
+              suma += *(int*)disp.contenido;
+            }
+            else{
+              //dereferencia el (float*)
+              suma += *(float*)disp.contenido;
+            }
+        }
+        else{
+            //suma recursivamente
+            suma += sum((struct lista*)disp.contenido);
+        }
+    }
+    return suma;
+}
 
 void print(struct lista *a){
-  if (a->length == 0){
-    printf("{}\n");
-    return;
-  }
-  struct nodo *aux;
-  aux = a->head;
-  printf("{");
-  while (aux != NULL){
-    if(aux->info.tipo == 'i'){
-      printf("%d->",aux->info.contenido);
-      aux = aux->next;
+    //para lista normal imprimira al funcionar algo como  {1, 2.5, 0, NULL}
+    //para incrustadas algo como {1, 2, {9, 0.9, NULL}, 9.99, NULL}
+    struct dato disp;
+    printf("{");
+    if (length(a) != 0){
+      int pos;
+      for (pos = 0; pos < length(a); pos++){
+        //dereferencia el struct en posicion pos
+        disp = *at(a, pos);
+        if(disp.tipo == 'l'){
+          if(disp.tipo == 'i')){
+            printf("%d, ", *(int*)disp.contenido);
+          }
+          else{
+            printf("%f, ", *(float*)disp.contenido);
+          }
+        }
+        else{
+          print((struct lista*)disp.contenido);
+          printf(", ");
+        }
+      }
     }
-    else if (aux->info.tipo == 'f'){
-      print("%f->",aux->info.contenido)
-    }
-    else{
-    //recursividad
-    print((struct lista*)aux)
-    }
-  }
-  printf("NULL}\n");
+  printf("NULL}");
+  return;
 }
-*/
 
-/*map
-mismo algoritmo de recorrido con dummy como en tda,pero aplicando el casteo para la nueva lista (usando init,insert con un pos de TDA). Retorna un puntero
-*/
+float average(struct lista *a){
+    if (length(a) == 0){
+      return 0;
+    }
+    float suma = 0;
+    int cantElem = length(a);
+    struct dato disp;
+    int pos;
+    for (pos = 0; pos < length(a); pos++){
+        disp = *at(a, pos);
+        if(disp.tipo == 'l'){
+            if(disp.tipo == 'i'){
+              suma += *(int*)disp.contenido;
+            }
+            else{
+              suma += *(float*)disp.contenido;
+            }
+        }
+        else{
+            if(!length((struct lista*)disp.contenido)){
+              //length es 0, no se considerara la lista vacia.
+              cantElem--;
+            }
+            else{
+              suma += average((struct lista*)disp.contenido);
+            }
+        }
+    }
+    return suma/cantElem;
+}
