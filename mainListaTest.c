@@ -4,17 +4,41 @@
 #include "lista.c"
 #include "funciones2.c"
 
+
+// Boorraaaaar.
+struct nodo* getList(struct lista *a, int pos){
+    int k;
+    a->actual = a->head;
+    for(k = 0; k < pos; k++){a->actual = a->actual->next;}
+    return a->actual;
+}
+
+struct dato triplicado(struct dato data){
+    if(strcmp(data.tipo, "i") == 0){*(int *)data.contenido = *(int *)data.contenido * 3;}
+    if(strcmp(data.tipo, "f") == 0){*(float *)data.contenido = *(float *)data.contenido * 3;}
+    return data;
+}
+
+struct dato halved(struct dato data){
+    if(strcmp(data.tipo, "i") == 0){*(int *)data.contenido = *(int *)data.contenido / 2;}
+    if(strcmp(data.tipo, "f") == 0){*(float *)data.contenido = *(float *)data.contenido / 2;}
+    return data;
+}
+
+
 void interface(struct lista *listirijilla){
     char tipo[1];
-    int conf = 9;
+    int conf = 999;
     int pos;
+    int func = 0;
     struct dato display;
+    struct dato data;
     while(conf != 0){
         printf("\nEl largo de la lista es %d\n\n", length(listirijilla));
         printf("Ingrese el número de la operacion que desea realizar:\n");
         printf("1: Insertar un elemento en una posición específica.\n2: Insertar un elemento al final de la lista.\n");
         printf("3: Remover un elemento en una posición específica.\n4: Obtener el dato de una posición en específico de la lista.\n");
-        printf("5: - Fuera de servicio -\n6: Obtener la suma de todos los elementos de la lista.\n");
+        printf("5: Imprimir por pantalla la lista modificada por map.\n6: Obtener la suma de todos los elementos de la lista.\n");
         printf("7: Imprimir por pantalla la lista.\n8: Obtener el promedio de todos los elementos de la lista.\n");
         printf("9: Vaciar la lista.\n10: ingresar a una lista.\n");
         printf("0: Fin del programa.\n");
@@ -22,7 +46,6 @@ void interface(struct lista *listirijilla){
         if((conf != 0) && (conf < 3)){
             printf("Ingrese el tipo de dato que desea agregar, i para entero, f para float y l para lista.\n");
             scanf("%s", tipo);
-            struct dato data;
             strcpy(data.tipo, "n");
             if(strcmp(tipo, "l") != 0){
                 if(strcmp(tipo, "i") == 0){
@@ -75,9 +98,10 @@ void interface(struct lista *listirijilla){
             }
         }
         else if (conf == 5){
-            printf("\n\n---FUERA DE SERVICIO---\n");
-            printf("Debiese ser el map, inserte map :v\n");
-            printf("-----------------------");
+            printf("1-) Función triplicado.\n2-) Función halved.\nIngrese el número de la función que desea utilizar: ");
+            scanf("%d", &func);
+            if(func == 1){print(map(listirijilla, (*triplicado)));}
+            if(func == 2){print(map(listirijilla, (*halved)));}
         }
         else if (conf == 6){printf("La suma de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", sum(listirijilla));}
         else if (conf == 7){
@@ -97,7 +121,7 @@ void interface(struct lista *listirijilla){
 
 
 int main(){
-    struct lista *list= (struct lista*)malloc(sizeof(struct lista));
+    struct lista *list = (struct lista*)malloc(sizeof(struct lista));
     init(list);
     interface(list);
     clear(list);

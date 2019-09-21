@@ -190,12 +190,11 @@ struct dato* at(struct lista *a, int i){
     if(i == 0){
         return &(a->head->info);
     }
-    struct nodo *loop_aux;
-    loop_aux = a->head;
+    a->actual = a->head;
         int k;
     //recorre hasta posicion i en la lista.
     for(k = 0; k < i; k++){
-        loop_aux = loop_aux->next;
+        a->actual = a->actual->next;
     }
-    return &(loop_aux->info);
+    return &(a->actual->info);
 }

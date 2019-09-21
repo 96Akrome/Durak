@@ -1,0 +1,27 @@
+lista de prueba 1: {111, 222.2, {333, {444, NULL}, NULL}, NULL} (Copiar y pegar todo lo que esta entre guiones (-----) incluyendo los saltos de linea.
+-----
+2
+i
+111
+2
+f
+222.2
+2
+l
+10
+2
+2
+i
+333
+2
+l
+10
+1
+2
+i
+444
+0
+0
+
+
+-------

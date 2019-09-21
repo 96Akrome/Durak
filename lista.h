@@ -3,6 +3,7 @@ struct dato{
   void* contenido;
   char tipo[1];
 };
+//typedef struct dato dato;
 
 struct nodo{
   struct dato info;
