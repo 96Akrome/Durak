@@ -132,7 +132,7 @@ void interface(struct lista *l){
     struct dato *display;
     struct dato data;
     while(conf != 0){
-        printf("Ingrese el número de la operacion que desea realizar:\n");
+        printf("\nIngrese el número de la operacion que desea realizar:\n");
         printf("-----------------------------------------------------\n");
         printf("1: Insertar un elemento en una posición específica.\n2: Insertar un elemento al final de la lista.\n");
         printf("3: Remover un elemento en una posición específica.\n4: Obtener el dato de una posición en específico de la lista.\n");
@@ -167,7 +167,7 @@ void interface(struct lista *l){
             printf("Ingrese la posicion en donde desea insertar el nuevo elemento: " );
             scanf("%d", &pos);
             insert(l, pos, data);
-            printf("El largo actual es: %d", length(l));
+            printf("El largo actual es: %d\n", length(l));
             print(l);
             printf("\n");
         }
@@ -213,6 +213,9 @@ void interface(struct lista *l){
         }
         else if (conf == 9){
             clear(l);
+            printf("La lista actual es:\n");
+            print(l);
+            printf("\n");
         }
         else if (conf == 10){
             printf("Ingrese la posicion de la lista a que quiere ingresar: ");

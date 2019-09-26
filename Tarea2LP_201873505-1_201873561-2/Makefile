@@ -10,7 +10,7 @@ lista.o: lista.h lista.c
 	$(CC) $(FLAGS) -c lista.c
 funciones.o: funciones.h funciones.c
 	$(CC) $(FLAGS) -c funciones.c
-	
+
 clean:
-	rm $(OBJ) Tarea2
+	rm $(OBJ) Tarea2 
 	
