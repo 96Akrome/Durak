@@ -1,8 +1,9 @@
 #include "lista.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 
 void init(struct lista *a){
-    //a = (struct lista*)malloc(sizeof(struct lista));
     a->actual = NULL;
     a->head = NULL;
     a->length = 0;

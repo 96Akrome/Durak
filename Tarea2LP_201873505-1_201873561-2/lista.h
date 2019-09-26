@@ -1,6 +1,6 @@
 struct dato{
   void* contenido;
-  char tipo[1];
+  char tipo;
 };
 //typedef struct dato dato;
 

@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "lista.c"
 #include "funciones.h"
 
 //Se aplica una operacion *f a cada nodo de la lista y se retorna
@@ -75,7 +74,7 @@ void print(struct lista *a){
         //dereferencia el struct en posicion pos
         disp = *at(a, pos);
         if(disp.tipo == 'l'){
-          if(disp.tipo == 'i')){
+          if(disp.tipo == 'i'){
             printf("%d, ", *(int*)disp.contenido);
           }
           else{
@@ -143,26 +142,26 @@ void interface(struct lista *l){
         scanf("%d", &conf);
         if((conf != 0) && (conf < 3)){
             printf("Ingrese el tipo de dato que desea agregar, i para entero, f para float y l para lista.\n");
-            scanf("%s", tipo);
-            strcpy(data.tipo, "n");
-            if(strcmp(tipo, "l") != 0){
-                if(strcmp(tipo, "i") == 0){
-                    data.contenido = (int *)malloc(sizeof(int));
-                    data.contenido = (int *)data.contenido;
+            scanf("%s", &tipo);
+            data.tipo = 'n';
+            if(tipo != 'l'){
+                if(tipo == 'i'){
+                    data.contenido = (int*)malloc(sizeof(int));
+                    data.contenido = (int*)data.contenido;
                     printf("Ingrese el int que desea agregar a la lista: ");
-                    scanf("%d", (int *)data.contenido);
+                    scanf("%d", (int*)data.contenido);
                 }
-                else if(strcmp(tipo, "f") == 0){
-                    data.contenido = (float *)malloc(sizeof(float));
+                else if(tipo == 'f'){
+                    data.contenido = (float*)malloc(sizeof(float));
                     printf("Ingrese el float que desea agregar a la lista: ");
-                    scanf("%f", (float *)data.contenido);
+                    scanf("%f", (float*)data.contenido);
                 }
             }
             else{
                 data.contenido = (struct lista*)malloc(sizeof(struct lista));
-                init((struct lista *) data.contenido);
+                init((struct lista*) data.contenido);
             }
-            if(tipo == "n"){
+            if(tipo == 'n'){
                 printf("El tipo de dato ingresado no es válido.");
             }
             else{
@@ -187,8 +186,8 @@ void interface(struct lista *l){
             printf("Ingrese la posición del elemento que desea obtener: ");
             scanf("%d", &pos);
             display = *at(l, pos);
-            if(display.tipo != "l"){
-                if(display.tipo == "i"){
+            if(display.tipo != 'l'){
+                if(display.tipo == 'i'){
                   printf("El elemento en la posición %d es un entero y su valor es: %d", pos, *(int*)display.contenido);
                 }
                 else{
@@ -219,8 +218,8 @@ void interface(struct lista *l){
         else if (conf == 10){
             printf("Ingrese la posición de la lista a la que desea ingresar: ");
             scanf("%d", &pos);
-            if(getList(l, pos)->info.tipo == "l"){
-              interface(getList(l, pos)->info.contenido);
+            if(at(l, pos)->tipo == 'l'){
+              interface(at(l, pos)->contenido);
             }
             else{
               printf("La posición elegida no contiene una lista.");
@@ -229,6 +228,7 @@ void interface(struct lista *l){
     }
 }
 
+
 int main(){
   struct lista *list = (struct lista*)malloc(sizeof(struct lista));
   init(list);
@@ -236,3 +236,4 @@ int main(){
   clear(list);
   free(list);
   return 0;
+}
