@@ -210,23 +210,23 @@ void interface(struct lista *l){
             }
         }
         else if (conf == 6){
-          printf("La suma de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", sum(listirijilla));
+          printf("La suma de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", sum(l));
         }
         else if (conf == 7){
             printf("La lista contiene los siguientes elementos:\n");
-            print(listirijilla);
+            print(la);
         }
         else if (conf == 8){
-          printf("El promedio de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", average(listirijilla));
+          printf("El promedio de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", average(l));
         }
         else if (conf == 9){
-          clear(listirijilla);
+          clear(l);
         }
         else if (conf == 10){
             printf("Ingrese la posición de la lista a la que desea ingresar: ");
             scanf("%d", &pos);
-            if(strcmp(getList(listirijilla, pos) -> info.tipo, "l") == 0){
-              interface(getList(listirijilla,pos) -> info.contenido);
+            if(strcmp(getList(l, pos)->info.tipo, "l") == 0){
+              interface(getList(l,pos)->info.contenido);
             }
             else{
               printf("La posición elegida no contiene una lista.");
