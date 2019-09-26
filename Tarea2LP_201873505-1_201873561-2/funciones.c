@@ -72,13 +72,16 @@ void print(struct lista *a){
         int pos;
         for (pos = 0; pos < length(a); pos++){
             //dereferencia el struct en posicion pos
+            if(pos != 0 && pos != length-1){
+                printf(", ");
+            }
             disp = *at(a, pos);
-            if(disp.tipo == 'l'){
+            if(disp.tipo != 'l'){
                 if(disp.tipo == 'i'){
-                    printf("%d, ", *(int*)disp.contenido);
+                    printf("%d", *(int*)disp.contenido);
                 }
                 else{
-                    printf("%f, ", *(float*)disp.contenido);
+                    printf("%f", *(float*)disp.contenido);
                 }
             }
             else{
@@ -123,121 +126,29 @@ float average(struct lista *a){
 }
 
 
-void interface(struct lista *l){
-    char tipo;
-    int conf = 999;
-    int pos;
-    int func = 0;
-    struct dato *display;
-    struct dato data;
-    while(conf != 0){
-        printf("\nEl largo de la lista es %d\n\n", length(l));
-        printf("Ingrese el número de la operacion que desea realizar:\n");
-        printf("1: Insertar un elemento en una posición específica.\n2: Insertar un elemento al final de la lista.\n");
-        printf("3: Remover un elemento en una posición específica.\n4: Obtener el dato de una posición en específico de la lista.\n");
-        printf("5: Imprimir por pantalla la lista modificada por map.\n6: Obtener la suma de todos los elementos de la lista.\n");
-        printf("7: Imprimir por pantalla la lista.\n8: Obtener el promedio de todos los elementos de la lista.\n");
-        printf("9: Vaciar la lista.\n10: ingresar a una lista.\n");
-        printf("0: Fin del programa.\n");
-        scanf("%d", &conf);
-        if((conf != 0) && (conf < 3)){
-            printf("Ingrese el tipo de dato que desea agregar, i para entero, f para float y l para lista.\n");
-            scanf("%c", &tipo);
-            data.tipo = 'n';
-            if(tipo != 'l'){
-                if(tipo == 'i'){
-                    data.contenido = (int*)malloc(sizeof(int));
-                    data.contenido = (int*)data.contenido;
-                    printf("Ingrese el int que desea agregar a la lista: ");
-                    scanf("%d", (int*)data.contenido);
-                }
-                else if(tipo == 'f'){
-                    data.contenido = (float*)malloc(sizeof(float));
-                    printf("Ingrese el float que desea agregar a la lista: ");
-                    scanf("%f", (float*)data.contenido);
-                }
-            }
-            else{
-                data.contenido = (struct lista*)malloc(sizeof(struct lista));
-                init((struct lista*) data.contenido);
-            }
-            if(tipo == 'n'){
-                printf("El tipo de dato ingresado no es válido.");
-            }
-            else{
-                data.tipo = tipo;
-                if (conf == 1){
-                    printf("Ingrese la posición en donde desea insertar el nuevo elemento: ");
-                    scanf("%d", &pos);
-                    insert(l, pos, data);
-                }
-                else{
-                    append(l, data);
-                }
-            }
-        }
-        else if (conf == 3){
-            printf("Ingrese la posición en donde desea remover un elemento: ");
-            scanf("%d", &pos);
-            remov(l,pos);
-            //remov2(l, pos);
-        }
-        else if (conf == 4){
-            printf("Ingrese la posición del elemento que desea obtener: ");
-            scanf("%d", &pos);
-            display = at(l, pos);
-            if(display == NULL){
-                printf("La lista esta vacia. No se puede acceder a un elemento.\n");
-                continue;
-            }
-            if(display->tipo != 'l'){
-                if(display->tipo == 'i'){
-                    printf("El elemento en la posición %d es un entero y su valor es: %d", pos, *(int*)display->contenido);
-                }
-                else{
-                    printf("El elemento en la posición %d es un float y su valor es: %f", pos, *(float*)display->contenido);
-                }
-            }
-            else{
-                printf("El elemento en la posición %d es una lista y sus elementos son:\n", pos);
-                print((struct lista*)display->contenido);
-            }
-        }
-        else if (conf == 5){
-            printf("aqui va el map");
-        }
-        else if (conf == 6){
-            printf("La suma de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", sum(l));
-        }
-        else if (conf == 7){
-            printf("La lista contiene los siguientes elementos:\n");
-            print(l);
-        }
-        else if (conf == 8){
-            printf("El promedio de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", average(l));
-        }
-        else if (conf == 9){
-            clear(l);
-        }
-        else if (conf == 10){
-            printf("Ingrese la posición de la lista a la que desea ingresar: ");
-            scanf("%d", &pos);
-            if(at(l, pos)->tipo == 'l'){
-                interface(at(l, pos)->contenido);
-            }
-            else{
-                printf("La posición elegida no contiene una lista.");
-            }
-        }
-    }
-}
-
-
 int main(){
-    struct lista *list = (struct lista*)malloc(sizeof(struct lista));
-    init(list);
-    interface(list);
-    clear(list);
-    free(list);
+    struct lista *l = (struct lista*)malloc(sizeof(struct lista));
+    init(l);
+    length(l);
+    print(l);
+    char t_float,t_int,t_list;
+    struct dato d_int;
+    int c_int = 100;
+    t_int = 'i';
+    struct dato d_float;
+    float c_float = 9.0;
+    t_float = 'f';
+    struct dato d_list;
+    t_list = 'l';
+
+    insert(l,0,d_float);
+    print(l);
+    insert(l,9,d_int);
+    //no debe inserta
+    insert(l,0,);
+    print(l,1);
+
+    clear(l);
+    free(l);
     return 0;
 }
