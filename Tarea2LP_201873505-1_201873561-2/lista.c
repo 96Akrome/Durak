@@ -206,6 +206,8 @@ int length(struct lista *a){
 struct dato* at(struct lista *a, int i){
     if((length(a) == 0) | (i >= length(a)) || (i < 0)){
         printf("La lista esta vacia o el dato esta fuera de rango.\n");
+        struct dato *fail = NULL;
+        return fail;
     }
   //caso 1: nodo en la cabeza, retorna directamente
     if(i == 0){
