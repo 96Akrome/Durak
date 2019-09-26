@@ -162,11 +162,11 @@ void interface(struct lista *l){
                 data.contenido = (struct lista*)malloc(sizeof(struct lista));
                 init((struct lista *) data.contenido);
             }
-            if(strcmp(tipo, "n") == 0){
+            if(tipo == "n"){
                 printf("El tipo de dato ingresado no es válido.");
             }
             else{
-                strcpy(data.tipo, tipo);
+                data.tipo = tipo;
                 if (conf == 1){
                     printf("Ingrese la posición en donde desea insertar el nuevo elemento: ");
                     scanf("%d", &pos);
