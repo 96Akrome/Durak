@@ -42,11 +42,6 @@ void insert(struct lista *a, int i, struct dato d){
     }
     if (i > length(a) || i < 0){
         printf("No se puede insertar,indice out of bounds.\n");
-        // TODO considerar borrar linea 54 y 55, hay que conocer el struct que ingresaran para saber si limpiar o no esa memoria.
-        if(d.tipo == 'l'){
-          clear((struct lista *)d.contenido);
-        }
-        free(d.contenido);
         return;
     }
     struct nodo *aux = (struct nodo*)malloc(sizeof(struct nodo));

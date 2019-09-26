@@ -128,7 +128,7 @@ void interface(struct lista *l){
     int conf = 999;
     int pos;
     int func = 0;
-    struct dato display;
+    struct dato *display;
     struct dato data;
     while(conf != 0){
         printf("\nEl largo de la lista es %d\n\n", length(l));
@@ -142,7 +142,7 @@ void interface(struct lista *l){
         scanf("%d", &conf);
         if((conf != 0) && (conf < 3)){
             printf("Ingrese el tipo de dato que desea agregar, i para entero, f para float y l para lista.\n");
-            scanf("%s", &tipo);
+            scanf("%c", &tipo);
             data.tipo = 'n';
             if(tipo != 'l'){
                 if(tipo == 'i'){
@@ -185,18 +185,22 @@ void interface(struct lista *l){
         else if (conf == 4){
             printf("Ingrese la posición del elemento que desea obtener: ");
             scanf("%d", &pos);
-            display = *at(l, pos);
-            if(display.tipo != 'l'){
-                if(display.tipo == 'i'){
-                    printf("El elemento en la posición %d es un entero y su valor es: %d", pos, *(int*)display.contenido);
+            display = at(l, pos);
+            if(display == NULL){
+                printf("La lista esta vacia. No se puede acceder a un elemento.\n");
+                continue;
+            }
+            if(display->tipo != 'l'){
+                if(display->tipo == 'i'){
+                    printf("El elemento en la posición %d es un entero y su valor es: %d", pos, *(int*)display->contenido);
                 }
                 else{
-                    printf("El elemento en la posición %d es un float y su valor es: %f", pos, *(float*)display.contenido);
+                    printf("El elemento en la posición %d es un float y su valor es: %f", pos, *(float*)display->contenido);
                 }
             }
             else{
                 printf("El elemento en la posición %d es una lista y sus elementos son:\n", pos);
-                print((struct lista*)display.contenido);
+                print((struct lista*)display->contenido);
             }
         }
         else if (conf == 5){
