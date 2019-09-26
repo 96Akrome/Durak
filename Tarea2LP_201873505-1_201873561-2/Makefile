@@ -3,13 +3,13 @@ FLAGS = -g -Wall
 OBJ = lista.o funciones.o
 
 all: Tarea2
-Tarea2: funciones.o lista.o
-	$(CC) -o Tarea2 $(OBJ)
+Tarea2: $(OBJ)
+	$(CC) -o Tarea2 funciones.o
 
-funciones.o: funciones.c funciones.h lista.h
-	$(CC) $(FLAGS) -c funciones.c
-lista.o: lista.c lista.h
+lista.o: lista.h lista.c 
 	$(CC) $(FLAGS) -c lista.c
+funciones.o: funciones.h funciones.c
+	$(CC) $(FLAGS) -c funciones.c
 	
 clean:
 	rm $(OBJ) Tarea2
