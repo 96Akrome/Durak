@@ -72,7 +72,7 @@ void print(struct lista *a){
         int pos;
         for (pos = 0; pos < length(a); pos++){
             //dereferencia el struct en posicion pos
-            if(pos != 0 && pos != length-1){
+            if((pos != 0) && (pos != length(a)-1)){
                 printf(", ");
             }
             disp = *at(a, pos);
@@ -126,7 +126,6 @@ float average(struct lista *a){
 }
 
 void interface(struct lista *l){
-    char tipo;
     int conf = 999;
     int pos;
     int func = 0;
@@ -145,19 +144,19 @@ void interface(struct lista *l){
         scanf("%d", &conf);
         if(conf == 1){
             printf("Ingrese el tipo de dato que desea ingresar (i de int, f de float, l de lista): ");
-            scanf(" %c", &dato.tipo);
-            if(dato.tipo == 'i'){
-                dato.contenido = (int*)malloc(sizeof(int));
-                dato.contenido = (int*)data.contenido;
+            scanf(" %c", &data.tipo);
+            if(data.tipo == 'i'){
+                data.contenido = (int*)malloc(sizeof(int));
+                data.contenido = (int*)data.contenido;
                 printf("Ingrese el int que desea agregar a la lista: ");
                 scanf("%d", (int*)data.contenido);
             }
-            else if(dato.tipo == 'f'){
+            else if(data.tipo == 'f'){
                 data.contenido = (float*)malloc(sizeof(float));
                 printf("Ingrese el float que desea agregar a la lista: ");
                 scanf("%f", (float*)data.contenido);
             }
-            else if(dato.tipo == 'l'){
+            else if(data.tipo == 'l'){
                 data.contenido = (struct lista*)malloc(sizeof(struct lista));
                 init((struct lista*) data.contenido);
             }
@@ -170,19 +169,19 @@ void interface(struct lista *l){
             insert(l, pos, data);
             printf("El largo actual es: %d", length(l));
             print(l);
-            print("\n");
+            printf("\n");
         }
         else if(conf == 3){
             printf("Ingrese la posicion en donde desea remover el elemento: ");
             scanf("%d", &pos);
-            remov(1,pos);
+            remov(l,pos);
         }
         else if(conf == 4){
             printf("Ingrese la posicion de elemento que desea obtener: ");
             scanf("%d", &pos);
-            display = at(1,pos);
+            display = at(l,pos);
             if(display == NULL){
-                printf("La lista esta vacia, no se puede acceder a un elemento.")
+                printf("La lista esta vacia, no se puede acceder a un elemento.");
                 continue;
             }
             if(display->tipo != 'l'){
@@ -222,7 +221,7 @@ void interface(struct lista *l){
                 interface(at(l, pos)->contenido);
             }
             else{
-                printf("La posición elegida no contiene una lista.");	
+                printf("La posición elegida no contiene una lista.");
             }
         }
 
@@ -230,35 +229,10 @@ void interface(struct lista *l){
 }
 
 int main(){
-    struct lista *l = (struct lista*)malloc(sizeof(struct lista));
-    init(l);
-    length(l);
-    print(l);
-
-    struct lista *l_struct = (struct lista*)malloc(size(struct lista));
-    init(l_struct);
-
-    struct dato d_int;
-    int c_int = 100;
-    d_int.tipo = 'i';
-
-    struct dato d_float;
-    float c_float = 9.0;
-    d_float.tipo = 'f';
-
-    struct dato d_list;
-    d_lista.tipo = 'l';
-
-    insert(l,0,d_float);
-    print(l);
-
-    //no debe insertar nada.
-    insert(l,9,d_int);
-
-    insert(l,0,);
-    print(l,1);
-
-    clear(l);
-    free(l);
+    struct lista *lista = (struct lista*)malloc(sizeof(struct lista));
+    init(lista);
+    interface(lista);
+    clear(lista);
+    free(lista);
     return 0;
 }
