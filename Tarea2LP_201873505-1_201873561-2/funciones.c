@@ -9,26 +9,26 @@ struct lista* map(struct lista *a, struct dato (*f)(struct dato)){
     struct lista *b = (struct lista*)malloc(sizeof(struct lista));
     init(b);
     if(length(a) == 0){
-      return b;
+        return b;
     }
     struct dato disp;
     struct dato aux;
     int pos;
-    for (pos = 0; pos < length(a); pos++){
+    for(pos = 0; pos < length(a); pos++){
         disp = *at(a, pos);
         aux.tipo = disp.tipo;
         if(aux.tipo == 'l'){
             aux.contenido = (void*)malloc(sizeof(struct lista));
             *(struct lista*)aux.contenido = *map(disp.contenido, (*f));
-            }
+        }
         if(aux.tipo == 'i'){
             aux.contenido = (void *)malloc(sizeof(int));
             *(int*)aux.contenido = *(int*)disp.contenido;
-            }
+        }
         if(aux.tipo == 'f'){
             aux.contenido = (void *)malloc(sizeof(float));
             *(float*)aux.contenido = *(float*)disp.contenido;
-            }
+        }
         append(b, (*f)(aux));
     }
     return b;
@@ -38,21 +38,21 @@ struct lista* map(struct lista *a, struct dato (*f)(struct dato)){
 float sum(struct lista *a){
     float suma = 0;
     if (length(a) == 0){
-      return suma;
+        return suma;
     }
     struct dato disp;
     int pos;
-    for (pos = 0; pos < length(a); pos++){
-      //*at retorna puntero al elemento en posicion.
+    for(pos = 0; pos < length(a); pos++){
+        //*at retorna puntero al elemento en posicion.
         disp = *at(a, pos);
         if(disp.tipo == 'l'){
             if(disp.tipo == 'i'){
-              //dereferencia el (int*)
-              suma += *(int*)disp.contenido;
+                //dereferencia el (int*)
+                suma += *(int*)disp.contenido;
             }
             else{
-              //dereferencia el (float*)
-              suma += *(float*)disp.contenido;
+                //dereferencia el (float*)
+                suma += *(float*)disp.contenido;
             }
         }
         else{
@@ -64,36 +64,36 @@ float sum(struct lista *a){
 }
 
 void print(struct lista *a){
-    //para lista normal imprimira al funcionar algo como  {1, 2.5, 0, NULL}
-    //para incrustadas algo como {1, 2, {9, 0.9, NULL}, 9.99, NULL}
+    //para lista normal imprimira al funcionar algo como  [1, 2.5, 0]
+    //para incrustadas algo como [1, 2, [9, 0.9], 9.99]
     struct dato disp;
-    printf("{");
+    printf("[");
     if (length(a) != 0){
-      int pos;
-      for (pos = 0; pos < length(a); pos++){
-        //dereferencia el struct en posicion pos
-        disp = *at(a, pos);
-        if(disp.tipo == 'l'){
-          if(disp.tipo == 'i'){
-            printf("%d, ", *(int*)disp.contenido);
-          }
-          else{
-            printf("%f, ", *(float*)disp.contenido);
-          }
+        int pos;
+        for (pos = 0; pos < length(a); pos++){
+            //dereferencia el struct en posicion pos
+            disp = *at(a, pos);
+            if(disp.tipo == 'l'){
+                if(disp.tipo == 'i'){
+                    printf("%d, ", *(int*)disp.contenido);
+                }
+                else{
+                    printf("%f, ", *(float*)disp.contenido);
+                }
+            }
+            else{
+                print((struct lista*)disp.contenido);
+                printf(", ");
+            }
         }
-        else{
-          print((struct lista*)disp.contenido);
-          printf(", ");
-        }
-      }
     }
-  printf("NULL}");
-  return;
+    printf("]");
+    return;
 }
 
 float average(struct lista *a){
     if (length(a) == 0){
-      return 0;
+        return 0;
     }
     float suma = 0;
     int cantElem = length(a);
@@ -103,23 +103,23 @@ float average(struct lista *a){
         disp = *at(a, pos);
         if(disp.tipo == 'l'){
             if(disp.tipo == 'i'){
-              suma += *(int*)disp.contenido;
+                suma += *(int*)disp.contenido;
             }
             else{
-              suma += *(float*)disp.contenido;
+                suma += *(float*)disp.contenido;
             }
         }
         else{
             if(!length((struct lista*)disp.contenido)){
-              //length es 0, no se considerara la lista vacia.
-              cantElem--;
+                //length es 0, no se considerara la lista vacia.
+                cantElem--;
             }
             else{
-              suma += average((struct lista*)disp.contenido);
+                suma += average((struct lista*)disp.contenido);
             }
         }
     }
-    return suma/cantElem;
+    return suma / cantElem;
 }
 
 
@@ -188,10 +188,10 @@ void interface(struct lista *l){
             display = *at(l, pos);
             if(display.tipo != 'l'){
                 if(display.tipo == 'i'){
-                  printf("El elemento en la posición %d es un entero y su valor es: %d", pos, *(int*)display.contenido);
+                    printf("El elemento en la posición %d es un entero y su valor es: %d", pos, *(int*)display.contenido);
                 }
                 else{
-                  printf("El elemento en la posición %d es un float y su valor es: %f", pos, *(float*)display.contenido);
+                    printf("El elemento en la posición %d es un float y su valor es: %f", pos, *(float*)display.contenido);
                 }
             }
             else{
@@ -203,26 +203,26 @@ void interface(struct lista *l){
             printf("aqui va el map");
         }
         else if (conf == 6){
-          printf("La suma de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", sum(l));
+            printf("La suma de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", sum(l));
         }
         else if (conf == 7){
             printf("La lista contiene los siguientes elementos:\n");
             print(l);
         }
         else if (conf == 8){
-          printf("El promedio de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", average(l));
+            printf("El promedio de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", average(l));
         }
         else if (conf == 9){
-          clear(l);
+            clear(l);
         }
         else if (conf == 10){
             printf("Ingrese la posición de la lista a la que desea ingresar: ");
             scanf("%d", &pos);
             if(at(l, pos)->tipo == 'l'){
-              interface(at(l, pos)->contenido);
+                interface(at(l, pos)->contenido);
             }
             else{
-              printf("La posición elegida no contiene una lista.");
+                printf("La posición elegida no contiene una lista.");
             }
         }
     }
@@ -230,10 +230,10 @@ void interface(struct lista *l){
 
 
 int main(){
-  struct lista *list = (struct lista*)malloc(sizeof(struct lista));
-  init(list);
-  interface(list);
-  clear(list);
-  free(list);
-  return 0;
+    struct lista *list = (struct lista*)malloc(sizeof(struct lista));
+    init(list);
+    interface(list);
+    clear(list);
+    free(list);
+    return 0;
 }
