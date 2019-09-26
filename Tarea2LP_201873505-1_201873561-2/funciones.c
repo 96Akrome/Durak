@@ -131,20 +131,26 @@ int main(){
     init(l);
     length(l);
     print(l);
+
     char t_float,t_int,t_list;
+
     struct dato d_int;
     int c_int = 100;
     t_int = 'i';
+
     struct dato d_float;
     float c_float = 9.0;
     t_float = 'f';
+
     struct dato d_list;
     t_list = 'l';
 
     insert(l,0,d_float);
     print(l);
+
+    //no debe insertar nada.
     insert(l,9,d_int);
-    //no debe inserta
+    
     insert(l,0,);
     print(l,1);
 
