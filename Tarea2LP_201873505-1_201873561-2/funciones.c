@@ -45,7 +45,7 @@ float sum(struct lista *a){
     for(pos = 0; pos < length(a); pos++){
         //*at retorna puntero al elemento en posicion.
         disp = *at(a, pos);
-        if(disp.tipo == 'l'){
+        if(disp.tipo != 'l'){
             if(disp.tipo == 'i'){
                 //dereferencia el (int*)
                 suma += *(int*)disp.contenido;
@@ -66,26 +66,25 @@ float sum(struct lista *a){
 void print(struct lista *a){
     //para lista normal imprimira al funcionar algo como  [1, 2.5, 0]
     //para incrustadas algo como [1, 2, [9, 0.9], 9.99]
-    struct dato disp;
+    struct dato *disp;
     printf("[");
     if (length(a) != 0){
         int pos;
         for (pos = 0; pos < length(a); pos++){
             //dereferencia el struct en posicion pos
-            if((pos != 0) && (pos != length(a)-1)){
-                printf(", ");
-            }
-            disp = *at(a, pos);
-            if(disp.tipo != 'l'){
-                if(disp.tipo == 'i'){
-                    printf("%d", *(int*)disp.contenido);
+            disp = at(a, pos);
+            if(disp->tipo != 'l'){
+                if(disp->tipo == 'i'){
+                    printf("%d", *(int*)disp->contenido);
                 }
                 else{
-                    printf("%f", *(float*)disp.contenido);
+                    printf("%f", *(float*)disp->contenido);
                 }
             }
             else{
-                print((struct lista*)disp.contenido);
+                print((struct lista*)disp->contenido);
+            }
+            if(length(a) != 1 && pos != length(a)-1){
                 printf(", ");
             }
         }
@@ -104,7 +103,7 @@ float average(struct lista *a){
     int pos;
     for (pos = 0; pos < length(a); pos++){
         disp = *at(a, pos);
-        if(disp.tipo == 'l'){
+        if(disp.tipo != 'l'){
             if(disp.tipo == 'i'){
                 suma += *(int*)disp.contenido;
             }
@@ -134,11 +133,11 @@ void interface(struct lista *l){
     while(conf != 0){
         printf("\nIngrese el número de la operacion que desea realizar:\n");
         printf("-----------------------------------------------------\n");
-        printf("1: Insertar un elemento en una posición específica.\n2: Insertar un elemento al final de la lista.\n");
-        printf("3: Remover un elemento en una posición específica.\n4: Obtener el dato de una posición en específico de la lista.\n");
-        printf("5: Imprimir por pantalla la lista modificada por map.\n6: Obtener la suma de todos los elementos de la lista.\n");
-        printf("7: Imprimir por pantalla la lista.\n8: Obtener el promedio de todos los elementos de la lista.\n");
-        printf("9: Vaciar la lista.\n10: ingresar a una lista.\n");
+        printf("1: Insertar un elemento en una posición específica.\n");
+        printf("2: Remover un elemento en una posición específica.\n3: Obtener el dato de una posición en específica de la lista.\n");
+        printf("4: Imprimir por pantalla la lista modificada por map.\n5: Obtener la suma de todos los elementos de la lista.\n");
+        printf("6: Imprimir por pantalla la lista.\n7: Obtener el promedio de todos los elementos de la lista.\n");
+        printf("8: Vaciar la lista.\n9: ingresar a una lista.\n");
         printf("0: Fin del programa.\n");
         printf("-----------------------------------------------------\n");
         scanf("%d", &conf);
@@ -171,12 +170,12 @@ void interface(struct lista *l){
             print(l);
             printf("\n");
         }
-        else if(conf == 3){
+        else if(conf == 2){
             printf("Ingrese la posicion en donde desea remover el elemento: ");
             scanf("%d", &pos);
             remov(l,pos);
         }
-        else if(conf == 4){
+        else if(conf == 3){
             printf("Ingrese la posicion de elemento que desea obtener: ");
             scanf("%d", &pos);
             display = at(l,pos);
@@ -198,26 +197,26 @@ void interface(struct lista *l){
             }
 
         }
-        else if (conf == 5){
+        else if (conf == 4){
             printf("Aqui va el map");
         }
-        else if (conf == 6){
+        else if (conf == 5){
             printf("La suma de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", sum(l));
         }
-        else if (conf == 7){
+        else if (conf == 6){
             printf("La lista contiene los siguientes elementos:\n");
             print(l);
         }
-        else if (conf == 8){
+        else if (conf == 7){
             printf("El promedio de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", average(l));
         }
-        else if (conf == 9){
+        else if (conf == 8){
             clear(l);
             printf("La lista actual es:\n");
             print(l);
             printf("\n");
         }
-        else if (conf == 10){
+        else if (conf == 9){
             printf("Ingrese la posicion de la lista a que quiere ingresar: ");
             scanf("%d", &pos);
             if(at(l, pos)->tipo == 'l'){
