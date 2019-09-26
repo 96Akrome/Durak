@@ -180,14 +180,15 @@ void interface(struct lista *l){
         else if (conf == 3){
             printf("Ingrese la posición en donde desea remover un elemento: ");
             scanf("%d", &pos);
-            remov2(l, pos);
+            remov(l,pos);
+            //remov2(l, pos);
         }
         else if (conf == 4){
             printf("Ingrese la posición del elemento que desea obtener: ");
             scanf("%d", &pos);
             display = *at(l, pos);
-            if(strcmp(display.tipo, "l") != 0){
-                if(strcmp(display.tipo, "i") == 0){
+            if(display.tipo != "l"){
+                if(display.tipo == "i"){
                   printf("El elemento en la posición %d es un entero y su valor es: %d", pos, *(int*)display.contenido);
                 }
                 else{
@@ -196,25 +197,18 @@ void interface(struct lista *l){
             }
             else{
                 printf("El elemento en la posición %d es una lista y sus elementos son:\n", pos);
-                print((struct lista*) display.contenido);
+                print((struct lista*)display.contenido);
             }
         }
         else if (conf == 5){
-            printf("1-) Función triplicado.\n2-) Función halved.\nIngrese el número de la función que desea utilizar: ");
-            scanf("%d", &func);
-            if(func == 1){
-              print(map(l, (*triplicado)));
-            }
-            if(func == 2){
-              print(map(l, (*halved)));
-            }
+            printf("aqui va el map");
         }
         else if (conf == 6){
           printf("La suma de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", sum(l));
         }
         else if (conf == 7){
             printf("La lista contiene los siguientes elementos:\n");
-            print(la);
+            print(l);
         }
         else if (conf == 8){
           printf("El promedio de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f", average(l));
@@ -225,8 +219,8 @@ void interface(struct lista *l){
         else if (conf == 10){
             printf("Ingrese la posición de la lista a la que desea ingresar: ");
             scanf("%d", &pos);
-            if(strcmp(getList(l, pos)->info.tipo, "l") == 0){
-              interface(getList(l,pos)->info.contenido);
+            if(getList(l, pos)->info.tipo == "l"){
+              interface(getList(l, pos)->info.contenido);
             }
             else{
               printf("La posición elegida no contiene una lista.");
