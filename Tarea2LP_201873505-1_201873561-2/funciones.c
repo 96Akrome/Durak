@@ -157,7 +157,7 @@ void interface(struct lista *l){
     struct dato data;
     struct lista *mapeada;
     while(conf!=0){
-        printf("\nEl largo de la lista es %d\nLa lista actual es la siguiente:\n", length(l));
+        printf("\n\nEl largo de la lista es %d\nLa lista actual es la siguiente:\n", length(l));
         print(l);
         printf("\nIngrese el número de la operacion que desea realizar:\n");
         printf("-----------------------------------------------------\n");
