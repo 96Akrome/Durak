@@ -76,7 +76,6 @@ void append(struct lista *a, struct dato d){
         a->tail=aux;
     }
     a->length++;
-    printf("Insercion exitosa!\n");
 }
 
 void remov(struct lista *a, int i){

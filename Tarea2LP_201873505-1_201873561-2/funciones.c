@@ -10,26 +10,28 @@ struct lista* map(struct lista *a, struct dato (*f)(struct dato)){
     }
     struct dato disp;
     struct dato aux;
+    struct lista *help;
     int pos;
-    for(pos=0; pos<length(a); pos++){
-        disp=*at(a, pos);
-        aux.tipo=disp.tipo;
-        if(aux.tipo=='l'){
+    for(pos = 0; pos < length(a); pos++){
+        disp = *at(a, pos);
+        aux.tipo = disp.tipo;
+        if(aux.tipo =='l'){
             aux.contenido=(void*)malloc(sizeof(struct lista));
             c = map((struct lista*)disp.contenido, (*f));
-            *(struct lista*)aux.contenido = *c;
+            help = c;
+            *(struct lista*)aux.contenido = *help;
             clear(c);
             free(c);
             append(b, aux);
         }
         else{
-            if(aux.tipo=='i'){
-                aux.contenido=(void *)malloc(sizeof(int));
-                *(int*)aux.contenido=*(int*)disp.contenido;
+            if(aux.tipo == 'i'){
+                aux.contenido = (void *)malloc(sizeof(int));
+                *(int*)aux.contenido =*(int*)disp.contenido;
             }
             else{ // if(aux.tipo=='f')
-                aux.contenido=(void *)malloc(sizeof(float));
-                *(float*)aux.contenido=*(float*)disp.contenido;
+                aux.contenido = (void *)malloc(sizeof(float));
+                *(float*)aux.contenido = *(float*)disp.contenido;
             }
             append(b, (*f)(aux));
         }
@@ -190,7 +192,6 @@ void interface(struct lista *l){
             }
             else{
                 printf("El tipo de dato no es valido.\n");
-                free(data.contenido);
                 continue;
             }
             printf("Ingrese la posicion en donde desea insertar el nuevo elemento: " );
