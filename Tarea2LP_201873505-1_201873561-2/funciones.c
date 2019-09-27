@@ -10,7 +10,6 @@ struct lista* map(struct lista *a, struct dato (*f)(struct dato)){
     }
     struct dato disp;
     struct dato aux;
-    struct lista *help;
     int pos;
     for(pos = 0; pos < length(a); pos++){
         disp = *at(a, pos);
@@ -18,11 +17,9 @@ struct lista* map(struct lista *a, struct dato (*f)(struct dato)){
         if(aux.tipo =='l'){
             aux.contenido=(void*)malloc(sizeof(struct lista));
             c = map((struct lista*)disp.contenido, (*f));
-            help = c;
-            *(struct lista*)aux.contenido = *help;
-            clear(c);
-            free(c);
+            *(struct lista*)aux.contenido = *c;
             append(b, aux);
+            free(c);
         }
         else{
             if(aux.tipo == 'i'){
