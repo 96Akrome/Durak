@@ -24,7 +24,7 @@ struct lista* map(struct lista *a, struct dato (*f)(struct dato)){
         else{
             if(aux.tipo == 'i'){
                 aux.contenido = (void *)malloc(sizeof(int));
-                *(int*)aux.contenido =*(int*)disp.contenido;
+                *(int*)aux.contenido = *(int*)disp.contenido;
             }
             else{ // if(aux.tipo=='f')
                 aux.contenido = (void *)malloc(sizeof(float));
