@@ -1,7 +1,6 @@
-
 struct dato{
   void* contenido;
-  char tipo[1];
+  char tipo;
 };
 //typedef struct dato dato;
 
@@ -9,7 +8,7 @@ struct nodo{
   struct dato info;
   struct nodo* next;
 };
- 
+
 struct lista{
   struct nodo* actual;
   struct nodo* head;
