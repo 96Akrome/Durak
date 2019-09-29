@@ -36,7 +36,6 @@ struct lista* map(struct lista *a, struct dato (*f)(struct dato)){
     return b;
 }
 
-//Suma total de elementos de lista. En caso de lista vacia, retorna 0.
 float sum(struct lista *a){
     float suma=0;
     if (length(a)==0){
@@ -64,8 +63,6 @@ float sum(struct lista *a){
 }
 
 void print(struct lista *a){
-    //para lista normal imprimira al funcionar algo como  [1, 2.5, 0]
-    //para incrustadas algo como [1, 2, [9, 0.9], 9.99]
     struct dato *disp;
     printf("[");
     if (length(a)!=0){
@@ -121,6 +118,17 @@ float average(struct lista *a){
     return suma/cantElem;
 }
 
+/*
+struct dato triplicado
+Recibe un dato de la lista, y retorna el triple de este. En caso de listas, retorna
+la misma lista sin cambios. Es decir, que los cambios se aplican a tipos numericos.
+================================================================================
+Inputs:
+- struct dato data - un struct de tipo dato, que se requiere cambiar.
+================================================================================
+Outputs:
+- retorna el struct dato - un dato modificado.
+*/
 struct dato triplicado(struct dato data){
     if(data.tipo=='i'){
         *(int *)data.contenido = *(int *)data.contenido * 3;
@@ -131,6 +139,17 @@ struct dato triplicado(struct dato data){
     return data;
 }
 
+/*
+struct dato halved
+Recibe un dato de la lista, y retorna la mitad de este. En caso de listas, retorna
+la misma lista sin cambios. Es decir, que los cambios se aplican a tipos numericos.
+================================================================================
+Inputs:
+- struct dato data - un struct de tipo dato, que se requiere cambiar.
+================================================================================
+Outputs:
+- retorna el struct dato - un dato modificado.
+*/
 struct dato halved(struct dato data){
     if(data.tipo=='i'){
         *(int *)data.contenido=*(int *)data.contenido/2;
@@ -141,7 +160,16 @@ struct dato halved(struct dato data){
     return data;
 }
 
-
+/*
+void interface
+descri
+================================================================================
+Inputs:
+- struct lista *l - un puntero a la lista base generica, inicializada en el main.
+================================================================================
+Outputs:
+- tipo void, no tiene output.
+*/
 void interface(struct lista *l){
     int conf=999;
     int pos;
@@ -270,7 +298,10 @@ void interface(struct lista *l){
 int main(){
     struct lista *lista=(struct lista*)malloc(sizeof(struct lista));
     init(lista);
+
+    //comentar en caso de no querer usar la interfaz
     interface(lista);
+
     clear(lista);
     free(lista);
     return 0;
