@@ -82,7 +82,7 @@ void print(struct lista *a){
             else{ // disp->tipo=='l'
                 print((struct lista*)disp->contenido);
             }
-            if(length(a)!=1 && pos!=length(a)-1){ // TODO probar sin primera condicion
+            if(length(a)!=1 && pos!=length(a)-1){
                 printf(", ");
             }
         }
@@ -93,41 +93,37 @@ void print(struct lista *a){
 
 float average(struct lista *a){
     float suma=0;
-    if (length(a)==0){
-        return suma;
-    }
+    float internalSum=0;
     int cantElem=length(a);
     struct dato disp;
     int pos;
-    for (pos=0; pos<length(a); pos++){
-        disp=*at(a, pos);
-        if(disp.tipo!='l'){
-            if(disp.tipo=='i'){
-                suma+=*(int*)disp.contenido;
+    for (pos = 0; pos < length(a); pos++){
+        disp = *at(a, pos);
+        if(disp.tipo != 'l'){
+            if(disp.tipo == 'i'){
+                suma += *(int*)disp.contenido;
             }
             else{
-                suma+=*(float*)disp.contenido;
+                suma += *(float*)disp.contenido;
             }
         }
         else{
-            if(!length((struct lista*)disp.contenido)){
-                //length es 0, no se considerara la lista vacia.
+            internalSum = average((struct lista*)disp.contenido);
+            if(internalSum!=internalSum){
+                //Si se cumple la condicion es porque internalSum es +-NaN
                 cantElem--;
             }
             else{
-                suma+=average((struct lista*)disp.contenido);
+                suma+=internalSum;
             }
         }
     }
-    if(suma == 0  && cantElem == 0){
-        return 0;
+    if(suma == 0 && cantElem == 0){
+        printf("Lista vacia! \n");
     }
-    else{
-        return suma/cantElem;
-    }
+    return suma/cantElem;
 }
 
-//Borrar
 struct dato triplicado(struct dato data){
     if(data.tipo=='i'){
         *(int *)data.contenido = *(int *)data.contenido * 3;
