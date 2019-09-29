@@ -44,3 +44,11 @@ Ademas, con cada repeticion, se entrega la lista actual y su largo.
 INSTRUCCIONES PARA EL USO DE LA INTERFAZ:
 
 =================================================================================
+Opcion 1: permite insertar un elemento de tipo i,f o l. Una vez ingresada el character,
+se pregunta donde se quiere insertar un dato y cual es su valor. Las listas se insertan,
+por defecto, vacias. Si se ingresa algun char, distinto a i,f o l, se vuelve al loop.
+
+Opcion 2: permite remover cualquier elemento en posicion valida, una vez que el usuario
+ingrese la posicion por la consola.
+
+Opcion 3:
