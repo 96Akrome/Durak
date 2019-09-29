@@ -43,7 +43,7 @@ float sum(struct lista *a){
     }
     struct dato disp;
     int pos;
-    for(pos=0; pos < length(a); pos++){
+    for(pos = 0; pos < length(a); pos++){
         //*at retorna puntero al elemento en posicion.
         disp = *at(a, pos);
         if(disp.tipo == 'i'){
@@ -106,7 +106,7 @@ float average(struct lista *a){
         }
         else{
             internalSum = average((struct lista*)disp.contenido);
-            if(internalSum!=internalSum){
+            if(internalSum != internalSum){
                 //Si se cumple la condicion es porque internalSum es +-NaN
                 cantElem--;
             }
