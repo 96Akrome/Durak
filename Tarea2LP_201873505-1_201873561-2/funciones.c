@@ -118,9 +118,6 @@ float average(struct lista *a){
             }
         }
     }
-    if(suma == 0 && cantElem == 0){
-        printf("Lista vacia! \n");
-    }
     return suma/cantElem;
 }
 
@@ -242,7 +239,13 @@ void interface(struct lista *l){
             print(l);
         }
         else if (conf == 7){
-            printf("El promedio de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f\n", average(l));
+            float av = average(l);
+            if(av != av){
+                printf("La lista ingresada no contiene elementos numericos! No es posible calcular el promedio.\n");
+            }
+            else{
+                printf("El promedio de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f\n", average(l));
+            }
         }
         else if (conf == 8){
             clear(l);
