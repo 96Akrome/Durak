@@ -27,7 +27,7 @@ void clear(struct lista *a){
 
 void insert(struct lista *a, int i, struct dato d){
     if (i==0 && length(a)==0){
-        printf("La lista es vacia. Llamando al append.\n");
+        printf("La lista esta vacia. Llamando al append.\n");
         append(a,d);
         return;
     }
