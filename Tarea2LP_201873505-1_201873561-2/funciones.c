@@ -162,7 +162,23 @@ struct dato halved(struct dato data){
 
 /*
 void interface
-descri
+Interfaz interactiva para el mejor uso de las funciones.
+Al usuario se prentan las 10 opciones posibles, donde este puede elegir una por consola.
+Opcion 1 permite crear un elemento de tipo i,f o l y insertarlo en la lista base.
+Opcion 2 permite borrar un elemento en posicion especifica.
+Opcion 3 permite obtener un dato en posicion cualquiera.
+Opcion 4 aplica map a la lista (con funciones de ejemplo halved o triplicado)
+Opcion 5 imprime la suma de todos los elementos
+Opcion 6 imprime la lista por pantalla
+Opcion 7 invoca funcion average y imprime el promedio. En caso de lista vacia, se
+imprime un error
+Opcion 8 aplica clear a la lista (la vacia)
+Opcion 9 permite entrar a cualquier lista interna de la lista base
+Opcion 0 permite salir de la lista interna a la anterior o termina la ejecucion, si
+el usuario se encuentra en la lista base.
+
+Nota: README contiene las explicacion en mas detalle sobre el funcionamiento de la
+interfaz.
 ================================================================================
 Inputs:
 - struct lista *l - un puntero a la lista base generica, inicializada en el main.
