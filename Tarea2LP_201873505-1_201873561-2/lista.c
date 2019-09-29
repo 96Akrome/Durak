@@ -27,12 +27,12 @@ void clear(struct lista *a){
 
 void insert(struct lista *a, int i, struct dato d){
     if (i==0 && length(a)==0){
-        printf("La lista esta vacia. Llamando al append.\n");
+        //"La lista esta vacia. Llamando al append.
         append(a,d);
         return;
     }
     if(i==length(a)){
-        printf("Se requiere insertar al final de la lista.\n");
+        //Se requiere insertar al final de la lista.
         append(a,d);
         return;
     }
@@ -43,13 +43,13 @@ void insert(struct lista *a, int i, struct dato d){
     struct nodo *aux=(struct nodo*)malloc(sizeof(struct nodo));
     aux->info=d;
     if(i==0 && length(a)!=0){
-        printf("Se requiere insertar al inicio en lista no vacia.\n");
+        //Se requiere insertar al inicio en lista no vacia.
         aux->next=a->head;
         a->head=aux;
         a->length++;
     }
     else{
-        printf("Se requiere insertar en posicion %d de la lista no vacia.\n",i);
+        //Se requiere insertar en posicion %d de la lista no vacia.
         int k;
         a->actual = a->head;
         for(k = 0; k < i-1; k++){
@@ -86,8 +86,7 @@ void remov(struct lista *a, int i){
     struct nodo *aux;
     //al inicio de la lista
     if(i==0){
-        printf("Se requiere borrar el primer elemento de la lista no vacia.\n");
-        //reasigno la cabeza, pero guardo el puntero a esta en aux.
+        //Se requiere borrar el primer elemento de la lista no vacia.
         aux=a->head;
         a->head=a->head->next;
         //cualquier tipo no recursivo (entero o flotante)
@@ -95,7 +94,6 @@ void remov(struct lista *a, int i){
         if(aux->info.tipo=='l'){
             //tipo recursivo, lista incrustada (posiblemente con otras incrustadas)
             clear((struct lista*)aux->info.contenido);
-            //no tenemos que hacer mas frees, dado que clear lo hara solo. -> No, no lo hace.
         }
         //limpio el contenido
         free(aux->info.contenido);
@@ -111,9 +109,9 @@ void remov(struct lista *a, int i){
     for(k=0; k<i-1; k++){
       loop_aux=loop_aux->next;
     }
-    //eliminar al final (largo es siempre +1 nodo, es cantidad y no total de posiciones.)
+    //Largo es siempre +1 nodo, es cantidad y no total de posiciones.)
     if(i==a->length-1){
-        printf("Se requiere borrar al final de la lista.\n");
+        //Se requiere borrar al final de la lista.
         aux=loop_aux->next;
         loop_aux->next=NULL;
         a->tail=loop_aux;
@@ -127,7 +125,7 @@ void remov(struct lista *a, int i){
     }
     //eliminar dentro pero no el del extremo
     else{
-        printf("Se requiere borrar en la posicion %d\n",i );
+        //Se requiere borrar en la posicion especifica
         aux=loop_aux->next;
         loop_aux->next=loop_aux->next->next;
         if(aux->info.tipo=='l'){
