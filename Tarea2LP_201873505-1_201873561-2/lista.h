@@ -2,7 +2,6 @@ struct dato{
   void* contenido;
   char tipo;
 };
-//typedef struct dato dato;
 
 struct nodo{
   struct dato info;
