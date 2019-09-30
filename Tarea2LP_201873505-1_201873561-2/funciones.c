@@ -13,23 +13,15 @@ struct lista* map(struct lista *a, struct dato (*f)(struct dato)){
     int pos;
     for(pos = 0; pos < length(a); pos++){
         disp = *at(a, pos);
-        aux.tipo = disp.tipo;
-        if(aux.tipo == 'l'){
-            aux.contenido=(void*)malloc(sizeof(struct lista));
+        if(getTipo(disp) =='l'){
             c = map((struct lista*)disp.contenido, (*f));
+            aux = makeDato((void*)c, getTipo(disp));
             *(struct lista*)aux.contenido = *c;
             append(b, aux);
             free(c);
         }
         else{
-            if(aux.tipo == 'i'){
-                aux.contenido = (void *)malloc(sizeof(int));
-                *(int*)aux.contenido = *(int*)disp.contenido;
-            }
-            else{ // if(aux.tipo=='f')
-                aux.contenido = (void *)malloc(sizeof(float));
-                *(float*)aux.contenido = *(float*)disp.contenido;
-            }
+            aux = makeDato(getContenido(disp), getTipo(disp));
             append(b, (*f)(aux));
         }
     }
@@ -46,17 +38,17 @@ float sum(struct lista *a){
     for(pos = 0; pos < length(a); pos++){
         //*at retorna puntero al elemento en posicion.
         disp = *at(a, pos);
-        if(disp.tipo == 'i'){
+        if(getTipo(disp) == 'i'){
             //dereferencia el (int*)
-            suma += *(int*)disp.contenido;
+            suma += *(int*)getContenido(disp);
         }
-        else if(disp.tipo == 'f'){
+        else if(getTipo(disp) == 'f'){
             //dereferencia el (float*)
-            suma += *(float*)disp.contenido;
+            suma += *(float*)getContenido(disp);
         }
         else{ // disp.tip == 'l'
             //suma recursivamente
-            suma += sum((struct lista*)disp.contenido);
+            suma += sum((struct lista*)getContenido(disp));
         }
     }
     return suma;
@@ -70,16 +62,16 @@ void print(struct lista *a){
         for (pos = 0; pos < length(a); pos++){
             //dereferencia el struct en posicion pos
             disp = at(a, pos);
-            if(disp->tipo == 'i'){
-                printf("%d", *(int*)disp->contenido);
+            if(getTipo(*disp)=='i'){
+                printf("%d", *(int*)getContenido(*disp));
             }
-            else if(disp->tipo == 'f'){
-                printf("%f", *(float*)disp->contenido);
+            else if(getTipo(*disp)=='f'){
+                printf("%f", *(float*)getContenido(*disp));
             }
             else{ // disp->tipo=='l'
-                print((struct lista*)disp->contenido);
+                print((struct lista*)getContenido(*disp));
             }
-            if(length(a)!= 1 && pos != length(a) - 1){
+            if(length(a) != 1 && pos != length(a) - 1){ // TODO probar sin primera condicion
                 printf(", ");
             }
         }
@@ -94,18 +86,18 @@ float average(struct lista *a){
     int cantElem = length(a);
     struct dato disp;
     int pos;
-    for (pos = 0; pos < length(a); pos++){
+    for (pos=0; pos < length(a); pos++){
         disp = *at(a, pos);
-        if(disp.tipo != 'l'){
-            if(disp.tipo == 'i'){
-                suma += *(int*)disp.contenido;
+        if(getTipo(disp) != 'l'){
+            if(getTipo(disp) =='i'){
+                suma += *(int*)getContenido(disp);
             }
             else{
-                suma += *(float*)disp.contenido;
+                suma += *(float*)getContenido(disp);
             }
         }
         else{
-            internalSum = average((struct lista*)disp.contenido);
+            internalSum = average((struct lista*)getContenido(disp));
             if(internalSum != internalSum){
                 //Si se cumple la condicion es porque internalSum es +-NaN
                 cantElem--;
@@ -130,11 +122,11 @@ Outputs:
 - retorna el struct dato - un dato modificado.
 */
 struct dato triplicado(struct dato data){
-    if(data.tipo == 'i'){
-        *(int *)data.contenido = *(int *)data.contenido * 3;
+    if(getTipo(data) == 'i'){
+        *(int *)getContenido(data) = *(int *)getContenido(data) * 3;
     }
-    if(data.tipo == 'f'){
-        *(float *)data.contenido = *(float *)data.contenido * 3;
+    if(getTipo(data) == 'f'){
+        *(float *)getContenido(data) = *(float *)getContenido(data) * 3;
     }
     return data;
 }
@@ -151,11 +143,11 @@ Outputs:
 - retorna el struct dato - un dato modificado.
 */
 struct dato halved(struct dato data){
-    if(data.tipo == 'i'){
-        *(int *)data.contenido = *(int *)data.contenido / 2;
+    if(getTipo(data) == 'i'){
+        *(int *)getContenido(data) = *(int *)getContenido(data) / 2;
     }
-    if(data.tipo == 'f'){
-        *(float *)data.contenido = *(float *)data.contenido / 2;
+    if(getTipo(data) == 'f'){
+        *(float *)getContenido(data) = *(float *)getContenido(data) / 2;
     }
     return data;
 }
