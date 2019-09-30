@@ -123,10 +123,10 @@ Outputs:
 */
 struct dato triplicado(struct dato data){
     if(getTipo(data) == 'i'){
-        *(int *)getContenido(data) = *(int *)getContenido(data) * 3;
+        *(int*)getContenido(data) = *(int*)getContenido(data) * 3;
     }
     if(getTipo(data) == 'f'){
-        *(float *)getContenido(data) = *(float *)getContenido(data) * 3;
+        *(float*)getContenido(data) = *(float*)getContenido(data) * 3;
     }
     return data;
 }
@@ -144,10 +144,10 @@ Outputs:
 */
 struct dato halved(struct dato data){
     if(getTipo(data) == 'i'){
-        *(int *)getContenido(data) = *(int *)getContenido(data) / 2;
+        *(int*)getContenido(data) = *(int*)getContenido(data) / 2;
     }
     if(getTipo(data) == 'f'){
-        *(float *)getContenido(data) = *(float *)getContenido(data) / 2;
+        *(float*)getContenido(data) = *(float *)getContenido(data) / 2;
     }
     return data;
 }
