@@ -23,3 +23,7 @@ void append(struct lista *a, struct dato d);
 void remov(struct lista *a,int i);
 int length(struct lista *a);
 struct dato* at(struct lista *a,int i);
+
+char getTipo(struct dato dato);
+void* getContenido(struct dato dato);
+struct dato makeDato(void* contenido, char tipo);

@@ -38,6 +38,10 @@ void insert(struct lista *a, int i, struct dato d){
     }
     if (i > length(a) || i < 0){
         printf("No se puede insertar,indice out of bounds.\n");
+        if(d.tipo == 'l'){
+            clear(d.contenido);
+        }
+        free(d.contenido);
         return;
     }
     struct nodo *aux = (struct nodo*)malloc(sizeof(struct nodo));

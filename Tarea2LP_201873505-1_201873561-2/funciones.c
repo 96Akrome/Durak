@@ -13,7 +13,7 @@ struct lista* map(struct lista *a, struct dato (*f)(struct dato)){
     int pos;
     for(pos = 0; pos < length(a); pos++){
         disp = *at(a, pos);
-        if(getTipo(disp) =='l'){
+        if(getTipo(disp) == 'l'){
             c = map((struct lista*)disp.contenido, (*f));
             aux = makeDato((void*)c, getTipo(disp));
             *(struct lista*)aux.contenido = *c;
@@ -107,7 +107,7 @@ float average(struct lista *a){
             }
         }
     }
-    return suma / cantElem;
+    return suma/cantElem;
 }
 
 /*
@@ -122,11 +122,11 @@ Outputs:
 - retorna el struct dato - un dato modificado.
 */
 struct dato triplicado(struct dato data){
-    if(getTipo(data) == 'i'){
-        *(int*)getContenido(data) = *(int*)getContenido(data) * 3;
+    if(data.tipo == 'i'){
+        *(int *)getContenido(data) = *(int *)getContenido(data) * 3;
     }
-    if(getTipo(data) == 'f'){
-        *(float*)getContenido(data) = *(float*)getContenido(data) * 3;
+    if(data.tipo == 'f'){
+        *(float *)getContenido(data) = *(float *)getContenido(data) * 3;
     }
     return data;
 }
@@ -143,11 +143,11 @@ Outputs:
 - retorna el struct dato - un dato modificado.
 */
 struct dato halved(struct dato data){
-    if(getTipo(data) == 'i'){
-        *(int*)getContenido(data) = *(int*)getContenido(data) / 2;
+    if(data.tipo == 'i'){
+        *(int *)getContenido(data) = *(int *)getContenido(data) / 2;
     }
-    if(getTipo(data) == 'f'){
-        *(float*)getContenido(data) = *(float *)getContenido(data) / 2;
+    if(data.tipo == 'f'){
+        *(float *)getContenido(data) = *(float *)getContenido(data) / 2;
     }
     return data;
 }
@@ -292,14 +292,10 @@ void interface(struct lista *l){
         else if (conf == 9){
             printf("Ingrese la posicion de la lista a que quiere ingresar: ");
             scanf("%d", &pos);
-            if(at(l, pos)->tipo == 'l'){
+            if((at(l, pos) != NULL) && (getTipo(*at(l, pos)) == 'l')){
                 interface(at(l, pos)->contenido);
             }
-            else{
-                printf("La posición elegida no contiene una lista.\n");
-            }
         }
-
     }
 }
 

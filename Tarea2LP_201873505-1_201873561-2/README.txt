@@ -39,6 +39,27 @@ Ingrese el número de la operacion que desea realizar:
 -----------------------------------------------------
 Ademas, con cada repeticion, se entrega la lista actual y su largo.
 
+
+=================================================================================
+EJEMPLO:
+
+1, i, 90, 0  			// crea un entero 90 en pos 0
+1, f, 4.9 			// crea un float 4.9 en pos 1
+1, l, 1 			// crea una lista en pos 1
+9, 1 				// entra en una lista en pos 1
+1, l, 0 		        // crea una lista vacia en pos 0 
+1, l, 0  			// crea otra lista vacia en pos 0
+2, 0 				// borra una lista en pos 0
+1, f, 7, 0 			// crea un float en pos 0
+0				 // sale a la lista principal
+ 
+Lista final: [90, [7.000000,[]], 4.900000]
+
+0 //termina la ejecucion
+
+
+
+
 =================================================================================
 
 INSTRUCCIONES PARA EL USO DE LA INTERFAZ:
@@ -71,27 +92,5 @@ Opcion 8: reinicializa la lista, llama a la funcion clear y devuelve la lista a 
 Opcion 9: abre la interfaz con una de la listas internas de la lista principal, cuya posicion es pedida por consola. Es posible ingresar a listas internas de listas internas.
 
 Opcion 0: sale del loop principal de la funcion de la interface, lo que provoca que, en caso de estar en una lista interna devuelve la interface a la lista que la contenia, en caso de estar en la lista principal sale de la funcion interface, volviendo al main, donde las siguientes lineas procederan a limpiar la lista (clear) y liberar la memoria que esta utilizaba (free), poniendole fin al programa.
-
-
-
-=================================================================================
-EJEMPLO:
-
-1, i, 90, 0  			// crea un entero 90 en pos 0
-1, f, 4.9 			// crea un float 4.9 en pos 1
-1, l, 1 			// crea una lista en pos 1
-9, 1 				// entra en una lista en pos 1
-1, l, 0 		        // crea una lista vacia en pos 0 
-1, l, 0  			// crea otra lista vacia en pos 0
-2, 0 				// borra una lista en pos 0
-1, f, 7, 0 			// crea un float en pos 0
-0				 // sale a la lista principal
- 
-Lista final: [90, [7.000000,[]], 4.900000]
-
-0 //termina la ejecucion
-
-
-
 
 
