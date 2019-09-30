@@ -10,8 +10,7 @@ make clean - borra los .o
 (valgrind) ./Tarea2  - ejecuta el compilado Tarea2  (con valgrind opcional)
 =================================================================================
 
-El archivo funciones.c contiene el main, en el cual se asume que el usuario
-hace el malloc de su lista base. (linea xx)
+El archivo funciones.c contiene el main, en el cual se asume que la asignacion de memoria se realizara mediante malloc antes de inicializar la lista con la funcion init. (linea xx)
 
 =================================================================================
 INTERFAZ INTERACTIVA:
@@ -20,7 +19,7 @@ Ademas, en el main se invoca a la funcion opcional "interface", la cual, como lo
 dice su nombre, es una interfaz, que permite facilmente hacer llamados a todas las funciones,
 disponibles al usuario.
 
-En caso de no querer ocuparla, comentar la linea xx.
+En caso de no querer ocuparla, comentar la linea XX.
 
 Una vez en ejecucion, al usuario se presentan las siguientes opciones :
 
@@ -71,3 +70,27 @@ Opcion 8: reinicializa la lista, llama a la funcion clear y devuelve la lista a 
 Opcion 9: abre la interfaz con una de la listas internas de la lista principal, cuya posicion es pedida por consola. Es posible ingresar a listas internas de listas internas.
 
 Opcion 0: sale del loop principal de la funcion de la interface, lo que provoca que, en caso de estar en una lista interna devuelve la interface a la lista que la contenia, en caso de estar en la lista principal sale de la funcion interface, volviendo al main, donde las siguientes lineas procederan a limpiar la lista (clear) y liberar la memoria que esta utilizaba (free), poniendole fin al programa.
+
+
+
+=================================================================================
+EJEMPLO:
+
+1, i, 90, 0  			// crea un entero 90 en pos 0
+1, f, 4.9 			// crea un float 4.9 en pos 1
+1, l, 1 			// crea una lista en pos 1
+9, 1 				// entra en una lista en pos 1
+1, l, 0 		        // crea una lista vacia en pos 0 
+1, l, 0  			// crea otra lista vacia en pos 0
+2, 0 				// borra una lista en pos 0
+1, f, 7, 0 			// crea un float en pos 0
+0				 // sale a la lista principal
+ 
+Lista final: [90, [7.000000,[]], 4.900000]
+
+0 //termina la ejecucion
+
+
+
+
+

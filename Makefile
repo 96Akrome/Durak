@@ -1,5 +1,5 @@
 CC = gcc
-FLAGS = -g -Wall 
+FLAGS = -g -Wall -std=c99
 OBJ = lista.o funciones.o
 
 all: Tarea2

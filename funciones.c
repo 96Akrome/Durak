@@ -2,10 +2,10 @@
 #include "funciones.h"
 
 struct lista* map(struct lista *a, struct dato (*f)(struct dato)){
-    struct lista *b=(struct lista*)malloc(sizeof(struct lista));
+    struct lista *b = (struct lista*)malloc(sizeof(struct lista));
     struct lista *c;
     init(b);
-    if(length(a)==0){
+    if(length(a) == 0){
         return b;
     }
     struct dato disp;
@@ -13,74 +13,63 @@ struct lista* map(struct lista *a, struct dato (*f)(struct dato)){
     int pos;
     for(pos = 0; pos < length(a); pos++){
         disp = *at(a, pos);
-        aux.tipo = disp.tipo;
-        if(aux.tipo =='l'){
-            aux.contenido=(void*)malloc(sizeof(struct lista));
+        if(getTipo(disp) =='l'){
             c = map((struct lista*)disp.contenido, (*f));
+            aux = makeDato((void*)c, getTipo(disp));
             *(struct lista*)aux.contenido = *c;
             append(b, aux);
             free(c);
         }
         else{
-            if(aux.tipo == 'i'){
-                aux.contenido = (void *)malloc(sizeof(int));
-                *(int*)aux.contenido = *(int*)disp.contenido;
-            }
-            else{ // if(aux.tipo=='f')
-                aux.contenido = (void *)malloc(sizeof(float));
-                *(float*)aux.contenido = *(float*)disp.contenido;
-            }
+            aux = makeDato(getContenido(disp), getTipo(disp));
             append(b, (*f)(aux));
         }
     }
     return b;
 }
 
-//Suma total de elementos de lista. En caso de lista vacia, retorna 0.
 float sum(struct lista *a){
-    float suma=0;
-    if (length(a)==0){
+    float suma = 0;
+    if (length(a) == 0){
         return suma;
     }
     struct dato disp;
     int pos;
-    for(pos=0; pos<length(a); pos++){
+    for(pos = 0; pos < length(a); pos++){
         //*at retorna puntero al elemento en posicion.
         disp = *at(a, pos);
-        if(disp.tipo=='i'){
+        if(getTipo(disp)=='i'){
             //dereferencia el (int*)
-            suma+=*(int*)disp.contenido;
+            suma+=*(int*)getContenido(disp);
         }
-        else if(disp.tipo=='f'){
+        else if(getTipo(disp)=='f'){
             //dereferencia el (float*)
-            suma+=*(float*)disp.contenido;
+            suma+=*(float*)getContenido(disp);
         }
         else{ // disp.tip == 'l'
             //suma recursivamente
-            suma+=sum((struct lista*)disp.contenido);
+            suma+=sum((struct lista*)getContenido(disp));
         }
     }
     return suma;
 }
 
 void print(struct lista *a){
-    //para lista normal imprimira al funcionar algo como  [1, 2.5, 0]
-    //para incrustadas algo como [1, 2, [9, 0.9], 9.99]
     struct dato *disp;
     printf("[");
-    if (length(a)!=0){
+    if (length(a)!= 0){
         int pos;
-        for (pos=0; pos<length(a); pos++){
+        for (pos = 0; pos < length(a); pos++){
             //dereferencia el struct en posicion pos
-            disp=at(a, pos);
-            if(disp->tipo=='i'){
-                printf("%d", *(int*)disp->contenido);
+            disp = at(a, pos);
+            if(getTipo(*disp)=='i'){
+                printf("%d", *(int*)getContenido(*disp));
             }
-            else if(disp->tipo=='f'){
-                printf("%f", *(float*)disp->contenido);
+            else if(getTipo(*disp)=='f'){
+                printf("%f", *(float*)getContenido(*disp));
             }
             else{ // disp->tipo=='l'
-                print((struct lista*)disp->contenido);
+                print((struct lista*)getContenido(*disp));
             }
             if(length(a)!=1 && pos!=length(a)-1){ // TODO probar sin primera condicion
                 printf(", ");
@@ -92,29 +81,25 @@ void print(struct lista *a){
 }
 
 float average(struct lista *a){
-    float suma=0;
-    float internalSum=0;
-    // if (length(a)==0){
-    //     return suma;
-    // }
-    int cantElem=length(a);
+    float suma = 0;
+    float internalSum = 0;
+    int cantElem = length(a);
     struct dato disp;
     int pos;
     for (pos=0; pos<length(a); pos++){
         disp=*at(a, pos);
-        if(disp.tipo!='l'){
-            if(disp.tipo=='i'){
-                suma+=*(int*)disp.contenido;
+        if(getTipo(disp)!='l'){
+            if(getTipo(disp)=='i'){
+                suma+=*(int*)getContenido(disp);
             }
             else{
-                suma+=*(float*)disp.contenido;
+                suma+=*(float*)getContenido(disp);
             }
         }
         else{
-            internalSum=average((struct lista*)disp.contenido);
+            internalSum=average((struct lista*)getContenido(disp));
             if(internalSum!=internalSum){
                 //Si se cumple la condicion es porque internalSum es +-NaN
-                printf("Soy un NaN\n");
                 cantElem--;
             }
             else{
@@ -122,44 +107,85 @@ float average(struct lista *a){
             }
         }
     }
-    // if(suma == 0  && cantElem == 0){
-    //     return 0;
-    // }
-    // else{
     return suma/cantElem;
-    // }
 }
 
-//Borrar
+/*
+struct dato triplicado
+Recibe un dato de la lista, y retorna el triple de este. En caso de listas, retorna
+la misma lista sin cambios. Es decir, que los cambios se aplican a tipos numericos.
+================================================================================
+Inputs:
+- struct dato data - un struct de tipo dato, que se requiere cambiar.
+================================================================================
+Outputs:
+- retorna el struct dato - un dato modificado.
+*/
 struct dato triplicado(struct dato data){
-    if(data.tipo=='i'){
+    if(data.tipo == 'i'){
         *(int *)data.contenido = *(int *)data.contenido * 3;
     }
-    if(data.tipo=='f'){
+    if(data.tipo == 'f'){
         *(float *)data.contenido = *(float *)data.contenido * 3;
     }
     return data;
 }
 
+/*
+struct dato halved
+Recibe un dato de la lista, y retorna la mitad de este. En caso de listas, retorna
+la misma lista sin cambios. Es decir, que los cambios se aplican a tipos numericos.
+================================================================================
+Inputs:
+- struct dato data - un struct de tipo dato, que se requiere cambiar.
+================================================================================
+Outputs:
+- retorna el struct dato - un dato modificado.
+*/
 struct dato halved(struct dato data){
-    if(data.tipo=='i'){
-        *(int *)data.contenido=*(int *)data.contenido/2;
+    if(data.tipo == 'i'){
+        *(int *)data.contenido = *(int *)data.contenido / 2;
     }
-    if(data.tipo=='f'){
-        *(float *)data.contenido=*(float *)data.contenido/2;
+    if(data.tipo == 'f'){
+        *(float *)data.contenido = *(float *)data.contenido / 2;
     }
     return data;
 }
 
+/*
+void interface
+Interfaz interactiva para el mejor uso de las funciones.
+Al usuario se prentan las 10 opciones posibles, donde este puede elegir una por consola.
+Opcion 1 permite crear un elemento de tipo i,f o l y insertarlo en la lista base.
+Opcion 2 permite borrar un elemento en posicion especifica.
+Opcion 3 permite obtener un dato en posicion cualquiera.
+Opcion 4 aplica map a la lista (con funciones de ejemplo halved o triplicado)
+Opcion 5 imprime la suma de todos los elementos
+Opcion 6 imprime la lista por pantalla
+Opcion 7 invoca funcion average y imprime el promedio. En caso de lista vacia, se
+imprime un error
+Opcion 8 aplica clear a la lista (la vacia)
+Opcion 9 permite entrar a cualquier lista interna de la lista base
+Opcion 0 permite salir de la lista interna a la anterior o termina la ejecucion, si
+el usuario se encuentra en la lista base.
 
+Nota: README contiene las explicacion en mas detalle sobre el funcionamiento de la
+interfaz.
+================================================================================
+Inputs:
+- struct lista *l - un puntero a la lista base generica, inicializada en el main.
+================================================================================
+Outputs:
+- tipo void, no tiene output.
+*/
 void interface(struct lista *l){
-    int conf=999;
+    int conf = 999;
     int pos;
-    int func=0;
+    int func = 0;
     struct dato *display;
     struct dato data;
     struct lista *mapeada;
-    while(conf!=0){
+    while(conf != 0){
         printf("\n\nEl largo de la lista es %d\nLa lista actual es la siguiente:\n", length(l));
         print(l);
         printf("\nIngrese el número de la operacion que desea realizar:\n");
@@ -172,22 +198,22 @@ void interface(struct lista *l){
         printf("0: Salir de la lista actual (volver a la lista anterior/terminar).\n");
         printf("-----------------------------------------------------\n");
         scanf("%d", &conf);
-        if(conf==1){
+        if(conf == 1){
             printf("Ingrese el tipo de dato que desea ingresar (i de int, f de float, l de lista): ");
             scanf(" %c", &data.tipo);
-            if(data.tipo=='i'){
-                data.contenido=(int*)malloc(sizeof(int));
-                data.contenido=(int*)data.contenido;
+            if(data.tipo == 'i'){
+                data.contenido = (int*)malloc(sizeof(int));
+                data.contenido = (int*)data.contenido;
                 printf("Ingrese el int que desea agregar a la lista: ");
                 scanf("%d", (int*)data.contenido);
             }
-            else if(data.tipo=='f'){
-                data.contenido=(float*)malloc(sizeof(float));
+            else if(data.tipo == 'f'){
+                data.contenido =(float*)malloc(sizeof(float));
                 printf("Ingrese el float que desea agregar a la lista: ");
                 scanf("%f", (float*)data.contenido);
             }
-            else if(data.tipo=='l'){
-                data.contenido=(struct lista*)malloc(sizeof(struct lista));
+            else if(data.tipo == 'l'){
+                data.contenido = (struct lista*)malloc(sizeof(struct lista));
                 init((struct lista*)data.contenido);
             }
             else{
@@ -198,7 +224,7 @@ void interface(struct lista *l){
             scanf("%d", &pos);
             insert(l, pos, data);
         }
-        else if(conf==2){
+        else if(conf == 2){
             printf("Ingrese la posicion en donde desea remover el elemento: ");
             scanf("%d", &pos);
             remov(l,pos);
@@ -206,16 +232,16 @@ void interface(struct lista *l){
         else if(conf == 3){
             printf("Ingrese la posicion de elemento que desea obtener: ");
             scanf("%d", &pos);
-            display = at(l,pos);
+            display = at(l, pos);
             if(display == NULL){
                 continue;
             }
             if(display->tipo != 'l'){
                 if(display->tipo == 'i'){
-                    printf("El elemento en posicion %d es un entero y su valor es: %d\n",pos, *(int*)display->contenido);
+                    printf("El elemento en posicion %d es un entero y su valor es: %d\n", pos, *(int*)display->contenido);
                 }
                 else{
-                    printf("El elemento en posicion %d es un flotante y su valor es: %f\n",pos,*(float*)display->contenido);
+                    printf("El elemento en posicion %d es un flotante y su valor es: %f\n", pos, *(float*)display->contenido);
                 }
             }
             else{
@@ -235,7 +261,7 @@ void interface(struct lista *l){
             if(func == 2){
                 mapeada = map(l, (*halved));
             }
-            if(mapeada!=NULL){
+            if(mapeada != NULL){
                 print(mapeada);
                 clear(mapeada);
                 free(mapeada);
@@ -249,7 +275,13 @@ void interface(struct lista *l){
             print(l);
         }
         else if (conf == 7){
-            printf("El promedio de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f\n", average(l));
+            float av = average(l);
+            if(av != av){
+                printf("La lista ingresada no contiene elementos numericos! No es posible calcular el promedio.\n");
+            }
+            else{
+                printf("El promedio de todos los elementos de la lista (incluyendo los elementos de listas internas) es: %f\n", average(l));
+            }
         }
         else if (conf == 8){
             clear(l);
@@ -272,9 +304,12 @@ void interface(struct lista *l){
 }
 
 int main(){
-    struct lista *lista=(struct lista*)malloc(sizeof(struct lista));
+    struct lista *lista = (struct lista*)malloc(sizeof(struct lista));
     init(lista);
+
+    //comentar en caso de no querer usar la interfaz
     interface(lista);
+
     clear(lista);
     free(lista);
     return 0;
