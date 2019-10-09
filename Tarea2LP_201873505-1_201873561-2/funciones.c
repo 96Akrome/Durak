@@ -261,6 +261,12 @@ void interface(struct lista *l){
             if(func == 2){
                 mapeada = map(l, (*halved));
             }
+            
+            // Ingrese su condicion siguiendo el esquema planteado en readme.
+            // if(func == n){
+            //     mapeada = map(l, (*IngreseSuFuncion));
+            // }
+
             if(mapeada != NULL){
                 print(mapeada);
                 clear(mapeada);

@@ -11,7 +11,7 @@ make clean - borra los .o
 =================================================================================
 
 El archivo funciones.c contiene el main, en el cual se asume que el usuario
-hace el malloc de su lista base.(linea XX)
+hace el malloc de su lista base.(linea 309)
 
 =================================================================================
 INTERFAZ INTERACTIVA:
@@ -20,9 +20,9 @@ Ademas, en el main se invoca a la funcion opcional "interface", la cual, como lo
 dice su nombre, es una interfaz, que permite facilmente hacer llamados a todas las funciones,
 disponibles al usuario.
 
-En caso de no querer ocuparla, comentar la linea XX.
+En caso de no querer ocuparla, comentar la linea 313.
 
-Una vez en ejecucion, al usuario se presentan las siguientes opciones :
+Una vez en ejecucion, al usuario se le presentan las siguientes opciones :
 
 Ingrese el número de la operacion que desea realizar:
 -----------------------------------------------------
@@ -65,6 +65,8 @@ Lista final: [90, [7.000000,[]], 4.900000]
 INSTRUCCIONES PARA EL USO DE LA INTERFAZ:
 
 =================================================================================
+***SOLO SE PUEDEN INGRESAR CARACTERES NUMERICOS AL MOMENTO DE SEÑALAR UNA OPCION DENTRO DE LA INTERFAZ, DE LO CONTRARIO EL PROGRAMA NO SABRA QUE HACER.***
+
 Opcion 1: permite insertar un elemento de tipo i,f o l. Una vez ingresada el caracter,
 se pregunta cual es su valor (en caso de ser i o f) y en que posicion se quiere insertar el dato (la funcion append esta contenida dentro de esta opcion y sera llamada al elegir como posicion el largo de la lista). Las listas se insertan, por defecto, vacias. Si se ingresa algun char, distinto a i,f o l, se devuelve al loop.
 
@@ -73,7 +75,7 @@ ingrese la posicion por la consola.
 
 Opcion 3: le pide una posicion al usuario para retornar el elemento (int, float o lista) que se encuentre en dicha posicion dentro de la lista.
 
-Opcion 4: le pide al usuario ingresar el numero de la funcion que desea ingresar como parametro de map. A modo de prueba se incluyeron 2 funciones, la funcion 1 es triplicado (triplica el valor que almacena un struct dato) y la funcion 2 es halved (divide en 2 el valor que almacena un struct dato). Si desea agregar mas funciones basta con agregarlas al archivo funciones.c (antes de la funcion interface) y luego, hacer el llamado correspondiente en la linea (XX) de la interface siguiendo el siguiente esquema:
+Opcion 4: le pide al usuario ingresar el numero de la funcion que desea ingresar como parametro de map. A modo de prueba se incluyeron 2 funciones, la funcion 1 es triplicado (triplica el valor que almacena un struct dato) y la funcion 2 es halved (divide en 2 el valor que almacena un struct dato). Si desea agregar mas funciones basta con agregarlas al archivo funciones.c (antes de la funcion interface) y luego, hacer el llamado correspondiente en la linea 265 de la interface siguiendo el siguiente esquema:
 
 if(func == n){
    mapeada = map(l, (*IngreseSuFuncion));
