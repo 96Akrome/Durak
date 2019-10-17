@@ -1,11 +1,19 @@
-class Edificacion{
+abstract class Edificacion{
     protected int consumo;
+    private Ciudad ciudad;
 
     int getConsumo(){
         return consumo;
     }
     void setConsumo(int consumo){
         this.consumo = consumo;
+    }
+
+    Ciudad getCiudad(){
+        return ciudad;
+    }
+    void setCiudad(Ciudad ciudad){
+        this.ciudad = ciudad;
     }
 }
 

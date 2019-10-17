@@ -1,7 +1,7 @@
 class Empresa{
     protected int precioBalon;
     protected int precioLitro;
-    private Collection<Vehiculo> vehiculo;
+//    private Collection<Vehiculo> vehiculo;
     int getPrecioBalon(){
         return precioBalon;
     }

@@ -2,7 +2,7 @@ class Ciudad{
     protected int id;
     protected int nEdificios;
     protected int nCasas;
-
+    private Collection<Edificacion> edificacion;
     int getId(){
         return id;
     }
