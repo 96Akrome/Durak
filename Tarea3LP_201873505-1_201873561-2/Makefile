@@ -3,7 +3,7 @@ JC = javac
 .SUFFIXES: .java .class
 .java.class:
         $(JC) $(JFLAGS) $*.java
-CLASSES = 
+CLASSES =
 	Grafo.java
 
 default: classes

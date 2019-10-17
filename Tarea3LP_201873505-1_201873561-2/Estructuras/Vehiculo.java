@@ -1,11 +1,18 @@
 class Vehiculo{
     protected int consumo;
+    private Empresa empresa;
 
     int getConsumo(){
         return consumo;
     }
     void setConsumo(int consumo){
         this.consumo = consumo;
+    }
+    void setEmpresa(Empresa empresa){
+        this.empresa = empresa;
+    }
+    Empresa getEmpresa(){
+        return empresa;
     }
 }
 
