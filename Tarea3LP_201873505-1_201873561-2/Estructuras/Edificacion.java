@@ -1,5 +1,12 @@
 class Edificacion{
     protected int consumo;
+
+    int getConsumo(){
+        return consumo;
+    }
+    void setConsumo(int consumo){
+        this.consumo = consumo;
+    }
 }
 
 class Casa extends Edificacion{

@@ -1,5 +1,12 @@
 class Vehiculo{
     protected int consumo;
+
+    int getConsumo(){
+        return consumo;
+    }
+    void setConsumo(int consumo){
+        this.consumo = consumo;
+    }
 }
 
 class camionCisterna extends Vehiculo{
