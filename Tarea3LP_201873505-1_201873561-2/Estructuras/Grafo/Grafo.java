@@ -1,0 +1,58 @@
+interface Grafo{
+    int nNodes = 0; // wn variables de interfaz son estaticas y finales, no se que chucha
+    int nEdges = 0; //segun pdf van aca pero no los puedo reasignar
+    public void addNode(int id);
+    public void addEdge(int u,int v, int w);
+    public float edgeWeight(int u, int v);
+}
+
+
+class Node{
+    int id;
+    boolean wasVisited; //si no vamos a usar dijkstra (mejor warshall), se puede borrar
+
+    public Vertex(int id){
+        this.id = id;
+        this.wasVisited = false; //lo mismo
+    }
+}
+
+class Pais implements Grafo{
+    private Node nodesList[];
+    private int adjMatrix[][];
+    //private Stack<Integer> stack;
+
+    public Pais(int nNodes){
+        Grafo.nNodes = nNodes;
+        this.vertexList = new Node[nNodes];
+        this.adjMatrix = new int[nNodes][nNodes];
+        //stack = new Stack<Integer>();
+    }
+
+    //getter de vertices
+    public int getnVertex(){
+        return nVertex;
+    }
+    //getter de arcos, no se para que de verdad pero pico
+    public int getnEdges(){
+        return nEdges;
+    }
+
+    //agrega un vertice a la lista de vertices
+    public void addNode(int id){
+        nodesList[nNodes++] = new Node(id);
+    }
+
+    //
+    public void addEdge(int u,int v, int w){
+        adjMatrix[u][v] = w;
+        adjMatrix[v][u] = w;
+        //Grafo.nEdges++; -tira error por ejemplo
+    }
+
+    //retorna el peso entre los arcos
+    public float edgeWeight(int u, int v){
+        return adjMatrix[u][v];
+    }
+
+}
