@@ -52,7 +52,7 @@ class Pais implements Grafo{
     public void addEdge(int u,int v, int w){
         adjMatrix[u][v] = w;
         adjMatrix[v][u] = w;
-        this.nEdges++; 
+        this.nEdges++;
     }
 
     //retorna el peso entre los arcos
@@ -60,4 +60,14 @@ class Pais implements Grafo{
         return adjMatrix[u][v];
     }
 
+    public void printAdjMatrix(){
+        for (int i = 0; i < adjMatrix.length; i++) {
+            for (int j = 0; j < adjMatrix[i].length; j++) {
+                System.out.print(adjMatrix[i][j] + " ");
+            }
+        }
+    }
+    static public void main(String [] args){
+        
+    }
 }
