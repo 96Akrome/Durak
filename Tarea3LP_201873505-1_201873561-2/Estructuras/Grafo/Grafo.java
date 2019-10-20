@@ -20,10 +20,15 @@ class Node{
 class Pais implements Grafo{
     private Node nodesList[];
     private int adjMatrix[][];
-    //private Stack<Integer> stack;
+    //int nNodes;
+    //int nEdges;
+    //private Stack<Integer> stack; para dfs, si no, se borra
+
 
     public Pais(int nNodes){
         Grafo.nNodes = nNodes;
+        //this.nNodes = nNodes;
+        //this.nEdges = 0;
         this.vertexList = new Node[nNodes];
         this.adjMatrix = new int[nNodes][nNodes];
         //stack = new Stack<Integer>();
