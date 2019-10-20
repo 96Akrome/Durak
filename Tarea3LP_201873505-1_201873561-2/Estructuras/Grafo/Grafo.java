@@ -4,12 +4,13 @@ interface Grafo{
     public void addNode(int id);
     public void addEdge(int u,int v, int w);
     public float edgeWeight(int u, int v);
+    //shortestPath
 }
 
 
 class Node{
     int id;
-    boolean wasVisited; //si no vamos a usar dijkstra (mejor warshall), se puede borrar
+    boolean wasVisited; //si no vamos a usar dijkstra con dfs (mejor warshall), se puede borrar
 
     public Vertex(int id){
         this.id = id;
@@ -48,7 +49,7 @@ class Pais implements Grafo{
         nodesList[nNodes++] = new Node(id);
     }
 
-    //
+    //agrega el arco
     public void addEdge(int u,int v, int w){
         adjMatrix[u][v] = w;
         adjMatrix[v][u] = w;
@@ -67,7 +68,8 @@ class Pais implements Grafo{
             }
         }
     }
+
     static public void main(String [] args){
-        
+
     }
 }
