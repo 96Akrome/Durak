@@ -1,6 +1,6 @@
 interface Grafo{
-    int nNodes = 0; // wn variables de interfaz son estaticas y finales, no se que chucha
-    int nEdges = 0; //segun pdf van aca pero no los puedo reasignar
+//    int nNodes = 0; // wn variables de interfaz son estaticas y finales, no se que chucha
+//    int nEdges = 0; //segun pdf van aca pero no los puedo reasignar
     public void addNode(int id);
     public void addEdge(int u,int v, int w);
     public float edgeWeight(int u, int v);
@@ -20,15 +20,15 @@ class Node{
 class Pais implements Grafo{
     private Node nodesList[];
     private int adjMatrix[][];
-    //int nNodes;
-    //int nEdges;
+    int nNodes;
+    int nEdges;
     //private Stack<Integer> stack; para dfs, si no, se borra
 
 
     public Pais(int nNodes){
-        Grafo.nNodes = nNodes;
-        //this.nNodes = nNodes;
-        //this.nEdges = 0;
+    //    Grafo.nNodes = nNodes;
+        this.nNodes = nNodes;
+        this.nEdges = 0;
         this.vertexList = new Node[nNodes];
         this.adjMatrix = new int[nNodes][nNodes];
         //stack = new Stack<Integer>();
@@ -52,7 +52,7 @@ class Pais implements Grafo{
     public void addEdge(int u,int v, int w){
         adjMatrix[u][v] = w;
         adjMatrix[v][u] = w;
-        //Grafo.nEdges++; -tira error por ejemplo
+        this.nEdges++; 
     }
 
     //retorna el peso entre los arcos
