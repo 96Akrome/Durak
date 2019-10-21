@@ -6,10 +6,9 @@ class Pais implements Grafo{
     //private Stack<Integer> stack; para dfs, si no, se borra
 
 
-    public Pais(int nNodes){
-    //    Grafo.nNodes = nNodes;
+    public Pais(int nNodes,int nEdges){
         this.nNodes = nNodes;
-        this.nEdges = 0;
+        this.nEdges = nEdges;
         this.nodesList = new Node[nNodes];
         this.adjMatrix = new int[nNodes][nNodes];
         //stack = new Stack<Integer>();

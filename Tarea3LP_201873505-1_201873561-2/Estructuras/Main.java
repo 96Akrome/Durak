@@ -1,15 +1,21 @@
 class Main{
     static public void main(String [] args){
-        Grafo graph = new Grafo();
+        //Lectura de archivo:
         Scanner input = new Scanner(System.in);
+
+        //lectura de archivo mapa.txt
         File file = new File(archive_1);
         input = new Scanner(file);
         //primera linea - nNodes, segunda - nEdges, adelante: u v w;
+        int n = input.nextInt();
+        int e = input.nextInt();
+        Pais graph = new Pais(n,e);
         while(input.hasNextLine()) {
-            //lectura aqui
+
            }
         input.close();
 
+        //lectura de archivo edificaciones.txt
         file = new File(archive_2);
         input = new Scanner(file);
         //ciudad casas edificios
