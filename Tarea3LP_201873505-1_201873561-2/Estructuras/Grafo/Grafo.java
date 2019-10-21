@@ -30,14 +30,14 @@ class Pais implements Grafo{
     //    Grafo.nNodes = nNodes;
         this.nNodes = nNodes;
         this.nEdges = 0;
-        this.vertexList = new Node[nNodes];
+        this.nodesList = new Node[nNodes];
         this.adjMatrix = new int[nNodes][nNodes];
         //stack = new Stack<Integer>();
     }
 
     //getter de vertices
     public int getnVertex(){
-        return nVertex;
+        return nNodes;
     }
     //getter de arcos, no se para que de verdad pero pico
     public int getnEdges(){
