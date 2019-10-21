@@ -1,6 +1,6 @@
 abstract class Edificacion{
     protected int consumo;
-    private Ciudad ciudad;
+    protected Ciudad ciudad;
 
     int getConsumo(){
         return consumo;

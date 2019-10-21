@@ -1,6 +1,6 @@
 abstract class Vehiculo{
     protected int consumo;
-    private Empresa empresa;
+    protected Empresa empresa;
 
     int getConsumo(){
         return consumo;

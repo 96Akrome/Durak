@@ -5,7 +5,13 @@ JC = javac
 	$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
-	Main.java
+	Main.java \
+	Ciudad.java \
+	Edificacion.java \
+	Empresa.java \
+	Grafo.java \
+	Pais.java \
+	Vehiculo.java 
 default: classes
 classes: $(CLASSES:.java=.class)
 clean:

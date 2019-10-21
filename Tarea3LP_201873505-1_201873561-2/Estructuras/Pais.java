@@ -1,7 +1,7 @@
 class Pais implements Grafo{
-    private Node nodesList[]; // lista de nodos, cada una de cuales es CIUDAD.
+    protected Node nodesList[]; // lista de nodos, cada una de cuales es CIUDAD.
     //lista de ciudades es necesaria porque Pais a Ciudad tiene * (relacion One-To-Many)
-    private int adjMatrix[][];
+    protected int adjMatrix[][];
     int nNodes;
     int nEdges;
 
