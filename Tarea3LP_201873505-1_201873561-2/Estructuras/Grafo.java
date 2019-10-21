@@ -1,58 +1,27 @@
-/*import java.util.List;
-import java.util.LinkedList;
-
 interface Grafo{
-    int nNodes = 0;
-    int nEdges = 0;
-    //List<Vertex> vertexes;
-    List<Edge> adjList ;
-    //lista de nodos
-    //float edgeWeight(int,int);
-    //List<T> shortestPath(int,int);
-    //void addEdge(int,int,int);
-    //addNode(int);
+//    int nNodes = 0; // wn variables de interfaz son estaticas y finales, no se que chucha
+//    int nEdges = 0; //segun pdf van aca pero no los puedo reasignar
+    public void addNode(int id);
+    public void addEdge(int u,int v, int w);
+    public float edgeWeight(int u, int v);
+    //shortestPath
 }
 
-//vertice con su numero ( == nodo)
-class Vertex{
-    final private int id;
-    public Vertex(int id) {
+
+class Node{
+    int id;
+    //boolean wasVisited; si no vamos a usar dijkstra con dfs (mejor warshall), se puede borrar
+
+    public Node(int id){
         this.id = id;
-    }
-    public String getId() {
-        return id;
+        //this.wasVisited = false; lo mismo
     }
 }
 
-//arcos con inicio,fin,peso
-class Edge{
-    private final int id;
-    private final Vertex source;
-    private final Vertex dest;
-    private final int weight;
-    //constructor
-    public Edge(int id, Vertex source, Vertex dest, int weight) {
-       this.id = id;
-       this.source = source;
-       this.dest = dest;
-       this.weight = weight;
-   }
-   //getters, usar para correcto uso de OOP
-   public int getId() {
-       return id;
-   }
-   public Vertex getDest() {
-       return dest;
-   }
-   public Vertex getSource() {
-       return source;
-   }
-   public int getWeight() {
-       return weight;
-   }
-   //para imprimir, retorna string "nodoInicial NodoFinal" del arco
-   public String toString() {
-        return source + " " + dest;
-    }
+//clase para guardar nombres de archivos, analogo de define
+//dato freak: #define no existe en java porque no hay un pre-compilador
+public class Constants {
+    public static final String archive_1 = "mapa.txt";
+    public static final String archive_2 = "edificaciones.txt";
+    public static final String archive_3 = "empresa.txt";
 }
-*/

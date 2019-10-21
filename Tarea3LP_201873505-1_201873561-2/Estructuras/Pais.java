@@ -1,34 +1,51 @@
-import java.util.List;
-import java.util.LinkedList;
-
 class Pais implements Grafo{
-    public void Grafo(int nNodes){
-        Grafo.nNodes = nNodes;
-        adjList =  new LinkedList[nNodes];
-        for(int i = 0; i < adjList.length; i++)
-			adjList[i] = new LinkedList<>();
-	}
+    private Node nodesList[];
+    private int adjMatrix[][];
+    int nNodes;
+    int nEdges;
+    //private Stack<Integer> stack; para dfs, si no, se borra
 
-    void addEdge(int u, int v, int w){
-        //u - inicio
-        //v - destino
-        //w - peso
-		adjList[u].add(new Edge(v, w));
-        Grafo.nEdges++;
-	}
-    public String toString(){
-		String result="";
-		for(int i = 0;i < adjList.length; i++)
-			result += i + "->" + adjList[i] + "\n";
-		return result;
-	}
 
-    static public void main(String [] args){
-        Grafo g = new Grafo(3);
-        g.addEdge(0,1,3);
-        System.out.println(g.toString());
+    public Pais(int nNodes){
+    //    Grafo.nNodes = nNodes;
+        this.nNodes = nNodes;
+        this.nEdges = 0;
+        this.nodesList = new Node[nNodes];
+        this.adjMatrix = new int[nNodes][nNodes];
+        //stack = new Stack<Integer>();
     }
-    //float edgeWeight(){
 
-//}
+    //getter de vertices
+    public int getnVertex(){
+        return nNodes;
+    }
+    //getter de arcos, no se para que de verdad pero pico
+    public int getnEdges(){
+        return nEdges;
+    }
+
+    //agrega un vertice a la lista de vertices
+    public void addNode(int id){
+        nodesList[nNodes++] = new Node(id);
+    }
+
+    //agrega el arco
+    public void addEdge(int u,int v, int w){
+        adjMatrix[u][v] = w;
+        adjMatrix[v][u] = w;
+        this.nEdges++;
+    }
+
+    //retorna el peso entre los arcos
+    public float edgeWeight(int u, int v){
+        return adjMatrix[u][v];
+    }
+
+    public void printAdjMatrix(){
+        for (int i = 0; i < adjMatrix.length; i++) {
+            for (int j = 0; j < adjMatrix[i].length; j++) {
+                System.out.print(adjMatrix[i][j] + " ");
+            }
+        }
+    }
 }
