@@ -1,7 +1,5 @@
 interface Grafo{
-//    int nNodes = 0; // wn variables de interfaz son estaticas y finales, no se que chucha
-//    int nEdges = 0; //segun pdf van aca pero no los puedo reasignar
-    public void addNode(int id, Ciudad ciudad);
+    public void addNode(int id, Ciudad ciudad); //pantufla permitio agregar mas cosas en addNode
     public void addEdge(int u,int v, int w);
     public float edgeWeight(int u, int v);
     //shortestPath
