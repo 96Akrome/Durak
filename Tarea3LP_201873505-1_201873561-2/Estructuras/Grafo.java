@@ -1,7 +1,7 @@
 interface Grafo{
 //    int nNodes = 0; // wn variables de interfaz son estaticas y finales, no se que chucha
 //    int nEdges = 0; //segun pdf van aca pero no los puedo reasignar
-    public void addNode(int id);
+    public void addNode(int id, Ciudad ciudad);
     public void addEdge(int u,int v, int w);
     public float edgeWeight(int u, int v);
     //shortestPath
@@ -13,8 +13,9 @@ class Node{
     Ciudad ciudad;
     //boolean wasVisited; si no vamos a usar dijkstra con dfs (mejor warshall), se puede borrar
 
-    public Node(int id){
+    public Node(int id, Ciudad ciudad){
         this.id = id;
+        this.ciudad = ciudad;
         //this.wasVisited = false; lo mismo
     }
 }

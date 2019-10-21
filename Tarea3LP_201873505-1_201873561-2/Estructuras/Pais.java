@@ -1,5 +1,6 @@
 class Pais implements Grafo{
-    private Node nodesList[];
+    private Node nodesList[]; // lista de nodos, cada una de cuales es CIUDAD.
+    //lista de ciudades es necesaria porque Pais a Ciudad tiene * (relacion One-To-Many)
     private int adjMatrix[][];
     int nNodes;
     int nEdges;
@@ -24,8 +25,8 @@ class Pais implements Grafo{
     }
 
     //agrega un vertice a la lista de vertices
-    public void addNode(int id){
-        nodesList[nNodes++] = new Node(id);
+    public void addNode(int id, Ciudad ciudad){
+        nodesList[nNodes++] = new Node(id,ciudad);
     }
 
     //agrega el arco
