@@ -26,7 +26,17 @@ class Main{
         //consumo de cada edificio
         //aqui queremos leer de a 3 lineas.
         while(input.hasNextLine()){
+            int idCiudad = input.nextInt();
+            graph.addNode(idCiudad);
+            int nCasas = input.nextInt();
+            int nEdificios = input.nextInt();
+            //crear cosas con casas y edificios
+            for(int i = 0; i < nCasas; i++){
 
+            }
+            for(int i = 0; i < nEdificios; i++){
+
+            }
         }
         input.close();
 
