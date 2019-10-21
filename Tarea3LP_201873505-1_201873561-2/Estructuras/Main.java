@@ -1,6 +1,6 @@
 class Main{
     static public void main(String [] args){
-        //Lectura de archivo:
+        //Lectura de archivo (usando clase Scanner)
         Scanner input = new Scanner(System.in);
 
         //lectura de archivo mapa.txt
@@ -24,6 +24,7 @@ class Main{
         //ciudad casas edificios
         //consumo de cada casa
         //consumo de cada edificio
+        //aqui queremos leer de a 3 lineas.
         while(input.hasNextLine()){
 
         }
