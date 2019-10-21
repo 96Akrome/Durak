@@ -10,6 +10,7 @@ interface Grafo{
 
 class Node{
     int id;
+    Ciudad ciudad;
     //boolean wasVisited; si no vamos a usar dijkstra con dfs (mejor warshall), se puede borrar
 
     public Node(int id){

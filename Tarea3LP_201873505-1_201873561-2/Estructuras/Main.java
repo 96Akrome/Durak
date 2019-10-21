@@ -32,22 +32,24 @@ class Main{
             int nEdificios = input.nextInt();
             //crear cosas con casas y edificios
             for(int i = 0; i < nCasas; i++){
-
+                //agregar consumo a cada casa
             }
             for(int i = 0; i < nEdificios; i++){
-
+                //agregar consumo a cada edifcio
             }
         }
         input.close();
 
         file = new File(archive_3);
         input = new Scanner(file);
+        //Formato de archivo: (solo 3 lineas)
         //precio balon de gas
         //precio litro de gas
         //costo por kilometro
         int balon = input.nextInt();
         int litro = input.nextInt();
         int costoKm = input.nextInt();
+        Empresa empresa = new Empresa(balon,litro,costoKm);
         input.close();
     }
 }
