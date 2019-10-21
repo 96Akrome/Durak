@@ -11,8 +11,11 @@ class Main{
         int e = input.nextInt();
         Pais graph = new Pais(n,e);
         while(input.hasNextLine()) {
-
-           }
+            int u = input.nextInt();
+            int v = input.nextInt();
+            int w = input.nextInt();
+            graph.addEdge(u, v, w);
+        }
         input.close();
 
         //lectura de archivo edificaciones.txt
@@ -31,9 +34,9 @@ class Main{
         //precio balon de gas
         //precio litro de gas
         //costo por kilometro
-        while(input.hasNextLine()){
-
-        }
+        int balon = input.nextInt();
+        int litro = input.nextInt();
+        int costoKm = input.nextInt();
         input.close();
     }
 }
