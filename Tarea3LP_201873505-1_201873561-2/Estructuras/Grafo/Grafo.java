@@ -12,7 +12,7 @@ class Node{
     int id;
     boolean wasVisited; //si no vamos a usar dijkstra con dfs (mejor warshall), se puede borrar
 
-    public Vertex(int id){
+    public Node(int id){
         this.id = id;
         this.wasVisited = false; //lo mismo
     }
