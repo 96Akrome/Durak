@@ -18,13 +18,23 @@ abstract class Edificacion{
 }
 
 class Casa extends Edificacion{
+    public final String tipo = "Casa";
     public Casa(int consumo){
         super.consumo = consumo;
+    }
+
+    public  String getTipo(){
+        return tipo;
     }
 }
 
 class Edificio extends Edificacion{
+    public final String tipo = "Edificio";
     public Edificio(int consumo){
         super.consumo = consumo;
+    }
+
+    public  String getTipo(){
+        return tipo;
     }
 }

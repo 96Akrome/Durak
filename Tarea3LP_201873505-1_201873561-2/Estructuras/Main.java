@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 class Main{
     static public void main(String [] args){
         //Lectura de archivo (usando clase Scanner)
@@ -26,19 +28,25 @@ class Main{
         //consumo de cada edificio
         //aqui queremos leer de a 3 lineas.
         while(input.hasNextLine()){
-
             int idCiudad = input.nextInt();
             int nCasas = input.nextInt();
             int nEdificios = input.nextInt();
             Ciudad c = new Ciudad(nCasas,nEdificios);
-            graph.addNode(idCiudad, c);
+
+
             //crear cosas con casas y edificios
             for(int i = 0; i < nCasas; i++){
-                //agregar consumo a cada casa
+                int consumo = input.nextInt();
+                Casa ca = new Casa(consumo);
+                c.addEdificacion(ca);
             }
             for(int i = 0; i < nEdificios; i++){
-                //agregar consumo a cada edifcio
+                int consumo = input.nextInt();
+                Edificio edi = new Edificio(consumo);
+                c.addEdificacion(edi);
+
             }
+            graph.addNode(idCiudad, c);
         }
         input.close();
 

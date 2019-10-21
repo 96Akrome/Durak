@@ -2,7 +2,8 @@ class Ciudad{
     protected int id;
     protected int nEdificios;
     protected int nCasas;
-    //private Collection<Edificacion> edificacion;
+    ArrayList<Edificacion> edificaciones;
+
     int getId(){
         return id;
     }
@@ -23,4 +24,9 @@ class Ciudad{
     void setnCasas(int nCasas){
         this.nCasas = nCasas;
     }
+
+    void addEdificacion(Edificacion edificacion){
+        edificaciones.add(edificacion);
+    }
+
 }
