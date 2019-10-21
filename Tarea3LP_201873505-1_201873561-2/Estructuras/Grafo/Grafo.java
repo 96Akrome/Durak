@@ -17,6 +17,12 @@ class Node{
         //this.wasVisited = false; lo mismo
     }
 }
+public class Constants {
+    public static final String archive_1 = "mapa.txt";
+    public static final String archive_2 = "edificaciones.txt";
+    public static final String archive_3 = "empresa.txt";
+
+}
 
 class Pais implements Grafo{
     private Node nodesList[];
@@ -71,6 +77,15 @@ class Pais implements Grafo{
 
     static public void main(String [] args){
         Grafo graph = new Grafo();
-
+        System.out.print("Ingrese el nombre de archivo: ");
+        Scanner input = new Scanner(System.in);
+        File file = new File("mapa.txt");
+        input = new Scanner(file);
+        //primera linea - nNodes, segunda - nEdges, adelante: u v w;
+        while(input.hasNextLine()) {
+            //lectura aqui
+           }
+        input.close();
+        file = new File("edificaciones.txts");
     }
 }
