@@ -88,13 +88,13 @@ class Pais implements Grafo{
             //lectura aqui
            }
         input.close();
-        file = new File("archive_2");
+        file = new File(archive_2);
         input = new Scanner(file);
         //ciudad casas edificios
         //consumo de cada casa
         //consumo de cada edificio
         while(input.hasNextLine()){
-            
+
         }
     }
 }
