@@ -3,13 +3,21 @@ import java.util.Scanner;
 import java.io.File;
 import Estructuras.*;
 
+//clase para guardar nombres de archivos, analogo de define
+//dato freak: #define no existe en java porque no hay un pre-compilador
+class Constants {
+    public static final String archive_1 = "mapa.txt";
+    public static final String archive_2 = "edificaciones.txt";
+    public static final String archive_3 = "empresa.txt";
+}
+
 class Main{
     static public void main(String [] args){
         //Lectura de archivo (usando clase Scanner)
         Scanner input = new Scanner(System.in);
 
         //lectura de archivo mapa.txt
-        File file = new File(archive_1);
+        File file = new File(Constants.archive_1);
         input = new Scanner(file);
         //primera linea - nNodes, segunda - nEdges, adelante: u v w;
         int n = input.nextInt();
@@ -24,7 +32,7 @@ class Main{
         input.close();
 
         //lectura de archivo edificaciones.txt
-        file = new File(archive_2);
+        file = new File(Constants.archive_2);
         input = new Scanner(file);
         //ciudad casas edificios
         //consumo de cada casa
@@ -54,7 +62,7 @@ class Main{
         }
         input.close();
 
-        file = new File(archive_3);
+        file = new File(Constants.archive_3);
         input = new Scanner(file);
         //Formato de archivo: (solo 3 lineas)
         //precio balon de gas
@@ -66,12 +74,4 @@ class Main{
         Empresa empresa = new Empresa(balon, litro, costoKm);
         input.close();
     }
-}
-
-//clase para guardar nombres de archivos, analogo de define
-//dato freak: #define no existe en java porque no hay un pre-compilador
-class Constants {
-    public static final String archive_1 = "mapa.txt";
-    public static final String archive_2 = "edificaciones.txt";
-    public static final String archive_3 = "empresa.txt";
 }
