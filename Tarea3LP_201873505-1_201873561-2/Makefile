@@ -4,17 +4,16 @@ JC = javac
 .java.class:
 	$(JC) $(JFLAGS) $*.java
 
-CLASSES = \
-	Main.java \
-	Ciudad.java \
-	Edificacion.java \
-	Empresa.java \
-	Grafo.java \
-	Pais.java \
-	Vehiculo.java 
+CLASSES = Main.java\
+	Estructuras/Empresa.java \
+	Estructuras/Vehiculo.java \
+	Estructuras/Ciudad.java \
+	Estructuras/Edificacion.java \
+	Estructuras/Grafo.java \
+	Estructuras/Pais.java 
+
+
 default: classes
 classes: $(CLASSES:.java=.class)
 clean:
 	$(RM) *.class
-
-
