@@ -31,7 +31,7 @@ class Main{
             int nCasas = input.nextInt();
             int nEdificios = input.nextInt();
             Ciudad c = new Ciudad(nCasas,nEdificios);
-            graph.addNode(idCiudad,c);
+            graph.addNode(idCiudad, c);
             //crear cosas con casas y edificios
             for(int i = 0; i < nCasas; i++){
                 //agregar consumo a cada casa
@@ -51,7 +51,7 @@ class Main{
         int balon = input.nextInt();
         int litro = input.nextInt();
         int costoKm = input.nextInt();
-        Empresa empresa = new Empresa(balon,litro,costoKm);
+        Empresa empresa = new Empresa(balon, litro, costoKm);
         input.close();
     }
 }
