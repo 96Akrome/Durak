@@ -4,7 +4,6 @@ class Pais implements Grafo{
     private int adjMatrix[][];
     int nNodes;
     int nEdges;
-    //private Stack<Integer> stack; para dfs, si no, se borra
 
 
     public Pais(int nNodes,int nEdges){
@@ -12,7 +11,6 @@ class Pais implements Grafo{
         this.nEdges = nEdges;
         this.nodesList = new Node[nNodes];
         this.adjMatrix = new int[nNodes][nNodes];
-        //stack = new Stack<Integer>();
     }
 
     //getter de vertices
