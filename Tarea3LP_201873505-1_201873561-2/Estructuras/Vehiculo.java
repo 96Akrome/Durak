@@ -14,11 +14,6 @@ abstract class Vehiculo{
     Empresa getEmpresa(){
         return empresa;
     }
-
-    static public void main(String [] args){
-        Camioneta c = new Camioneta(10);
-        c.mostrar();
-    }
 }
 
 class camionCisterna extends Vehiculo{
