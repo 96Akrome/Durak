@@ -73,7 +73,7 @@ class Main{
                 //finalmente, agrego ciudad al pais.
                 graph.addNode(idCiudad, c);
             }
-            input.close();
+            graph.printNodes();
         }
         catch(FileNotFoundException e){
             System.out.println("Error en apertura de archivo " + file +".");
@@ -94,7 +94,6 @@ class Main{
             int litro = input.nextInt();
             int costoKm = input.nextInt();
             Empresa empresa = new Empresa(balon, litro, costoKm);
-            input.close();
         }
         catch(FileNotFoundException e){
             System.out.println("Error en apertura de archivo " + file +".");
