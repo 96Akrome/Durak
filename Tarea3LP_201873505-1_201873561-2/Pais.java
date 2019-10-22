@@ -53,7 +53,7 @@ class Pais implements Grafo{
     }
 
     public void printAdjMatrix(){
-        System.out.println("Procediendo a imprimir la matriz de adyacencia");
+        System.out.println("\nLa matriz de adyacencia del grafo es: ");
         for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix[i].length; j++) {
                 System.out.print(adjMatrix[i][j] + " ");
@@ -63,8 +63,9 @@ class Pais implements Grafo{
     }
 
     public void printNodes(){
-        for(int i =0; i < nNodes; i++){
-            System.out.println(nodesList[i] + " ");
+        System.out.println("\nLa lista de nodos es: ");
+        for(int i = 0; i < nNodes; i++){
+            System.out.println(nodesList[i]);
         }
     }
 }
