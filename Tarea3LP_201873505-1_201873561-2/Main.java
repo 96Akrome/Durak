@@ -42,7 +42,6 @@ class Main{
         finally{
             input.close();
             graph.printAdjMatrix();
-            graph.printNodes();
         }
         //lectura de archivo edificaciones.txt
         try{
@@ -72,7 +71,6 @@ class Main{
                 //finalmente, agrego ciudad al pais.
                 graph.addNode(idCiudad, c);
             }
-            graph.printNodes();
         }
         catch(FileNotFoundException e){
             System.out.println("Error en apertura de archivo " + file +".");

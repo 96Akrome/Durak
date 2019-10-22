@@ -63,8 +63,4 @@ class Pais implements Grafo{
         }
     }
 
-    public void printNodes(){
-        System.out.println("\nLa lista de nodos es: ");
-        System.out.println(nodesList);
-    }
 }

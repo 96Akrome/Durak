@@ -16,6 +16,12 @@ class Node{
         this.ciudad = ciudad;
         //this.wasVisited = false; lo mismo
     }
+    public int getId(){
+        return id;
+    }
+    public Ciudad getCiudad(){
+        return ciudad;
+    }
 }
 
 //clase para guardar nombres de archivos, analogo de define
