@@ -1,6 +1,7 @@
 abstract class Edificacion{
     protected int consumo;
     protected Ciudad ciudad;
+    static String tipo;
 
     int getConsumo(){
         return consumo;
@@ -15,26 +16,22 @@ abstract class Edificacion{
     void setCiudad(Ciudad ciudad){
         this.ciudad = ciudad;
     }
+    public  String getTipo(){
+        return tipo;
+    }
 }
 
 class Casa extends Edificacion{
-    public final String tipo = "Casa";
     public Casa(int consumo){
         super.consumo = consumo;
+        Edificacion.tipo = "Casa";
     }
 
-    public  String getTipo(){
-        return tipo;
-    }
 }
 
 class Edificio extends Edificacion{
-    public final String tipo = "Edificio";
     public Edificio(int consumo){
         super.consumo = consumo;
-    }
-
-    public  String getTipo(){
-        return tipo;
+        Edificacion.tipo = "Edificio";
     }
 }

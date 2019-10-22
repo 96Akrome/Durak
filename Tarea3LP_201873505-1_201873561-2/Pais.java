@@ -1,5 +1,7 @@
+import java.util.ArrayList;
+
 class Pais implements Grafo{
-    Node nodesList[]; // lista de nodos, cada una de cuales es CIUDAD.
+    ArrayList<Node> nodesList; // lista de nodos, cada una de cuales es CIUDAD.
     //lista de ciudades es necesaria porque Pais a Ciudad tiene * (relacion One-To-Many)
     int adjMatrix[][];
     int nNodes;
@@ -9,7 +11,7 @@ class Pais implements Grafo{
         System.out.println("Se ha creado un nuevo pais!");
         this.nNodes = nNodes;
         this.nEdges = nEdges;
-        this.nodesList = new Node[nNodes];
+        nodesList = new ArrayList<Node>();
         this.adjMatrix = new int[nNodes][nNodes];
         //inicializo todas las distancias como INF
         for (int i = 0; i < adjMatrix.length; i++) {
@@ -30,9 +32,7 @@ class Pais implements Grafo{
 
     //agrega un vertice a la lista de vertices
     public void addNode(int id, Ciudad ciudad){
-        System.out.println("Cantidad de nodos antes de addNode: " + nNodes);
-        nodesList[nNodes++] = new Node(id,ciudad);
-        System.out.println("Cantidad de nodos despues de addNode: " + nNodes);
+        nodesList.add(new Node(id,ciudad));
     }
 
     //agrega el arco
@@ -65,9 +65,6 @@ class Pais implements Grafo{
 
     public void printNodes(){
         System.out.println("\nLa lista de nodos es: ");
-        for(int i = 0; i < nNodes; i++){
-            System.out.print(nodesList[i] + " ");
-        }
-        System.out.println("\n");
+        System.out.println(nodesList);
     }
 }

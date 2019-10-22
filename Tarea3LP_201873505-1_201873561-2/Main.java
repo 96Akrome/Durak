@@ -27,7 +27,7 @@ class Main{
             System.out.println("La cantidad de nodos (ciudades) es: " + n);
             System.out.println("La cantidad de arcos (caminos) es: " + e);
             graph = new Pais(n,e);
-            while(input.hasNext()){
+            while(input.hasNextInt()){
                 int u = input.nextInt();
                 int v = input.nextInt();
                 int w = input.nextInt();
@@ -52,7 +52,7 @@ class Main{
             //consumo de cada casa
             //consumo de cada edificio
             //aqui queremos leer de a 3 lineas.
-            while(input.hasNext()){
+            while(input.hasNextInt()){
                 int idCiudad = input.nextInt();
                 int nCasas = input.nextInt();
                 int nEdificios = input.nextInt();

@@ -34,6 +34,7 @@ class Ciudad{
     }
 
     void addEdificacion(Edificacion edificacion){
+        System.out.println("Se ha agregado una edificio de tipo " + edificacion.getTipo());
         edificaciones.add(edificacion);
     }
 
