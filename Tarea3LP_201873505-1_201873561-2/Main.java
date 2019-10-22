@@ -28,7 +28,6 @@ class Main{
             System.out.println("La cantidad de arcos es: " + e);
             graph = new Pais(n,e);
             while(input.hasNext()){
-                System.out.println("Lol estoy aca en el while");
                 int u = input.nextInt();
                 int v = input.nextInt();
                 int w = input.nextInt();
@@ -45,7 +44,6 @@ class Main{
             graph.printAdjMatrix();
             graph.printNodes();
         }
-        System.out.println("Llegue a leer las edificaciones");
         //lectura de archivo edificaciones.txt
         try{
             file = new File(Constants.archive_2);
@@ -58,9 +56,9 @@ class Main{
                 int idCiudad = input.nextInt();
                 int nCasas = input.nextInt();
                 int nEdificios = input.nextInt();
+                System.out.println("La ciudad a crear es " + idCiudad);
+                System.out.println("La cantidad de casas es "+ nCasas + " y de edificios es " + nEdificios);
                 Ciudad c = new Ciudad(nCasas,nEdificios);
-
-
                 //crear cosas con casas y edificios
                 for(int i = 0; i < nCasas; i++){
                     int consumo = input.nextInt();
