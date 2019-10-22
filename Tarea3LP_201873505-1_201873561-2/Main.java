@@ -27,14 +27,13 @@ class Main{
             System.out.println("La cantidad de nodos es: " + n);
             System.out.println("La cantidad de arcos es: " + e);
             graph = new Pais(n,e);
-            while(!(input.nextLine()).isEmpty()){
+            while(input.hasNext()){
                 System.out.println("Lol estoy aca en el while");
                 int u = input.nextInt();
                 int v = input.nextInt();
                 int w = input.nextInt();
                 System.out.println("La linea es " + u + " "+ v +" " + " " + w);
                 graph.addEdge(u, v, w);
-
             }
         }
         catch(FileNotFoundException e){
@@ -48,7 +47,6 @@ class Main{
         }
         System.out.println("Llegue a leer las edificaciones");
         //lectura de archivo edificaciones.txt
-        /*
         try{
             file = new File(Constants.archive_2);
             input = new Scanner(file);
@@ -56,7 +54,7 @@ class Main{
             //consumo de cada casa
             //consumo de cada edificio
             //aqui queremos leer de a 3 lineas.
-            while(!(input.nextLine()).isEmpty()){
+            while(input.hasNext()){
                 int idCiudad = input.nextInt();
                 int nCasas = input.nextInt();
                 int nEdificios = input.nextInt();
@@ -106,6 +104,6 @@ class Main{
         }
         finally{
             input.close();
-        }*/
+        }
     }
 }

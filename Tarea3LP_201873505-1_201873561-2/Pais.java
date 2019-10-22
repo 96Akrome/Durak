@@ -4,7 +4,7 @@ class Pais implements Grafo{
     int adjMatrix[][];
     int nNodes;
     int nEdges;
-    static final int INF = 999999;
+    static final int INF = 9999;
     public Pais(int nNodes,int nEdges){
         System.out.println("Se ha creado un nuevo pais!");
         this.nNodes = nNodes;
