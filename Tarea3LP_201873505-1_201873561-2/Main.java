@@ -41,7 +41,9 @@ class Main{
         }
         finally{
             input.close();
-        }
+            graph.printAdjMatrix();
+            graph.printNodes();
+        }/*
         System.out.println("Llegue a leer las edificaciones");
         //lectura de archivo edificaciones.txt
         try{
@@ -101,6 +103,6 @@ class Main{
         }
         finally{
             input.close();
-        }
+        }*/
     }
 }
