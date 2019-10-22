@@ -3,7 +3,7 @@ class Empresa{
     protected int precioBalon;
     protected int precioLitro;
     protected int precioKm;
-    ArrayList<Vehiculo> vehiculo;
+    ArrayList<Vehiculo> vehiculo; //no se usa nunca, pero debe estar dado que es One to Many
     public Empresa(int precioBalon, int precioLitro, int precioKm){
         this.precioKm = precioKm;
         this.precioBalon = precioBalon;

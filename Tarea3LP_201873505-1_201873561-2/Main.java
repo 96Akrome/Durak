@@ -90,7 +90,7 @@ class Main{
             int balon = input.nextInt();
             int litro = input.nextInt();
             int costoKm = input.nextInt();
-            Empresa empresa = new Empresa(balon, litro, costoKm);
+            Empresa empresa = new Empresa(balon, litro, costoKm); //warning de no usar eso, una vez que llames a algun campo de empresa se va a desaparecer.
         }
         catch(FileNotFoundException e){
             System.out.println("Error en apertura de archivo " + file + ".");
@@ -99,5 +99,9 @@ class Main{
         finally{
             input.close();
         }
+        //con eso, tengo todos los datos guardados y se puede proceder a trabajar
+        //con shortestPath
+        //recordar usar getters para cosas como costo de balon de la empresa etc etc.
+        //also, recordar que optimo puede ser NO UNICO (detalle importante)
     }
 }
