@@ -73,7 +73,7 @@ class Main{
             }
         }
         catch(FileNotFoundException e){
-            System.out.println("Error en apertura de archivo " + file +".");
+            System.out.println("Error en apertura de archivo " + file + ".");
             e.printStackTrace();
         }
         finally{
@@ -93,7 +93,7 @@ class Main{
             Empresa empresa = new Empresa(balon, litro, costoKm);
         }
         catch(FileNotFoundException e){
-            System.out.println("Error en apertura de archivo " + file +".");
+            System.out.println("Error en apertura de archivo " + file + ".");
             e.printStackTrace();
         }
         finally{

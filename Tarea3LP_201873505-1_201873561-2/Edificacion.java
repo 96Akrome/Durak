@@ -34,4 +34,5 @@ class Edificio extends Edificacion{
         super.consumo = consumo;
         Edificacion.tipo = "Edificio";
     }
+
 }
