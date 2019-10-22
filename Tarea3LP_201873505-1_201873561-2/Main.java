@@ -15,6 +15,7 @@ class Main{
     static public void main(String [] args){
         //Lectura de archivo (usando clase Scanner)
         Scanner input = new Scanner(System.in);
+        Pais graph = null;
 
         //lectura de archivo mapa.txt
         File file = new File(Constants.archive_1);
@@ -23,7 +24,7 @@ class Main{
             //primera linea - nNodes, segunda - nEdges, adelante: u v w;
             int n = input.nextInt();
             int e = input.nextInt();
-            Pais graph = new Pais(n,e);
+            graph = new Pais(n,e);
             while(input.hasNextLine()) {
                 int u = input.nextInt();
                 int v = input.nextInt();
