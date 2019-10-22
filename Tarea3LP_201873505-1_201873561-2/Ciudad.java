@@ -5,6 +5,11 @@ class Ciudad{
     protected int nCasas;
     ArrayList<Edificacion> edificaciones;
 
+    public Ciudad(int nCasas, int nEdificios){
+        this.nCasas = nCasas;
+        this.nEdificios = nEdificios;
+    }
+    
     int getId(){
         return id;
     }
