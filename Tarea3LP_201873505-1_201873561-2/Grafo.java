@@ -20,7 +20,7 @@ class Node{
 
 //clase para guardar nombres de archivos, analogo de define
 //dato freak: #define no existe en java porque no hay un pre-compilador
-public class Constants {
+class Constants {
     public static final String archive_1 = "mapa.txt";
     public static final String archive_2 = "edificaciones.txt";
     public static final String archive_3 = "empresa.txt";

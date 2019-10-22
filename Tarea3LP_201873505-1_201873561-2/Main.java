@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
-import Estructuras.*;
 
 //clase para guardar nombres de archivos, analogo de define
 //dato freak: #define no existe en java porque no hay un pre-compilador
