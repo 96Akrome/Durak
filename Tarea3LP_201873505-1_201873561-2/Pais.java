@@ -5,7 +5,6 @@ class Pais implements Grafo{
     int nNodes;
     int nEdges;
 
-
     public Pais(int nNodes,int nEdges){
         this.nNodes = nNodes;
         this.nEdges = nEdges;
