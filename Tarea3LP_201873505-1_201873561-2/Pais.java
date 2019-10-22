@@ -37,13 +37,9 @@ class Pais implements Grafo{
 
     //agrega el arco
     public void addEdge(int u,int v, int w){
-        System.out.println("Llame a addEdge");
-        System.out.println("Cantidad de arcos antes de addEdge: " + nEdges);
         adjMatrix[u][v] = w;
         adjMatrix[v][u] = w;
-        this.nEdges++;
-        System.out.println("Cantidad de arcos antes de addEdge: " + nEdges);
-        System.out.println("Se ha agregado el arco: " + u + " -> " + v + "con peso " + w);
+        System.out.println("Se ha agregado el arco: " + u + " -> " + v + " con peso " + w);
     }
 
     //retorna el peso entre los arcos
@@ -56,7 +52,12 @@ class Pais implements Grafo{
         System.out.println("\nLa matriz de adyacencia del grafo es: ");
         for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix[i].length; j++) {
-                System.out.print(adjMatrix[i][j] + " ");
+                if(adjMatrix[i][j] == INF){
+                    System.out.print("inf" + " ");
+                }
+                else{
+                    System.out.print(adjMatrix[i][j] + " ");
+                }
             }
             System.out.println("\n");
         }
@@ -65,7 +66,8 @@ class Pais implements Grafo{
     public void printNodes(){
         System.out.println("\nLa lista de nodos es: ");
         for(int i = 0; i < nNodes; i++){
-            System.out.println(nodesList[i]);
+            System.out.print(nodesList[i] + " ");
         }
+        System.out.println("\n");
     }
 }
