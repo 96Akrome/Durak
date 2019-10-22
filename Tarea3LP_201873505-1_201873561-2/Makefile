@@ -12,9 +12,6 @@ CLASSES =  Main.java\
 	Estructuras/Grafo.java \
 	Estructuras/Pais.java
 
-default: classes
-classes: $(CLASSES:.java=.class)
-
 Main.class: Empresa.class Vehiculo.class Ciudad.class Edificacion.class Grafo.class Pais.class
 
 clean:

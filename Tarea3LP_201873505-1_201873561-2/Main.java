@@ -14,12 +14,12 @@ class Constants {
 class Main{
     static public void main(String [] args){
         //Lectura de archivo (usando clase Scanner)
-        Scanner input = new Scanner(System.in);
         Pais graph = null;
-
+        Scanner input = null;
+        File file = null;
         //lectura de archivo mapa.txt
-        File file = new File(Constants.archive_1);
         try{
+            file = new File(Constants.archive_1);
             input = new Scanner(file);
             //primera linea - nNodes, segunda - nEdges, adelante: u v w;
             int n = input.nextInt();
@@ -31,15 +31,17 @@ class Main{
                 int w = input.nextInt();
                 graph.addEdge(u, v, w);
             }
-            input.close();
         }
         catch(FileNotFoundException e){
             System.out.println("Error en apertura de archivo " + file +".");
             e.printStackTrace();
         }
+        finally{
+            input.close();
+        }
         //lectura de archivo edificaciones.txt
-        file = new File(Constants.archive_2);
         try{
+            file = new File(Constants.archive_2);
             input = new Scanner(file);
             //ciudad casas edificios
             //consumo de cada casa
@@ -71,10 +73,14 @@ class Main{
         }
         catch(FileNotFoundException e){
             System.out.println("Error en apertura de archivo " + file +".");
+            e.printStackTrace();
+        }
+        finally{
+            input.close();
         }
 
-        file = new File(Constants.archive_3);
         try{
+            file = new File(Constants.archive_3);
             input = new Scanner(file);
             //Formato de archivo: (solo 3 lineas)
             //precio balon de gas
@@ -88,6 +94,10 @@ class Main{
         }
         catch(FileNotFoundException e){
             System.out.println("Error en apertura de archivo " + file +".");
+            e.printStackTrace();
+        }
+        finally{
+            input.close();
         }
     }
 }
