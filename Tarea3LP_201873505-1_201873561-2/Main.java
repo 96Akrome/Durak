@@ -28,12 +28,13 @@ class Main{
             System.out.println("La cantidad de arcos es: " + e);
             graph = new Pais(n,e);
             while(!(input.nextLine()).isEmpty()){
-                System.out.println("Lol estoy aca");
+                System.out.println("Lol estoy aca en el while");
                 int u = input.nextInt();
                 int v = input.nextInt();
                 int w = input.nextInt();
                 System.out.println("La linea es " + u + " "+ v +" " + " " + w);
                 graph.addEdge(u, v, w);
+
             }
         }
         catch(FileNotFoundException e){
