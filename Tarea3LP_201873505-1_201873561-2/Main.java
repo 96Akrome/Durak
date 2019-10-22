@@ -28,10 +28,11 @@ class Main{
             System.out.println("La cantidad de arcos es: " + e);
             graph = new Pais(n,e);
             while(!(input.nextLine()).isEmpty()){
-                System.out.println(input.nextLine().isEmpty());
+                System.out.println("Lol estoy aca");
                 int u = input.nextInt();
                 int v = input.nextInt();
                 int w = input.nextInt();
+                System.out.println("La linea es " + u + " "+ v +" " + " " + w);
                 graph.addEdge(u, v, w);
             }
         }
@@ -43,9 +44,10 @@ class Main{
             input.close();
             graph.printAdjMatrix();
             graph.printNodes();
-        }/*
+        }
         System.out.println("Llegue a leer las edificaciones");
         //lectura de archivo edificaciones.txt
+        /*
         try{
             file = new File(Constants.archive_2);
             input = new Scanner(file);
