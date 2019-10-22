@@ -24,14 +24,14 @@ class Main{
             //primera linea - nNodes, segunda - nEdges, adelante: u v w;
             int n = input.nextInt();
             int e = input.nextInt();
-            System.out.println("La cantidad de nodos es: " + n);
-            System.out.println("La cantidad de arcos es: " + e);
+            System.out.println("La cantidad de nodos (ciudades) es: " + n);
+            System.out.println("La cantidad de arcos (caminos) es: " + e);
             graph = new Pais(n,e);
             while(input.hasNext()){
                 int u = input.nextInt();
                 int v = input.nextInt();
                 int w = input.nextInt();
-                System.out.println("La linea es " + u + " "+ v +" " + " " + w);
+                System.out.println("La linea es " + u + " " + v + " " + w);
                 graph.addEdge(u, v, w);
             }
         }
@@ -56,8 +56,6 @@ class Main{
                 int idCiudad = input.nextInt();
                 int nCasas = input.nextInt();
                 int nEdificios = input.nextInt();
-                System.out.println("La ciudad a crear es " + idCiudad);
-                System.out.println("La cantidad de casas es "+ nCasas + " y de edificios es " + nEdificios);
                 Ciudad c = new Ciudad(nCasas,nEdificios);
                 //crear cosas con casas y edificios
                 for(int i = 0; i < nCasas; i++){

@@ -6,10 +6,12 @@ class Ciudad{
     ArrayList<Edificacion> edificaciones;
 
     public Ciudad(int nCasas, int nEdificios){
+        System.out.println("Se ha creado una ciudad, con " + nCasas + " casas y " + nEdificios + " edificios.");
         this.nCasas = nCasas;
         this.nEdificios = nEdificios;
+        edificaciones = new ArrayList<Edificacion>();
     }
-    
+
     int getId(){
         return id;
     }
