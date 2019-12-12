@@ -54,8 +54,6 @@ class Baraja(object):
 # class Jugador():
  #   def __init__(self):
 
-
-card.printNaipe()
 deck = Baraja()
 deck.crearBaraja()
 deck.mostarCartas()
