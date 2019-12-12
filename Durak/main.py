@@ -17,20 +17,21 @@ class Naipe(object):
 class Baraja(object):
     def __init__(self):
         self.naipes = []
+        self.cantidad = 52
         self.calificaciones = ["Picas", "Corazones", "Tréboles", "Diamantes"]
         self.figuras = ["A", "J", "Q", "K"]
         self.crearBaraja()
 
     def crearBaraja(self):
         for calif in self.calificaciones:
-            [self.naipes.append(Naipe(calif, v)) for v in range(1, 11)]
+            [self.naipes.append(Naipe(calif, v)) for v in range(2, 11)]
             [self.naipes.append(Naipe(calif, l)) for l in self.figuras]
 
     def mostarCartas(self):
         [carta.printNaipe() for carta in self.naipes]
 
     # def barajar(self):
-    #   for i in range(len(self.naipes - 1, 0, -1)):
+      # for i in range(len(self.naipes - 1, 0, -1)):
 
 
 # class Jugador(object):
