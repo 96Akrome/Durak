@@ -3,6 +3,7 @@ import random
 # de los puntos propuestos por roberto, van cumplidos
 # 1. OOP : clases Naipe, Baraja, Jugador
 # 2. Comprension de listas (en crearBaraja y mostrarCartas de clase Baraja)
+# 3. Try/excepciones (en valorNaipe de clase Naipe)
 
 
 class Naipe(object):
@@ -28,7 +29,6 @@ class Naipe(object):
                 return 14
             else:
                 raise Exception("Calificacion de naipe inválida!")
-
 
 
 class Baraja(object):
