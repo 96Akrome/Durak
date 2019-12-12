@@ -19,7 +19,7 @@ class Baraja(object):
         self.naipes = []
         self.cantidad = 52
         self.calificaciones = ["Picas", "Corazones", "Tréboles", "Diamantes"]
-        self.figuras = ["A", "J", "Q", "K"]
+        self.figuras = ["J", "Q", "K", "A"]
         self.crearBaraja()
 
     def crearBaraja(self):
@@ -34,7 +34,7 @@ class Baraja(object):
       # for i in range(len(self.naipes - 1, 0, -1)):
 
 
-# class Jugador(object):
+# class Jugador():
  #   def __init__(self):
 
 
