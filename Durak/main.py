@@ -1,4 +1,5 @@
 import random
+import pygame
 
 # de los puntos propuestos por roberto, van cumplidos
 # 1. OOP : clases Naipe, Baraja, Jugador
@@ -54,6 +55,21 @@ class Baraja(object):
 # class Jugador():
  #   def __init__(self):
 
+# class jugadorAI():
+# class jugadorHumano():
+
+pygame.init()
+(width, height) = (800, 500)
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption('Durak')
+background_color = (60,179,113)
+screen.fill(background_color)
+pygame.display.flip()
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
 deck = Baraja()
-deck.crearBaraja()
-deck.mostarCartas()
+discarded = []
