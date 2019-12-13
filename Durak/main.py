@@ -40,29 +40,46 @@ class Baraja(object):
         self.figuras = ["J", "Q", "K", "A"]
         self.crearBaraja()
 
+    def mostarCartas(self):
+        [carta.printNaipe() for carta in self.naipes]
+
+    def barajar(self):
+        random.shuffle(self.naipes)
+
     def crearBaraja(self):
         for calif in self.calificaciones:
             [self.naipes.append(Naipe(calif, v)) for v in range(2, 11)]
             [self.naipes.append(Naipe(calif, l)) for l in self.figuras]
+        self.barajar()
 
-    def mostarCartas(self):
-        [carta.printNaipe() for carta in self.naipes]
-
-    # def barajar(self):
-      # for i in range(len(self.naipes - 1, 0, -1)):
+    def sacarDeBaraja(self):
+        return self.naipes.pop()
 
 
-# class Jugador():
- #   def __init__(self):
+class Jugador(object):
+    def __init__(self):
+        self.cartas = {}
 
-# class jugadorAI():
-# class jugadorHumano():
+    def sacarCarta(self, baraja):
+        temp = baraja.sacarDeBaraja()
+
+        
+
+
+
+        # class jugadorAI():
+        # class jugadorHumano():
+
+
+deck = Baraja()
+discarded = []
+
 
 pygame.init()
 (width, height) = (800, 500)
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Durak')
-background_color = (60,179,113)
+background_color = (60, 179, 113)
 screen.fill(background_color)
 pygame.display.flip()
 running = True
@@ -70,6 +87,3 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-deck = Baraja()
-discarded = []
