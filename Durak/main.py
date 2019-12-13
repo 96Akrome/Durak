@@ -51,7 +51,7 @@ class Baraja(object):
 
     def barajar(self):
         random.shuffle(self.naipes)
-        #self.mostarCartas() - imprime la baraja con shuffle
+        # self.mostarCartas() - imprime la baraja con shuffle
 
     def crearBaraja(self):
         for calif in self.calificaciones:
@@ -67,13 +67,25 @@ class Jugador(object):
     def __init__(self):
         self.cartas = {"Picas": [], "Corazones": [],
                        "Tréboles": [], "Diamantes": []}
+        self.esHumano = ""
+        self.cantidad = 0
 
     def sacarCarta(self, baraja):
         temp = baraja.sacarDeBaraja()
-        for i in range(0, 4):
-            if temp.calificacion == baraja.calificaciones[i]:
-                self.cartas[baraja.calificaciones[i]].append(temp)
-                break
+        self.cartas[temp.calificacion].append(temp)
+        self.cantidad += 1
+
+
+class jugadorAI(Jugador):
+    def __init__(self):
+        Jugador.__init__(self)
+        self.esHumano = False
+
+
+class jugadorHumano(Jugador):
+    def __init__(self):
+        Jugador.__init__(self)
+        self.esHumano = True
 
 
 deck = Baraja()
