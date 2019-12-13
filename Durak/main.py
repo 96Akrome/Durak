@@ -11,6 +11,12 @@ class Naipe(object):
     def __init__(self, calificacion, valor):
         self.calificacion = calificacion
         self.valor = valor
+        self.trump = False
+
+    def isTrump(self, trump):
+        if self.calificacion == trump:
+            self.trump = True
+        return self.trump
 
     def printNaipe(self):
         print("{} de {}".format(self.valor, self.calificacion))
@@ -35,7 +41,7 @@ class Naipe(object):
 class Baraja(object):
     def __init__(self):
         self.naipes = []
-        self.cantidad = 52
+        self.cantidad = 36
         self.calificaciones = ["Picas", "Corazones", "Tréboles", "Diamantes"]
         self.figuras = ["J", "Q", "K", "A"]
         self.crearBaraja()
@@ -45,10 +51,11 @@ class Baraja(object):
 
     def barajar(self):
         random.shuffle(self.naipes)
+        #self.mostarCartas() - imprime la baraja con shuffle
 
     def crearBaraja(self):
         for calif in self.calificaciones:
-            [self.naipes.append(Naipe(calif, v)) for v in range(2, 11)]
+            [self.naipes.append(Naipe(calif, v)) for v in range(6, 11)]
             [self.naipes.append(Naipe(calif, l)) for l in self.figuras]
         self.barajar()
 
@@ -58,17 +65,15 @@ class Baraja(object):
 
 class Jugador(object):
     def __init__(self):
-        self.cartas = {}
+        self.cartas = {"Picas": [], "Corazones": [],
+                       "Tréboles": [], "Diamantes": []}
 
     def sacarCarta(self, baraja):
         temp = baraja.sacarDeBaraja()
-
-        
-
-
-
-        # class jugadorAI():
-        # class jugadorHumano():
+        for i in range(0, 4):
+            if temp.calificacion == baraja.calificaciones[i]:
+                self.cartas[baraja.calificaciones[i]].append(temp)
+                break
 
 
 deck = Baraja()
