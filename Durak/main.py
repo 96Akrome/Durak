@@ -107,6 +107,9 @@ def render_text(size, text, color):
 
 def game_intro():
     intro = True
+    colors_fade = [white, (238, 255, 255), (238, 255, 255), (178, 255, 221),
+                   (149, 255, 193), (120, 236, 165), (91, 207, 139), (60, 179, 113)]
+    count = 0
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -118,10 +121,12 @@ def game_intro():
         screen.blit(text_logo, (width / 2 - text_logo.get_width() //
                                 2, height / 2 - text_logo.get_height() // 2))
         term_text = render_text(
-            "S", ">Presione cualquier botón para continuar...", white)
+            "S", ">Presione cualquier botón para continuar...", colors_fade[count % len(colors_fade)])
         screen.blit(term_text, (width / 2 - term_text.get_width() //
                                 2, height - 100 / 2 - term_text.get_height() // 2))
         pygame.display.flip()
+        count += 1
+        clock.tick(5)
 
 
 def current_dir():
@@ -136,6 +141,8 @@ font_M = pygame.font.Font(cur_dirr + "/data/fonts/font.ttf", 60)
 font_B = pygame.font.Font(cur_dirr + "/data/fonts/font.ttf", 80)
 font_L = pygame.font.Font(cur_dirr + "/data/fonts/font.ttf", 100)
 
+clock = pygame.time.Clock()
+FPS = 3
 deck = Baraja()
 discarded = []
 
