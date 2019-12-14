@@ -88,6 +88,22 @@ class jugadorHumano(Jugador):
         Jugador.__init__(self)
         self.esHumano = True
 
+# agregar try catch aqui?
+
+
+def render_text(size, text, color):
+    if size == "T":
+        font = font_T.render(text, True, color)
+    elif size == "S":
+        font = font_S.render(text, True, color)
+    elif size == "M":
+        font = font_M.render(text, True, color)
+    elif size == "B":
+        font = font_B.render(text, True, color)
+    elif size == "L":
+        font = font_L.render(text, True, color)
+    return font
+
 
 def game_intro():
     intro = True
@@ -98,11 +114,11 @@ def game_intro():
                 quit()
 
         screen.fill(background_color)
-        text_logo = font_big.render("Durak", True, white)
+        text_logo = render_text("L", "Durak", white)
         screen.blit(text_logo, (width / 2 - text_logo.get_width() //
                                 2, height / 2 - text_logo.get_height() // 2))
-        term_text = font_small.render(
-            ">Presione cualquier botón para continuar...", True, white)
+        term_text = render_text(
+            "S", ">Presione cualquier botón para continuar...", white)
         screen.blit(term_text, (width / 2 - term_text.get_width() //
                                 2, height - 100 / 2 - term_text.get_height() // 2))
         pygame.display.flip()
@@ -112,14 +128,18 @@ def current_dir():
     return os.getcwd()
 
 
+pygame.font.init()
+cur_dirr = current_dir()
+font_T = pygame.font.Font(cur_dirr + "/data/fonts/font.ttf", 12)
+font_S = pygame.font.Font(cur_dirr + "/data/fonts/font.ttf", 20)
+font_M = pygame.font.Font(cur_dirr + "/data/fonts/font.ttf", 60)
+font_B = pygame.font.Font(cur_dirr + "/data/fonts/font.ttf", 80)
+font_L = pygame.font.Font(cur_dirr + "/data/fonts/font.ttf", 100)
+
 deck = Baraja()
 discarded = []
 
 white = (255, 255, 255)
-pygame.font.init()
-cur_dirr = current_dir()
-font_big = pygame.font.Font(cur_dirr + "/data/fonts/font.ttf", 100)
-font_small = pygame.font.Font(cur_dirr + "/data/fonts/font.ttf", 20)
 
 
 pygame.init()
