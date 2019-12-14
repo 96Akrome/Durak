@@ -1,5 +1,6 @@
 import random
 import pygame
+import os
 
 # de los puntos propuestos por roberto, van cumplidos
 # 1. OOP : clases Naipe, Baraja, Jugador
@@ -88,8 +89,37 @@ class jugadorHumano(Jugador):
         self.esHumano = True
 
 
+def game_intro():
+    intro = True
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        screen.fill(background_color)
+        text_logo = font_big.render("Durak", True, white)
+        screen.blit(text_logo, (width / 2 - text_logo.get_width() //
+                                2, height / 2 - text_logo.get_height() // 2))
+        term_text = font_small.render(
+            ">Presione cualquier botón para continuar...", True, white)
+        screen.blit(term_text, (width / 2 - term_text.get_width() //
+                                2, height - 100 / 2 - term_text.get_height() // 2))
+        pygame.display.flip()
+
+
+def current_dir():
+    return os.getcwd()
+
+
 deck = Baraja()
 discarded = []
+
+white = (255, 255, 255)
+pygame.font.init()
+cur_dirr = current_dir()
+font_big = pygame.font.Font(cur_dirr + "/data/fonts/font.ttf", 100)
+font_small = pygame.font.Font(cur_dirr + "/data/fonts/font.ttf", 20)
 
 
 pygame.init()
@@ -97,10 +127,12 @@ pygame.init()
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Durak')
 background_color = (60, 179, 113)
-screen.fill(background_color)
-pygame.display.flip()
+# screen.fill(background_color)
+# pygame.display.flip()
 running = True
+
 while running:
+    game_intro()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
