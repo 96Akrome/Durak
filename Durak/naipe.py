@@ -1,7 +1,14 @@
+
 class Naipe(object):
     def __init__(self, calificacion, valor):
         self.calificacion = calificacion
         self.valor = valor
+        self.trump = False
+
+    def isTrump(self, trump):
+        if self.calificacion == trump:
+            self.trump = True
+        return self.trump
 
     def printNaipe(self):
         print("{} de {}".format(self.valor, self.calificacion))

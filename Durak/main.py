@@ -1,67 +1,13 @@
 import random
 import pygame
 import os
+from naipe import Naipe
+from baraja import Baraja
 
 # de los puntos propuestos por roberto, van cumplidos
 # 1. OOP : clases Naipe, Baraja, Jugador
 # 2. Comprension de listas (en crearBaraja y mostrarCartas de clase Baraja)
 # 3. Try/excepciones (en valorNaipe de clase Naipe)
-
-
-class Naipe(object):
-    def __init__(self, calificacion, valor):
-        self.calificacion = calificacion
-        self.valor = valor
-        self.trump = False
-
-    def isTrump(self, trump):
-        if self.calificacion == trump:
-            self.trump = True
-        return self.trump
-
-    def printNaipe(self):
-        print("{} de {}".format(self.valor, self.calificacion))
-
-    def valorNaipe(self):
-        try:
-            int(self.rank)
-            return int(self.rank)
-        except ValueError:
-            if self.rank == "J":
-                return 11
-            elif self.rank == "Q":
-                return 12
-            elif self.rank == "K":
-                return 13
-            elif self.rank == "A":
-                return 14
-            else:
-                raise Exception("Calificacion de naipe inválida!")
-
-
-class Baraja(object):
-    def __init__(self):
-        self.naipes = []
-        self.cantidad = 36
-        self.calificaciones = ["Picas", "Corazones", "Tréboles", "Diamantes"]
-        self.figuras = ["J", "Q", "K", "A"]
-        self.crearBaraja()
-
-    def mostarCartas(self):
-        [carta.printNaipe() for carta in self.naipes]
-
-    def barajar(self):
-        random.shuffle(self.naipes)
-        # self.mostarCartas() - imprime la baraja con shuffle
-
-    def crearBaraja(self):
-        for calif in self.calificaciones:
-            [self.naipes.append(Naipe(calif, v)) for v in range(6, 11)]
-            [self.naipes.append(Naipe(calif, l)) for l in self.figuras]
-        self.barajar()
-
-    def sacarDeBaraja(self):
-        return self.naipes.pop()
 
 
 class Jugador(object):
@@ -105,28 +51,47 @@ def render_text(size, text, color):
     return font
 
 
-def game_intro():
-    intro = True
-    colors_fade = [white, (238, 255, 255), (238, 255, 255), (178, 255, 221),
-                   (149, 255, 193), (120, 236, 165), (91, 207, 139), (60, 179, 113)]
-    count = 0
-    while intro:
+def menu_screen():
+    menu = True
+    print("Capte una clave, estoy en menu")
+    while menu:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-
         screen.fill(background_color)
-        text_logo = render_text("L", "Durak", white)
-        screen.blit(text_logo, (width / 2 - text_logo.get_width() //
-                                2, height / 2 - text_logo.get_height() // 2))
+        S_text = render_text("T", "lmao se supone que esto es el menu!", white)
+        screen.blit(S_text, (width / 2 - S_text.get_width() //
+                             2, height / 2 - S_text.get_height() // 2))
+        pygame.display.update()
+
+
+def game_intro_screen():
+    intro = True
+    colors_fade = [white, (238, 255, 255), (238, 255, 255), (178, 255, 221),
+                   (149, 255, 193), (120, 236, 165), (91, 207, 139), (60, 179, 113)]
+    count = 0
+    screen.fill(background_color)
+    text_logo = render_text("L", "Durak", white)
+    screen.blit(text_logo, (width / 2 - text_logo.get_width() //
+                            2, height / 2 - text_logo.get_height() // 2))
+    while intro:
         term_text = render_text(
-            "S", ">Presione cualquier botón para continuar...", colors_fade[count % len(colors_fade)])
+            "S", ">Presione cualquier tecla para continuar...", colors_fade[count % len(colors_fade)])
         screen.blit(term_text, (width / 2 - term_text.get_width() //
                                 2, height - 100 / 2 - term_text.get_height() // 2))
         pygame.display.flip()
         count += 1
         clock.tick(5)
+
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                intro = False
+                menu_screen()
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
 
 
 def current_dir():
@@ -159,7 +124,7 @@ background_color = (60, 179, 113)
 running = True
 
 while running:
-    game_intro()
+    game_intro_screen()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
