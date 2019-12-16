@@ -21,3 +21,27 @@ def limpiar_dir():
 # retorna direccion actual
 def current_dir():
     return os.getcwd()
+
+
+class Estados_Juego:
+    def __init__(self):
+        self.background_color = (60, 179, 113)
+        self.white = (255, 255, 255)
+        self.white_to_bg_fade = [self.white, (238, 255, 255), (238, 255, 255), (178, 255, 221),
+                                 (149, 255, 193), (120, 236, 165), (91, 207, 139), (60, 179, 113)]
+
+        self.menu_option_deselect = (50, 50, 50)
+        self.menu_option_select = (255, 255, 255)
+
+        self.keybinding = {
+            'up': [pygame.K_UP, pygame.K_w],
+            'down': [pygame.K_DOWN, pygame.K_s],
+            'right': [pygame.K_RIGHT, pygame.K_d],
+            'left': [pygame.K_LEFT, pygame.K_a],
+            'select': pygame.K_RETURN,
+            'pause': pygame.K_p,
+            'back': pygame.K_ESCAPE
+        }
+
+        self.quit = False
+        self.st_done = False
