@@ -9,7 +9,7 @@
 
 ;;(left tree)
 ;;Aplica car(cdr(tree)) al arbol pasado.
-;;Retorna el valor de cdr(tree), es decir, subarbol izquierdo.
+;;Retorna el valor de car(cdr(tree)), es decir, subarbol izquierdo.
 (define (left tree)
   (cadr (tree))
   )
