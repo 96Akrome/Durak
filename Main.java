@@ -1,10 +1,13 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.*; 
+import java.lang.*; 
+import java.io.*; 
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 
 //clase para guardar nombres de archivos, analogo de define
-//dato freak: #define no existe en java porque no hay un pre-compilador
 class Constants {
     public static final String archive_1 = "mapa.txt";
     public static final String archive_2 = "edificaciones.txt";
@@ -32,7 +35,7 @@ class Main{
                 int v = input.nextInt();
                 int w = input.nextInt();
                 System.out.println("La linea es " + u + " " + v + " " + w);
-                graph.addEdge(u, v, w);
+                graph.addEdge(u, v, w); 
                 // Quizas revisaria que u != v
             }
         }
@@ -108,5 +111,51 @@ class Main{
         //also, recordar que optimo puede ser NO UNICO (detalle importante)
 
         graph.printOptimo();
+        Scanner numCiudad = new Scanner(System.in);
+
+        System.out.println("\nPara utilizar la función shortestPath ingrese el número de la ciudad solicitada, de lo contrario ingrese un número menor a 0:");
+        int ciudadDestino = 0;
+        int ciudadOrigen = 0;
+        while(ciudadDestino >= 0 && ciudadOrigen >= 0){
+            System.out.println("- Ciudad de origen: ");
+            try{
+                ciudadOrigen = numCiudad.nextInt();
+
+                if (ciudadOrigen >= 0){
+                    System.out.println("- Ciudad de destino: ");
+                    try{
+                        ciudadDestino = numCiudad.nextInt();
+
+                        // Caso de error: el numero ingresado se escapa del indice de la lista de nodos/ciudades
+                        if (ciudadDestino >= 0){
+                            if(ciudadDestino > graph.getnVertex() || ciudadOrigen > graph.getnVertex()){
+                                System.out.println("Uno de los valores ingresados es mayor o igual que el número de ciudades que existen");
+                                System.out.println("- Cantidad de ciudades: "+ graph.getnVertex());
+                                System.out.println("*Las ciudades parten con indice 0*\n");
+                            }
+                            else{
+
+                                List<Integer> camino = graph.shortestPath(ciudadOrigen, ciudadDestino);
+                                System.out.println("El camino más corto entre ciudad " + ciudadOrigen + " y ciudad " + ciudadDestino + " es:");
+                                int indice;
+                                for (indice = 0; indice < camino.size() - 1; indice++){
+                                    System.out.printf("%d ->", camino.get(indice));
+                                }
+                                System.out.println(camino.get(indice) + "\n");
+                            }
+                        }
+                    }
+                    // Caso de error: el tipo de dato ingresado no es un int
+                    catch(InputMismatchException e){
+                        System.out.println("Error al scanear input del usuario, tipo de dato esperado: int");
+                        return;
+                    }
+                }
+            }
+            catch(InputMismatchException e){
+                System.out.println("Error al scanear input del usuario, tipo de dato esperado: int");
+                return;
+            }
+        }
     }
 }

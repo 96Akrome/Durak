@@ -9,25 +9,37 @@ interface Grafo{
 class Node{
     int id;
     Ciudad ciudad;
-    //boolean wasVisited; si no vamos a usar dijkstra con dfs (mejor warshall), se puede borrar
-
+    
+    /** (Node)
+    (int)       (id)        -> identificador del nodo/ciudad
+    (Ciudad)    (ciudad)    -> ciudad que se almacenará en el nodo
+    --------------------
+    Constructor del nodo correspondiente a cada ciudad identificado con una id ingresada
+    --------------------
+    */
     public Node(int id, Ciudad ciudad){
         this.id = id;
         this.ciudad = ciudad;
         //this.wasVisited = false; lo mismo
     }
+
+    /** (getId)
+    No recibe parámetros
+    --------------------
+    Retorna la id almacenada en el nodo
+    --------------------
+    */
     public int getId(){
         return id;
     }
+
+    /** (getCiudad)
+    No recibe parámetros
+    --------------------
+    Retorna la ciudad almacenada en el nodo
+    --------------------
+    */
     public Ciudad getCiudad(){
         return ciudad; 
     }
-}
-
-//clase para guardar nombres de archivos, analogo de define
-//dato freak: #define no existe en java porque no hay un pre-compilador
-class Constants {
-    public static final String archive_1 = "mapa.txt";
-    public static final String archive_2 = "edificaciones.txt";
-    public static final String archive_3 = "empresa.txt";
 }
