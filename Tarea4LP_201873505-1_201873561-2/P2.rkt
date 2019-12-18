@@ -2,6 +2,7 @@
 
 (define empty '())
 
+
 (define (sum lst)
   (if (empty? lst)
       0
@@ -18,20 +19,10 @@
 
 ;para hacer : pasar la lista por maxlst y minlst, quiza fusionar las 2 funciones, retornar tupla maxsuma, minsuma, buscar su pos en lista actual, retornar cabezas.
 
-(define (maxlst lst)
-  (cond
-    ( (= (length lst) 0) writeln "Lista vacia, no tiene maximo")
-    ((= (length lst) 1)(first lst))
-    (else (max (car lst) (maxlst (cdr lst)))
-          )
-    )
-  )
 
-(define (minlst lst)
-  (cond
-    ((= (length lst) 0) writeln "Lista vacia, no tiene maximo")
-    ((= (length lst) 1)(first lst))
-    (else (min (car lst) (minlst (cdr lst)))
-          )
-    )
+(define (maxmin lst)
+  (let loop ( (x -inf.0) (y +inf.0)  (lst (map (lambda (lst)(list (car lst) (sum (cdr lst)))) lst)))
+    (if (empty? lst)
+        (list x y)
+        (loop (max (car lst) x) (min (car lst) y) (car lst))))
   )
