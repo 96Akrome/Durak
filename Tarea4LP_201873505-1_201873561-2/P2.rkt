@@ -31,7 +31,7 @@
   (cond
     ((= (length lst) 0) writeln "Lista vacia, no tiene maximo")
     ((= (length lst) 1)(first lst))
-    (else (min (car lst) (mixlst (cdr lst)))
+    (else (min (car lst) (minlst (cdr lst)))
           )
     )
   )
