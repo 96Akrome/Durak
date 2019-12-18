@@ -3,16 +3,16 @@
 (define empty '()
   )
 
-(define (sumar_lista lst)
+(define (sum lst)
   (if (empty? lst)
       0
       (+ (car lst) (sum (cdr lst)))
       )
   )
 
-;aplica la suma a cada colita de cada lista, retorna una lista de estas sumas
-(every (lambda (cdr(lst)) (sumar_lista)) lst)
 
-(define (maymecola listadelistas)
-  (let 
+(define (mapear_suma lst)
+(map (lambda (lst) (sum lst)) lst)
   )
+;(mapear_suma '((0 0 9) (1 1 1 1 1)))
+;(9 5)
