@@ -31,7 +31,9 @@
 (define (vs lista)
   (let loop ((attack (car lista)) (l1 (cadr lista))(l2 (caddr lista))(paridad 0)(n1 0)(n2 0))
     (if (and (empty? l1)(empty? l2)) (max-fn n1 n2)
-        ( (+ n1 (car (comparar paridad l1 l2 attack) ))(+ n2 (cdr (comparar paridad l1 l2 attack))) ) 
+        (begin 
+         (+ n1 (car (comparar paridad l1 l2 attack)))
+         (+ n2 (cadr (comparar paridad l1 l2 attack)))) 
         )
     (loop attack (cdr l1) (cdr l2) (+ paridad 1) n1 n2)))
 
