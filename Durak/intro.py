@@ -19,9 +19,6 @@ class Intro(st.Estados_Juego):
             pygame.quit()
         elif event.type == pygame.KEYDOWN:
             self.st_done = True
-            print("capte la clave y no hice nada que onda")
-            if self.st_done == True:
-                print("De hecho resetee la cosa pero no sali guat")
 
     def render(self, clock, screen, p):
         screen.fill(self.background_color)
