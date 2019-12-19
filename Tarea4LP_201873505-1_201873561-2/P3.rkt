@@ -20,12 +20,24 @@
     (else #f))
   )
 
+(define (comparar paridad l1 l2 attack)
+  (cond
+   ((and (even? paridad) (pvp (car l1)(car l2) attack)) (list 1 0))
+   ((and (not (even? paridad)) (pvp (car l1) (car l2) attack)) (lista 0 1))
+   (else list (0 0)))
+  )
+  
 
 (define (vs lista)
-  (let loop ((resultado 0)(attack (car lista)) (l1 (cadr lista))(l2 (caddr lista))(paridad 0)(n1 0)(n2 0))
-   (cond
-     ((and (even? paridad) (pvp (car l1) (car l2) attack) (+ n1 1)) writeln "estoy en par")
-     ((and (not(even? paridad))(pvp (car l1) (car l2) attack) (+ n2 1)) writeln "estoy en impar"))
-    (loop (max-fn n1 n2) attack (cdr l1) (cdr l2) (+ paridad 1) n1 n2)
-    )
-  )
+  (let loop ((attack (car lista)) (l1 (cadr lista))(l2 (caddr lista))(paridad 0)(n1 0)(n2 0))
+    (if (and (empty? l1)(empty? l2)) (max-fn n1 n2)
+        ( (+ n1 (car (comparar paridad l1 l2 attack) ))(+ n2 (cdr (comparar paridad l1 l2 attack))) ) 
+        )
+    (loop attack (cdr l1) (cdr l2) (+ paridad 1) n1 n2)))
+
+
+
+  ;; (cond
+    ;; ((and (even? paridad)(pvp (car l1) (car l2) attack) (+ n1 1)) writeln "estoy en par")
+     ;;((and (not(even? paridad))(pvp (car l1) (car l2) attack) (+ n2 1)) writeln "estoy en impar"))
+    ;;(loop attack (cdr l1) (cdr l2) (+ paridad 1) n1 n2)))
