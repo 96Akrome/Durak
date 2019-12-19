@@ -9,8 +9,8 @@
     )
   )
 
-(define (xor-fn a b)
-  (not (equal? a b))
+(define (xor-fn x y)
+  (if (boolean=? x y) 0 1)
   )
 
 
@@ -22,9 +22,9 @@
 
 (define (comparar paridad l1 l2 attack)
   (cond
+   ((eqv? 0 (pvp (car l1) (car l2) attack)) (list 0 0))
    ((and (even? paridad) (pvp (car l1)(car l2) attack)) (list 1 0))
-   ((and (not (even? paridad)) (pvp (car l1) (car l2) attack)) (lista 0 1))
-   (else list (0 0)))
+   ((and (not (even? paridad)) (pvp (car l1) (car l2) attack)) (list 0 1)))
   )
   
 
