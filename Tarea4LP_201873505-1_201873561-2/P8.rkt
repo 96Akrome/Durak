@@ -31,8 +31,9 @@
 
 
 (define (cima lista)
-  (if (= 1 (length lista))
-      (car lista)
-      (cima (lolsum (pairs lista))))
+  (cond
+    ((= 1 (length lista))(car lista))
+    ((= 0 (length lista))(error "Lista vacia!"))
+    (else (cima (lolsum (pairs lista)))))
   )
 
