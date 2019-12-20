@@ -12,9 +12,9 @@ class Menu(st.Estados_Juego):
             st.current_dir() + "/data/cards/jacket_2.png").convert_alpha()
         jacket_button2 = pygame.transform.scale(jacket_button2, (160, 226))
 
-        self.b1 = pygame.Rect(70, 120, 160, 226)
-        self.b2 = pygame.Rect(290, 120 ,160, 226)
-        self.b3 = pygame.Rect(520, 120, 160, 226)
+        self.b1 = pygame.Rect(102,154,135,181)
+        self.b2 = pygame.Rect(322,154,135,181)
+        self.b3 = pygame.Rect(552,154,135,181)
 
         jacket_button1 = pygame.transform.scale(jacket_button1, (160, 226))
         jacket_button2 = pygame.transform.scale(jacket_button2, (160, 226))
@@ -60,8 +60,15 @@ class Menu(st.Estados_Juego):
 
     def render(self, clock, screen, p):
         screen.fill(self.background_color)
+
+        #dibuja zonas donde funcionan los clicks
+        #pygame.draw.rect(screen, (255,255,255),(102,154,135,181))
+        #pygame.draw.rect(screen, (255,255,255),(322,154,135,181))
+        #pygame.draw.rect(screen, (255,255,255),(552,154,135,181))
+
         screen.blit(self.images[1], (70, 120))
         screen.blit(self.images[1], (290, 120))
+
         screen.blit(self.images[1], (520, 120))
         while not self.st_done:
             pygame.display.flip()
