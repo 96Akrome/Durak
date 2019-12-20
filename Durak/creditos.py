@@ -29,7 +29,8 @@ class Creditos(st.Estados_Juego):
             self.quit = True
             pygame.quit()
         elif event.type == pygame.KEYDOWN:
-            self.st_done = True
+            if event.key==pygame.K_RETURN:
+                self.st_done = True
 
     def render(self, clock, screen, p):
         screen.fill(self.background_color)
