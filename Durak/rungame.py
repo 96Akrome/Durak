@@ -32,7 +32,10 @@ class RunGame():
         self.clock = pygame.time.Clock()
         self.state_dict = {
             "INTRO": intro.Intro(),
-            "MENU" : menu.Menu()}
+            "MENU" : menu.Menu()
+            #"JUEGO" : juego.Juego(),
+            #"CREDITOS" :creditos.Creditos()
+            }
         # el estado actual (en que stage esta el juego)
         self.state_name = "INTRO"
         self.st_done = False
