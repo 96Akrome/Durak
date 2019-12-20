@@ -3,7 +3,7 @@ from sys_tools import current_dir
 
 path = current_dir() + "/data/fonts/font.ttf"
 pygame.font.init()
-font_T = pygame.font.Font(path, 12)
+font_T = pygame.font.Font(path, 15)
 font_S = pygame.font.Font(path, 20)
 font_M = pygame.font.Font(path, 60)
 font_B = pygame.font.Font(path, 80)

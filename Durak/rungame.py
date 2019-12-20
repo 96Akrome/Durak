@@ -4,7 +4,7 @@ import text_tools as tt
 import intro
 import menu
 # import juego
-#import creditos
+import creditos
 
 
 def menu_screen():
@@ -33,9 +33,9 @@ class RunGame():
         self.clock = pygame.time.Clock()
         self.state_dict = {
             "INTRO": intro.Intro(),
-            "MENU" : menu.Menu()
+            "MENU" : menu.Menu(),
             #"JUEGO" : juego.Juego(),
-            #"CREDITOS" :creditos.Creditos()
+            "CREDITOS" :creditos.Creditos()
             }
         # el estado actual (en que stage esta el juego)
         self.state_name = "INTRO"
