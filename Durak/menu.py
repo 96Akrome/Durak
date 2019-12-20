@@ -66,6 +66,7 @@ class Menu(st.Estados_Juego):
         screen.blit(boton3_text, (562, 135))
 
         while not self.st_done:
+            
             screen.blit(boton1, (70, 120))
             screen.blit(boton2, (290, 120))
             screen.blit(boton3, (520, 120))

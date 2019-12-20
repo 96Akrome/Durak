@@ -4,6 +4,7 @@ import text_tools as tt
 import intro
 import menu
 # import juego
+#import creditos
 
 
 def menu_screen():
