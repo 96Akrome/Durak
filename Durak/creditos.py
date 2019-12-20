@@ -18,7 +18,7 @@ class Creditos(st.Estados_Juego):
 
         self.logo_utfsm = pygame.image.load(
             st.current_dir() + "/data/other/utfsm_pixel.png").convert_alpha()
-        self.logo_utfsm = pygame.transform.scale(self.logo_utfsm, (300, 170))
+        self.logo_utfsm = pygame.transform.scale(self.logo_utfsm, (250, 160))
 
 
     def clean (self):
@@ -35,21 +35,21 @@ class Creditos(st.Estados_Juego):
     def render(self, clock, screen, p):
         screen.fill(self.background_color)
         screen.blit(self.logo_utfsm,(p[0]/2 - self.logo_utfsm.get_width() //
-                                    2, p[1]-400 - self.logo_utfsm.get_height() // 2))
+                                    2, p[1]-380 - self.logo_utfsm.get_height() // 2))
         main_text = tt.render_text("M", "Integrantes:", self.white)
         screen.blit(main_text, (p[0] / 2 - main_text.get_width() //
-                                2, p[1] / 2 - main_text.get_height() // 2))
+                                2, p[1] / 2 + 50 - main_text.get_height() // 2))
 
         i1_text = tt.render_text(
             "S", ">" + self.integrante1 + " " + self.rol_int1, self.white)
-        screen.blit(i1_text, (250, 300))
+        screen.blit(i1_text, (200, 350))
         i2_text = tt.render_text(
             "S",">" + self.integrante2 + "   " + self.rol_int2, self.white)
-        screen.blit(i2_text, (250, 320))
+        screen.blit(i2_text, (200, 370))
 
         paralelo_text = tt.render_text(
             "S", "Paralelo: " + self.paralelo, self.white)
-        screen.blit(paralelo_text, (200, 200))
+        screen.blit(paralelo_text, (200, 250))
 
         count = 0
         while not self.st_done:
