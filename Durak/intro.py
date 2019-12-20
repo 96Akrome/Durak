@@ -36,4 +36,3 @@ class Intro(st.Estados_Juego):
             clock.tick(5)
             [self.get_event(event, pygame.key.get_pressed())
              for event in pygame.event.get()]
-            print(self.st_done)
