@@ -1,14 +1,26 @@
 #lang scheme
 
-;; Permite acceder al elemento en la posicion n de la lista
-(define (list-ref lst n)
- (if (<= n 0)
-     (car lst)
-     (list-ref (cdr lst) (- n 1))))
-
-;; Revisa las filas
+;;(error orden Matriz).
+;;Revisa los casos en que la matriz y el orden ingresados genere algun error.
+;;Retorna #t si se detecto algun error, #f si no.
+(define (error orden Matriz)
+  (if (eqv? (length Matriz) 0)
+      #t
+      (if (eqv? (length Matriz) orden)
+          (let iter ((matriz Matriz) (num 1))
+            (if (eqv? num orden)
+                (if (eqv? (length (car matriz)) orden)
+                    #f
+                    #t)
+                (if (eqv? (length (car matriz)) orden)
+                    (iter (cdr matriz) (+ num 1))
+                    #t)))
+          #t)))
+             
+;;(fila n matriz).
+;;Revisa todas las filas de una matriz para ver si en alguna de ellas esta ordenada de menor a mayor.
+;;Retorna #t si alguna fila esta ordenada de menor a mayor, #f si no.
 (define (fila n matriz)
-         
       (let tope ((i 0) (j 0) (fila (car matriz)) (matrix matriz))
         (if (eqv? i (- n 1))
             #t
@@ -17,22 +29,28 @@
                 (if (eqv? j (- n 1))
                     #f
                     (tope 0 (+ j 1) (car (cdr matrix)) (cdr matrix)))))))
-
-;; es de cola
+               
+;;(transponer matriz).
+;;Toma la matriz ingresada y la transpone cambiando filas por columnas.
+;;Retorna la matriz transpuesta de la matriz ingresada.
 (define (transponer matriz)
   (let iter ((matriz matriz) (result '()))
     (if (null? (car matriz))
         result
         (iter (map cdr matriz) (append result (list (map car matriz)))))))
 
-;; Obtiene el numero alojado en el indice ii de la matriz
+;;(numeroIndice indice matriz).
+;;Recorre los numeros en la diagonal de la matriz eliminando n filas y columnas para acceder a estos, donde n = indice. 
+;;Retorna el numero alojado en la casilla [indice][indice] de la matriz ingresada, con indice >= 1.
 (define (numeroIndice indice matriz)
   (let reducir ((i 1) (matrix matriz))
     (if (< i indice)
         (reducir (+ i 1) (transponer (cdr (transponer (cdr matrix)))))
         (car (car matrix)))))
 
-;; revisa la diagonal desde arriba hacia abajo y de izq a derecha
+;;(diagonal n matriz).
+;;Revisa los numeros de la diagonal de la matriz para ver si estan ordenados de menor a mayor (de izquierda a derecha y de arriba hacia abajo segun el enunciado). 
+;;Retorna #t si la diagonal esta ordenada de menor a mayor, #f si no.
 (define (diagonal n matriz)
   (let tope ((i 2) (num1 (car (car matriz))) (num2 (car (cdr (car (cdr matriz)))) ) )
     (if (eqv? i n)
@@ -43,25 +61,12 @@
                 (tope (+ i 1) num2 (numeroIndice (+ i 1) matriz) )
                 #f))))
 
-
-
 (define (orden n matriz)
-  (cond ((fila n matriz) #t)
-        ((fila n (transponer matriz)) #t)
-        ((diagonal n matriz) #t)
-        (else   #f)))
+  (if (error n matriz)
+      "La matriz ingresada no es válida"
+      (cond ((fila n matriz) #t)
+            ((fila n (transponer matriz)) #t)
+            ((diagonal n matriz) #t)
+            (else   #f))))
 
 
-
-"
-(orden 3 '( (1 4  3)
-            (2 2 12)
-            (1 5 15) ) )
-#t
-(orden 3 '( (3 9 8)
-            (6 5 4)
-            (2 1 7) ) )
-#t
-
-
-"
