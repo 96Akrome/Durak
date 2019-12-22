@@ -8,7 +8,7 @@
     ((eqv? a 'A)(and x y))
     ((eqv? a 'O)(or x y))
     ((eqv? a 'X)(xor-fn x y))
-    (else (error "Operador logico invalido! Se aceptan solo A,O,X"))
+    (else (error "Operador lógico invalido! Se aceptan solo A,O,X"))
     )
   )
 
@@ -46,7 +46,7 @@
 
 (define (vs lista)
   (if (or (empty? lista)(empty? (cadr lista))(empty? (caddr lista))(not (eqv? (length (cadr lista)) (length (caddr lista)))))
-      (error "Datos ingresados inválidos! Alguna de las listas no cumple las condiciones de largo o este vacia.")
+      (error "Datos ingresados inválidos! Alguna de las listas no cumple las condiciones de largo o está vacía.")
       (let loop ((attack (car lista)) (l1 (cadr lista))(l2 (caddr lista))(paridad 1)(n1 0)(n2 0))
         (if (empty? l1)
             (max-fn n1 n2)
