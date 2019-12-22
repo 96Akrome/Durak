@@ -35,20 +35,26 @@
 ;;Retorna la lista (1 0) si la primera lista gano y la paridad era par, (0 1) si la segunda y paridad era impar. En otro caso se retorna (0 0).
 (define (comparar paridad l1 l2 attack)
   (cond
-   ((eqv? 0 (pvp (car l1) (car l2) attack)) (list 0 0))
-   ((and (even? paridad) (pvp (car l1)(car l2) attack)) (list 1 0))
-   ((and (not (even? paridad)) (pvp (car l1) (car l2) attack)) (list 0 1)))
+   ((eqv? 0 (pvp (car l1) (car l2) attack))
+    (list 0 0))
+   ((and (even? paridad) (pvp (car l1)(car l2) attack))
+    (list 1 0))
+   ((and (not (even? paridad)) (pvp (car l1) (car l2) attack))
+    (list 0 1)))
   )
   
 
 (define (vs lista)
-  (let loop ((attack (car lista)) (l1 (cadr lista))(l2 (caddr lista))(paridad 1)(n1 0)(n2 0))
-    (if (empty? l1)
-        (max-fn n1 n2)
-        (let ( (n1 (+ n1 (car (comparar paridad l1 l2 attack)))) (n2 (+ n2 (cadr (comparar paridad l1 l2 attack)))))
-          (loop attack (cdr l1) (cdr l2) (+ paridad 1) n1 n2))
-    )
+  (if (or (empty? lista)(empty? (cadr lista))(empty? (caddr lista))(not (eqv? (length (cadr lista)) (length (caddr lista)))))
+      (error "Datos ingresados inválidos! Alguna de las listas no cumple las condiciones de largo o este vacia.")
+      (let loop ((attack (car lista)) (l1 (cadr lista))(l2 (caddr lista))(paridad 1)(n1 0)(n2 0))
+        (if (empty? l1)
+            (max-fn n1 n2)
+            (let ( (n1 (+ n1 (car (comparar paridad l1 l2 attack)))) (n2 (+ n2 (cadr (comparar paridad l1 l2 attack)))))
+              (loop attack (cdr l1) (cdr l2) (+ paridad 1) n1 n2))
+            )
+        )
+      )
   )
-)
 
 
